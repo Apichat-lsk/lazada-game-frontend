@@ -40,7 +40,6 @@ export class Signin {
 
   onSubmit() {
     if (this.signupForm.valid) {
-      console.log('Form Data:', this.signupForm.value);
       this.auth.login(this.signupForm.value).subscribe({
         next: (res) => {
           if (res.status == true) {
@@ -51,8 +50,8 @@ export class Signin {
               showConfirmButton: false,
               timer: 1500,
             });
-            this.signupForm.reset();
             this.router.navigate(['/home']);
+            this.signupForm.reset();
           } else {
             console.error('❌ Login error:', res.message);
             Swal.fire({

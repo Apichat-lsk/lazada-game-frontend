@@ -10,7 +10,7 @@ import { GameRules } from './game-rules/game-rules';
 export const routes: Routes = [
   { path: 'signup', component: Signup },
   { path: 'signin', component: Signin },
-  { path: 'otp', component: Otp },
+  { path: 'otp/:email', component: Otp },
   { path: 'index', component: Index },
   { path: 'home', component: Home },
   { path: 'condition', component: GameCondition },

@@ -9,10 +9,10 @@
                 <span>กลับ</span>
             </button>
         </div>
-        <div class="w-full flex flex-col justify-center items-center">
+        <div class="w-full flex flex-col items-center justify-center">
             <p class="text-xl sm:text-2xl mb-6 font-semibold">กรุณายืนยัน OTP</p>
             <form [formGroup]="otpForm" (ngSubmit)="onSubmit()" autocomplete="one-time-code" class="w-full max-w-md flex flex-col items-center space-y-6">
-                <div class="flex justify-between w-full space-x-3">
+                <div class="flex justify-between w-full">
                     <input type="text" #otpInput maxlength="1" inputmode="numeric" pattern="[0-9]*" formControlName="digit1" (input)="onInput($event, 0)" (paste)="onPaste($event)"
                         class="w-12 h-12 text-center text-xl border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                         [class.border-red-500]="digits[0]?.invalid && digits[0]?.touched" autocomplete="one-time-code" />

@@ -16,7 +16,7 @@ import {
   FormsModule,
 } from '@angular/forms';
 import { CommonModule, Location } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Subscription, interval } from 'rxjs';
 import { OtpService } from '../../util/otp-service';
 import Swal from 'sweetalert2';
@@ -30,13 +30,19 @@ import Swal from 'sweetalert2';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Otp implements OnInit, OnDestroy {
+  private email: string = '';
+
   constructor(
     private otp: OtpService,
     private router: Router,
     private cdr: ChangeDetectorRef,
-    private location: Location
+    private location: Location,
+    private route: ActivatedRoute
   ) {
     this.location.replaceState('');
+    this.route.paramMap.subscribe((params) => {
+      this.email = params.get('email') || '';
+    });
   }
 
   @ViewChildren('otpInput') otpInputs!: QueryList<ElementRef<HTMLInputElement>>;
@@ -151,7 +157,7 @@ export class Otp implements OnInit, OnDestroy {
     if (this.otpForm.valid) {
       const otpCode = Object.values(this.otpForm.value).join('');
       const request = {
-        email: 'oxford.apichat@gmail.com',
+        email: this.email,
         otp: otpCode,
       };
       this.otp.verify(request).subscribe({
