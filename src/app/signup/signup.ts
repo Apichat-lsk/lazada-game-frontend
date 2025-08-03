@@ -7,9 +7,10 @@ import {
   FormsModule,
 } from '@angular/forms';
 import { CommonModule, Location } from '@angular/common';
-import { OtpService } from '../../util/otp-service';
+import { OtpService } from '../../services/otp-service';
 import { Router, RouterModule } from '@angular/router';
 import Swal from 'sweetalert2';
+import { UserTransferService } from './user-transfer.service';
 
 @Component({
   selector: 'app-signup',
@@ -22,7 +23,8 @@ export class Signup {
   constructor(
     private otp: OtpService,
     private router: Router,
-    private location: Location
+    private location: Location,
+    private userTransferService: UserTransferService
   ) {
     this.location.replaceState('');
   }
@@ -48,42 +50,41 @@ export class Signup {
 
   onSubmit() {
     if (this.signupForm.valid) {
-      this.otp.send(this.signupForm.value).subscribe({
-        next: (res) => {
-          if (res.check == true) {
-            Swal.fire({
-              position: 'top-end',
-              icon: 'success',
-              title: res.message,
-              showConfirmButton: false,
-              timer: 1500,
-            });
-            this.router.navigate(['/otp'], {
-              queryParams: { email: this.signupForm.value.email },
-            });
-            this.signupForm.reset();
-          } else {
-            console.error('❌ Register error:', res.message);
-            Swal.fire({
-              position: 'top-end',
-              icon: 'error',
-              title: res.message,
-              showConfirmButton: false,
-              timer: 1500,
-            });
-          }
-        },
-        error: (err) => {
-          console.error('❌ Register error:', err);
-          Swal.fire({
-            position: 'top-end',
-            icon: 'error',
-            title: err.error,
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        },
-      });
+      // this.otp.send(this.signupForm.value).subscribe({
+      //   next: (res) => {
+      //     if (res.check == true) {
+      //       Swal.fire({
+      //         position: 'top-end',
+      //         icon: 'success',
+      //         title: res.message,
+      //         showConfirmButton: false,
+      //         timer: 1500,
+      //       });
+      this.userTransferService.userData = this.signupForm.value;
+      this.router.navigate(['/condition']);
+      // this.signupForm.reset();
+      //     } else {
+      //       console.error('❌ Register error:', res.message);
+      //       Swal.fire({
+      //         position: 'top-end',
+      //         icon: 'error',
+      //         title: res.message,
+      //         showConfirmButton: false,
+      //         timer: 1500,
+      //       });
+      //     }
+      //   },
+      //   error: (err) => {
+      //     console.error('❌ Register error:', err);
+      //     Swal.fire({
+      //       position: 'top-end',
+      //       icon: 'error',
+      //       title: err.error,
+      //       showConfirmButton: false,
+      //       timer: 1500,
+      //     });
+      //   },
+      // });
     } else {
       this.signupForm.markAllAsTouched();
     }

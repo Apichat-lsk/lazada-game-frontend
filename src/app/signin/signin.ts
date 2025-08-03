@@ -8,8 +8,9 @@ import {
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import Swal from 'sweetalert2';
-import { AuthService } from '../../util/auth-service';
+import { AuthService } from '../../services/auth-service';
 import { CommonModule, Location } from '@angular/common';
+import { AuthTokenService } from '../../component/auth-token.service';
 
 @Component({
   selector: 'app-signin',
@@ -22,7 +23,8 @@ export class Signin {
   constructor(
     private auth: AuthService,
     private router: Router,
-    private location: Location
+    private location: Location,
+    private authTokenService: AuthTokenService
   ) {
     this.location.replaceState('');
   }
@@ -43,6 +45,7 @@ export class Signin {
       this.auth.login(this.signupForm.value).subscribe({
         next: (res) => {
           if (res.status == true) {
+            this.authTokenService.setToken(res.token);
             Swal.fire({
               position: 'top-end',
               icon: 'success',
@@ -68,7 +71,7 @@ export class Signin {
           Swal.fire({
             position: 'top-end',
             icon: 'error',
-            title: err.error,
+            title: JSON.stringify(err.error),
             showConfirmButton: false,
             timer: 1500,
           });

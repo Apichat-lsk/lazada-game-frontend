@@ -1,5 +1,5 @@
 {
-  "name": "lazada-game-fronend",
+  "name": "lazada-game-frontend",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:lazada-game-fronend": "node dist/lazada-game-fronend/server/server.mjs"
+    "serve:ssr:lazada-game-frontend": "node dist/lazada-game-frontend/server/server.mjs"
   },
   "prettier": {
     "overrides": [
@@ -21,14 +21,14 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/common": "^20.1.0",
-    "@angular/compiler": "^20.1.0",
-    "@angular/core": "^20.1.0",
-    "@angular/forms": "^20.1.0",
-    "@angular/platform-browser": "^20.1.0",
-    "@angular/platform-server": "^20.1.0",
-    "@angular/router": "^20.1.0",
-    "@angular/ssr": "^20.1.4",
+  "@angular/common": "20.1.4",
+    "@angular/compiler": "20.1.4",
+    "@angular/core": "20.1.4",
+    "@angular/forms": "20.1.4",
+    "@angular/platform-browser": "20.1.4",
+    "@angular/platform-server": "20.1.4",
+    "@angular/router": "20.1.4",
+    "@angular/ssr": "20.1.4",
     "@tailwindcss/postcss": "^4.1.11",
     "express": "^5.1.0",
     "rxjs": "~7.8.0",
@@ -38,7 +38,7 @@
   "devDependencies": {
     "@angular/build": "^20.1.4",
     "@angular/cli": "^20.1.4",
-    "@angular/compiler-cli": "^20.1.0",
+    "@angular/compiler-cli": "^20.1.4",
     "@types/express": "^5.0.1",
     "@types/jasmine": "~5.1.0",
     "@types/node": "^20.17.19",

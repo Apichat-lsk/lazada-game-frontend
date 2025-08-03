@@ -18,7 +18,7 @@ import {
 import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Subscription, interval } from 'rxjs';
-import { OtpService } from '../../util/otp-service';
+import { OtpService } from '../../services/otp-service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -198,6 +198,6 @@ export class Otp implements OnInit, OnDestroy {
     }
   }
   goBack(): void {
-    this.router.navigate(['/signup']);
+    this.router.navigate(['/condition']);
   }
 }

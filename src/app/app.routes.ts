@@ -6,15 +6,20 @@ import { Index } from './index';
 import { Home } from './home/home';
 import { GameCondition } from './game-condition/game-condition';
 import { GameRules } from './game-rules/game-rules';
+import { AuthGuard } from '../component/auth-expired-token';
 
 export const routes: Routes = [
   { path: 'signup', component: Signup },
   { path: 'signin', component: Signin },
   { path: 'otp', component: Otp },
   { path: 'index', component: Index },
-  { path: 'home', component: Home },
-  { path: 'condition', component: GameCondition },
-  { path: 'rules', component: GameRules },
-  { path: '', redirectTo: '/index', pathMatch: 'full' },
+  { path: 'home', component: Home, canActivate: [AuthGuard] },
+  { path: 'condition', component: GameCondition, canActivate: [AuthGuard] },
+  { path: 'rules', component: GameRules, canActivate: [AuthGuard] },
+  {
+    path: '',
+    redirectTo: '/index',
+    pathMatch: 'full',
+  },
   { path: '**', redirectTo: '/index' },
 ];

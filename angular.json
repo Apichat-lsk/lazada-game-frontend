@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "lazada-game-fronend": {
+    "lazada-game-frontend": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -15,12 +15,14 @@
           "options": {
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
+           "assets": [
+    {
+      "glob": "**/*",
+      "input": "src/assets",
+      "output": "assets"
+    },
+    "src/favicon.ico"
+  ],
             "styles": [
               "src/styles.css"
             ],
@@ -58,10 +60,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "lazada-game-fronend:build:production"
+              "buildTarget": "lazada-game-frontend:build:production"
             },
             "development": {
-              "buildTarget": "lazada-game-fronend:build:development"
+              "buildTarget": "lazada-game-frontend:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -74,11 +76,13 @@
           "options": {
             "tsConfig": "tsconfig.spec.json",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
+    {
+      "glob": "**/*",
+      "input": "src/assets",
+      "output": "assets"
+    },
+    "src/favicon.ico"
+  ],
             "styles": [
               "src/styles.css"
             ]
