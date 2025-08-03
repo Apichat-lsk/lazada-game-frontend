@@ -50,41 +50,41 @@ export class Signup {
 
   onSubmit() {
     if (this.signupForm.valid) {
-      // this.otp.send(this.signupForm.value).subscribe({
-      //   next: (res) => {
-      //     if (res.check == true) {
-      //       Swal.fire({
-      //         position: 'top-end',
-      //         icon: 'success',
-      //         title: res.message,
-      //         showConfirmButton: false,
-      //         timer: 1500,
-      //       });
-      this.userTransferService.userData = this.signupForm.value;
-      this.router.navigate(['/condition']);
-      // this.signupForm.reset();
-      //     } else {
-      //       console.error('❌ Register error:', res.message);
-      //       Swal.fire({
-      //         position: 'top-end',
-      //         icon: 'error',
-      //         title: res.message,
-      //         showConfirmButton: false,
-      //         timer: 1500,
-      //       });
-      //     }
-      //   },
-      //   error: (err) => {
-      //     console.error('❌ Register error:', err);
-      //     Swal.fire({
-      //       position: 'top-end',
-      //       icon: 'error',
-      //       title: err.error,
-      //       showConfirmButton: false,
-      //       timer: 1500,
-      //     });
-      //   },
-      // });
+      this.otp.send(this.signupForm.value).subscribe({
+        next: (res) => {
+          if (res.check == true) {
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: res.message,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            this.userTransferService.userData = this.signupForm.value;
+            this.router.navigate(['/condition']);
+            this.signupForm.reset();
+          } else {
+            console.error('❌ Register error:', res.message);
+            Swal.fire({
+              position: 'top-end',
+              icon: 'error',
+              title: res.message,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
+        },
+        error: (err) => {
+          console.error('❌ Register error:', err);
+          Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: err.error,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        },
+      });
     } else {
       this.signupForm.markAllAsTouched();
     }

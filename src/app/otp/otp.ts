@@ -31,6 +31,8 @@ import Swal from 'sweetalert2';
 })
 export class Otp implements OnInit, OnDestroy {
   private email: string = '';
+  private type: string = '';
+  private pathUrl: string = '';
 
   constructor(
     private otp: OtpService,
@@ -42,21 +44,43 @@ export class Otp implements OnInit, OnDestroy {
     this.location.replaceState('');
     this.route.queryParamMap.subscribe((params) => {
       this.email = params.get('email') || '';
-      console.log('🚀 ~ Otp ~ constructor ~  this.email:', this.email);
+      this.type = params.get('type') || '';
     });
   }
 
-  @ViewChildren('otpInput') otpInputs!: QueryList<ElementRef<HTMLInputElement>>;
+  // @ViewChildren('otpInput') otpInputs!: QueryList<ElementRef<HTMLInputElement>>;
+  @ViewChildren(
+    'otpInput0, otpInput1, otpInput2, otpInput3, otpInput4, otpInput5'
+  )
+  otpInputs!: QueryList<ElementRef>;
 
   private timerSubscription?: Subscription;
 
-  // Method สำหรับเลื่อน focus
-  onInput(event: Event, index: number) {
+  onInput(event: Event, index: number): void {
     const input = event.target as HTMLInputElement;
-    if (input.value.length === 1 && index < this.otpInputs.length - 1) {
-      this.otpInputs.toArray()[index + 1].nativeElement.focus();
+    const value = input.value;
+
+    if (value.length === 1 && index < 5) {
+      const nextInput = this.otpInputs.toArray()[index + 1];
+      nextInput?.nativeElement.focus();
     }
   }
+
+  onKeyDown(event: KeyboardEvent, index: number): void {
+    const input = event.target as HTMLInputElement;
+
+    if (event.key === 'Backspace' && !input.value && index > 0) {
+      const prevInput = this.otpInputs.toArray()[index - 1];
+      prevInput?.nativeElement.focus();
+    }
+  }
+
+  // onInput(event: Event, index: number) {
+  //   const input = event.target as HTMLInputElement;
+  //   if (input.value.length === 1 && index < this.otpInputs.length - 1) {
+  //     this.otpInputs.toArray()[index + 1].nativeElement.focus();
+  //   }
+  // }
   onPaste(event: ClipboardEvent) {
     event.preventDefault();
 
@@ -161,44 +185,87 @@ export class Otp implements OnInit, OnDestroy {
         email: this.email,
         otp: otpCode,
       };
-      this.otp.verify(request).subscribe({
-        next: (res) => {
-          if (res.status == true) {
-            Swal.fire({
-              position: 'top-end',
-              icon: 'success',
-              title: res.message,
-              showConfirmButton: false,
-              timer: 1500,
-            });
-            this.router.navigate(['/signin']);
-          } else {
-            console.error('❌ OTP error:', res.message);
+      if (this.type == 'register') {
+        this.otp.verify(request).subscribe({
+          next: (res) => {
+            if (res.status == true) {
+              Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: res.message,
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              this.router.navigate(['/signin']);
+            } else {
+              console.error('❌ OTP error:', res.message);
+              Swal.fire({
+                position: 'top-end',
+                icon: 'error',
+                title: res.message,
+                showConfirmButton: false,
+                timer: 1500,
+              });
+            }
+          },
+          error: (err) => {
+            console.error('❌ OTP error:', err);
             Swal.fire({
               position: 'top-end',
               icon: 'error',
-              title: res.message,
+              title: err.error,
               showConfirmButton: false,
               timer: 1500,
             });
-          }
-        },
-        error: (err) => {
-          console.error('❌ OTP error:', err);
-          Swal.fire({
-            position: 'top-end',
-            icon: 'error',
-            title: err.error,
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        },
-      });
+          },
+        });
+      } else {
+        this.otp.forgotPasswordVerifyOtp(request).subscribe({
+          next: (res) => {
+            if (res.status == true) {
+              Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: res.message,
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              this.router.navigate(['/change-password'], {
+                queryParams: { email: this.email },
+              });
+            } else {
+              console.error('❌ OTP error:', res.message);
+              Swal.fire({
+                position: 'top-end',
+                icon: 'error',
+                title: res.message,
+                showConfirmButton: false,
+                timer: 1500,
+              });
+            }
+          },
+          error: (err) => {
+            console.error('❌ OTP error:', err);
+            Swal.fire({
+              position: 'top-end',
+              icon: 'error',
+              title: err.error,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          },
+        });
+      }
     } else {
       this.otpForm.markAllAsTouched();
     }
   }
   goBack(): void {
-    this.router.navigate(['/condition']);
+    if (this.type == 'register') {
+      this.pathUrl = '/condition';
+    } else {
+      this.pathUrl = '/forgot-password';
+    }
+    this.router.navigate([this.pathUrl]);
   }
 }

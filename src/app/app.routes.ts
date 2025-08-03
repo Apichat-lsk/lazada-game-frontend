@@ -8,11 +8,13 @@ import { GameCondition } from './game-condition/game-condition';
 import { GameRules } from './game-rules/game-rules';
 import { AuthGuard } from '../component/auth-expired-token';
 import { ForgotPassword } from './forgot-password/forgot-password';
+import { ChangePassword } from './change-password/change-password';
 
 export const routes: Routes = [
   { path: 'signup', component: Signup },
   { path: 'signin', component: Signin },
   { path: 'forgot-password', component: ForgotPassword },
+  { path: 'change-password', component: ChangePassword },
   { path: 'otp', component: Otp },
   { path: 'index', component: Index },
   { path: 'home', component: Home, canActivate: [AuthGuard] },

@@ -5,6 +5,7 @@ import {
   Validators,
   ReactiveFormsModule,
   FormsModule,
+  FormBuilder,
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import Swal from 'sweetalert2';
@@ -20,25 +21,38 @@ import { AuthTokenService } from '../../component/auth-token.service';
   styleUrl: './signin.css',
 })
 export class Signin {
+  signupForm!: FormGroup;
+
   constructor(
     private auth: AuthService,
     private router: Router,
     private location: Location,
-    private authTokenService: AuthTokenService
+    private authTokenService: AuthTokenService,
+    private fb: FormBuilder
   ) {
     this.location.replaceState('');
+
+    this.signupForm = this.fb.group({
+      username: [
+        'admin',
+        [Validators.required, Validators.pattern(/^[a-zA-Z0-9]+$/)],
+      ],
+      password: [
+        '123456',
+        [Validators.required, Validators.pattern(/^.{6,}$/)],
+      ],
+    });
   }
 
-  signupForm = new FormGroup({
-    username: new FormControl('admin', [
-      Validators.required,
-      Validators.pattern(/^[ก-๏A-Za-z\s]+$/),
-    ]),
-    password: new FormControl('123456', [
-      Validators.required,
-      Validators.pattern(/^[ก-๏A-Za-z0-9\s!@#$%^&*]{6,}$/),
-    ]),
-  });
+  isMatched = false;
+
+  ngOnInit() {
+    this.signupForm.valueChanges.subscribe(() => {
+      this.isMatched =
+        !!this.signupForm.get('username')?.valid &&
+        !!this.signupForm.get('password')?.valid;
+    });
+  }
 
   onSubmit() {
     if (this.signupForm.valid) {

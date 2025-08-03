@@ -16,4 +16,7 @@ export class AuthService {
   login(data: any): Observable<any> {
     return this.http.post(API.LOGIN, data);
   }
+  changePassword(data: any): Observable<any> {
+    return this.http.post(API.CHANGE_PASSWORD, data);
+  }
 }

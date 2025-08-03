@@ -20,4 +20,7 @@ export class GameRules {
   Direct(path: string) {
     this.router.navigate([path]);
   }
+  goBack(): void {
+    this.router.navigate(['/home']);
+  }
 }

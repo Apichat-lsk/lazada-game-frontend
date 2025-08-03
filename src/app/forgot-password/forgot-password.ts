@@ -8,12 +8,11 @@ import {
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import Swal from 'sweetalert2';
-import { AuthService } from '../../services/auth-service';
 import { CommonModule, Location } from '@angular/common';
-import { AuthTokenService } from '../../component/auth-token.service';
+import { OtpService } from '../../services/otp-service';
 
 @Component({
-  selector: 'app-signin',
+  selector: 'app-forgot-password',
   standalone: true,
   imports: [ReactiveFormsModule, FormsModule, CommonModule, RouterModule],
   templateUrl: './forgot-password.html',
@@ -21,15 +20,14 @@ import { AuthTokenService } from '../../component/auth-token.service';
 })
 export class ForgotPassword {
   constructor(
-    private auth: AuthService,
+    private otp: OtpService,
     private router: Router,
-    private location: Location,
-    private authTokenService: AuthTokenService
+    private location: Location
   ) {
     this.location.replaceState('');
   }
 
-  signupForm = new FormGroup({
+  forgotPasswordForm = new FormGroup({
     email: new FormControl('oxford.apichat@gmail.com', [
       Validators.required,
       Validators.email,
@@ -37,47 +35,48 @@ export class ForgotPassword {
   });
 
   onSubmit() {
-    if (this.signupForm.valid) {
-      // this.auth.login(this.signupForm.value).subscribe({
-      //   next: (res) => {
-      //     if (res.status == true) {
-      //       this.authTokenService.setToken(res.token);
-      //       Swal.fire({
-      //         position: 'top-end',
-      //         icon: 'success',
-      //         title: res.message,
-      //         showConfirmButton: false,
-      //         timer: 1500,
-      //       });
-
-      this.router.navigate(['otp'], {
-        queryParams: { email: this.signupForm.value.email },
+    if (this.forgotPasswordForm.valid) {
+      this.otp.getOtp(this.forgotPasswordForm.value).subscribe({
+        next: (res) => {
+          if (res.status == true) {
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: res.message,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            this.router.navigate(['otp'], {
+              queryParams: {
+                email: this.forgotPasswordForm.value.email,
+                type: 'forgot-password',
+              },
+            });
+            this.forgotPasswordForm.reset();
+          } else {
+            console.error('❌ Login error:', res.message);
+            Swal.fire({
+              position: 'top-end',
+              icon: 'error',
+              title: res.message,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
+        },
+        error: (err) => {
+          console.error('❌ Login error:', err);
+          Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: JSON.stringify(err.error),
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        },
       });
-      //       this.signupForm.reset();
-      //     } else {
-      //       console.error('❌ Login error:', res.message);
-      //       Swal.fire({
-      //         position: 'top-end',
-      //         icon: 'error',
-      //         title: res.message,
-      //         showConfirmButton: false,
-      //         timer: 1500,
-      //       });
-      //     }
-      //   },
-      //   error: (err) => {
-      //     console.error('❌ Login error:', err);
-      //     Swal.fire({
-      //       position: 'top-end',
-      //       icon: 'error',
-      //       title: JSON.stringify(err.error),
-      //       showConfirmButton: false,
-      //       timer: 1500,
-      //     });
-      //   },
-      // });
     } else {
-      this.signupForm.markAllAsTouched();
+      this.forgotPasswordForm.markAllAsTouched();
     }
   }
   goBack(): void {

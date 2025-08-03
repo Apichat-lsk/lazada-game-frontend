@@ -15,4 +15,10 @@ export class OtpService {
   verify(data: any): Observable<any> {
     return this.http.post(API.VERIFY_OTP, data);
   }
+  getOtp(data: any): Observable<any> {
+    return this.http.post(API.GET_OTP, data);
+  }
+  forgotPasswordVerifyOtp(data: any): Observable<any> {
+    return this.http.post(API.FORGOT_PASSWORD_VERIFY_OTP, data);
+  }
 }

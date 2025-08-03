@@ -2,34 +2,34 @@
     <div class="w-full max-w-sm min-h-[calc(100vh-40px)] max-h-[calc(100vh-40px)] overflow-auto
               bg-white p-6 sm:p-10 rounded-xl flex justify-center items-center relative">
         <div class="absolute top-4 left-4">
-            <button (click)="goBack()" class="flex items-center text-gray-600 hover:text-blue-600 cursor-pointer">
-                <svg class="w-6 h-6 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <button (click)="goBack()" class="flex items-center justify-center w-10 h-10 rounded-full bg-gray-300 hover:bg-gray-400 cursor-pointer">
+                <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
                 </svg>
-                <span>กลับ</span>
             </button>
         </div>
         <div class="w-full flex flex-col items-center justify-center">
             <p class="text-xl sm:text-2xl mb-6 font-semibold">กรุณายืนยัน OTP</p>
             <form [formGroup]="otpForm" (ngSubmit)="onSubmit()" autocomplete="one-time-code" class="w-full max-w-md flex flex-col items-center space-y-6">
                 <div class="flex justify-between w-full">
-                    <input type="text" #otpInput maxlength="1" inputmode="numeric" pattern="[0-9]*" formControlName="digit1" (input)="onInput($event, 0)" (paste)="onPaste($event)"
+                    <input type="text" #otpInput0 (keydown)="onKeyDown($event, 0)" maxlength="1" inputmode="numeric" pattern="[0-9]*" formControlName="digit1"
+                        (input)="onInput($event, 0)" (paste)="onPaste($event)"
                         class="w-12 h-12 text-center text-xl border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                         [class.border-red-500]="digits[0]?.invalid && digits[0]?.touched" autocomplete="one-time-code" />
-                    <input type="text" #otpInput maxlength="1" inputmode="numeric" pattern="[0-9]*" formControlName="digit2" (input)="onInput($event, 1)"
-                        class="w-12 h-12 text-center text-xl border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    <input type="text" #otpInput1 (keydown)="onKeyDown($event, 1)" maxlength="1" inputmode="numeric" pattern="[0-9]*" formControlName="digit2"
+                        (input)="onInput($event, 1)" class="w-12 h-12 text-center text-xl border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                         [class.border-red-500]="digits[1]?.invalid && digits[1]?.touched" autocomplete="one-time-code" />
-                    <input type="text" #otpInput maxlength="1" inputmode="numeric" pattern="[0-9]*" formControlName="digit3" (input)="onInput($event, 2)"
-                        class="w-12 h-12 text-center text-xl border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    <input type="text" #otpInput2 (keydown)="onKeyDown($event, 2)" maxlength="1" inputmode="numeric" pattern="[0-9]*" formControlName="digit3"
+                        (input)="onInput($event, 2)" class="w-12 h-12 text-center text-xl border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                         [class.border-red-500]="digits[2]?.invalid && digits[2]?.touched" autocomplete="one-time-code" />
-                    <input type="text" #otpInput maxlength="1" inputmode="numeric" pattern="[0-9]*" formControlName="digit4" (input)="onInput($event, 3)"
-                        class="w-12 h-12 text-center text-xl border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    <input type="text" #otpInput3 (keydown)="onKeyDown($event, 3)" maxlength="1" inputmode="numeric" pattern="[0-9]*" formControlName="digit4"
+                        (input)="onInput($event, 3)" class="w-12 h-12 text-center text-xl border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                         [class.border-red-500]="digits[3]?.invalid && digits[3]?.touched" autocomplete="one-time-code" />
-                    <input type="text" #otpInput maxlength="1" inputmode="numeric" pattern="[0-9]*" formControlName="digit5" (input)="onInput($event, 4)"
-                        class="w-12 h-12 text-center text-xl border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    <input type="text" #otpInput4 (keydown)="onKeyDown($event, 4)" maxlength="1" inputmode="numeric" pattern="[0-9]*" formControlName="digit5"
+                        (input)="onInput($event, 4)" class="w-12 h-12 text-center text-xl border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                         [class.border-red-500]="digits[4]?.invalid && digits[4]?.touched" autocomplete="one-time-code" />
-                    <input type="text" #otpInput maxlength="1" inputmode="numeric" pattern="[0-9]*" formControlName="digit6" (input)="onInput($event, 5)"
-                        class="w-12 h-12 text-center text-xl border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    <input type="text" #otpInput5 (keydown)="onKeyDown($event, 5)" maxlength="1" inputmode="numeric" pattern="[0-9]*" formControlName="digit6"
+                        (input)="onInput($event, 5)" class="w-12 h-12 text-center text-xl border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                         [class.border-red-500]="digits[5]?.invalid && digits[5]?.touched" autocomplete="one-time-code" />
                 </div>
 
