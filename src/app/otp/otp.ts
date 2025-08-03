@@ -40,7 +40,7 @@ export class Otp implements OnInit, OnDestroy {
     private route: ActivatedRoute
   ) {
     this.location.replaceState('');
-    this.route.paramMap.subscribe((params) => {
+    this.route.queryParamMap.subscribe((params) => {
       this.email = params.get('email') || '';
     });
   }
@@ -160,7 +160,6 @@ export class Otp implements OnInit, OnDestroy {
         email: this.email,
         otp: otpCode,
       };
-      console.log('🚀 ~ Otp ~ onSubmit ~ request:', request);
       this.otp.verify(request).subscribe({
         next: (res) => {
           if (res.status == true) {

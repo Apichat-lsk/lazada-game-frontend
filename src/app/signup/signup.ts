@@ -58,7 +58,9 @@ export class Signup {
               showConfirmButton: false,
               timer: 1500,
             });
-            this.router.navigate(['/otp', this.signupForm.value.email]);
+            this.router.navigate(['/otp'], {
+              queryParams: { email: this.signupForm.value.email },
+            });
             this.signupForm.reset();
           } else {
             console.error('❌ Register error:', res.message);
