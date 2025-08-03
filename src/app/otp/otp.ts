@@ -42,6 +42,7 @@ export class Otp implements OnInit, OnDestroy {
     this.location.replaceState('');
     this.route.queryParamMap.subscribe((params) => {
       this.email = params.get('email') || '';
+      console.log('🚀 ~ Otp ~ constructor ~  this.email:', this.email);
     });
   }
 
