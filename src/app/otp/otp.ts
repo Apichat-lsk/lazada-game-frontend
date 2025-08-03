@@ -160,6 +160,7 @@ export class Otp implements OnInit, OnDestroy {
         email: this.email,
         otp: otpCode,
       };
+      console.log('🚀 ~ Otp ~ onSubmit ~ request:', request);
       this.otp.verify(request).subscribe({
         next: (res) => {
           if (res.status == true) {
