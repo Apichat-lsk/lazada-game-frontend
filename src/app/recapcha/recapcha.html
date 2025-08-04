@@ -9,8 +9,6 @@
         </div>
         <div class="w-full flex flex-col items-center justify-center">
             <div class="w-full flex flex-col justify-between items-center gap-8">
-                <p class="text-xl sm:text-2xl mb-6 font-semibold">Recaptcha</p>
-                <p class="text-sm text-gray-600">isMatched: {{ isMatched }}</p>
                 <form (ngSubmit)="onSubmit()" #form="ngForm" class="w-full flex flex-col items-center">
                     <div id="recaptcha-container" class="mb-6 w-full min-h-[100px]"></div>
                     <button type="submit" [disabled]="!isMatched" [ngClass]="isMatched ? 'bg-pink-600' : 'bg-gray-400'" class="w-full h-[50px] text-white font-bold text-lg rounded-full
