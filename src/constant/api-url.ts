@@ -8,4 +8,5 @@ export const API = {
   VERIFY_OTP: `${URL}/api/otp/verify`,
   GET_OTP: `${URL}/api/otp/get`,
   FORGOT_PASSWORD_VERIFY_OTP: `${URL}/api/otp/verify-otp-forgot-password`,
+  RECAPTCHA: `${URL}/api/recaptcha/verify-recaptcha`,
 };

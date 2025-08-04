@@ -30,6 +30,8 @@ import Swal from 'sweetalert2';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Otp implements OnInit, OnDestroy {
+  otpForm!: FormGroup;
+  isMatched = false;
   private email: string = '';
   private type: string = '';
   private pathUrl: string = '';
@@ -45,6 +47,32 @@ export class Otp implements OnInit, OnDestroy {
     this.route.queryParamMap.subscribe((params) => {
       this.email = params.get('email') || '';
       this.type = params.get('type') || '';
+    });
+    this.otpForm = new FormGroup({
+      digit1: new FormControl('', [
+        Validators.required,
+        Validators.pattern(/^[0-9]$/),
+      ]),
+      digit2: new FormControl('', [
+        Validators.required,
+        Validators.pattern(/^[0-9]$/),
+      ]),
+      digit3: new FormControl('', [
+        Validators.required,
+        Validators.pattern(/^[0-9]$/),
+      ]),
+      digit4: new FormControl('', [
+        Validators.required,
+        Validators.pattern(/^[0-9]$/),
+      ]),
+      digit5: new FormControl('', [
+        Validators.required,
+        Validators.pattern(/^[0-9]$/),
+      ]),
+      digit6: new FormControl('', [
+        Validators.required,
+        Validators.pattern(/^[0-9]$/),
+      ]),
     });
   }
 
@@ -64,6 +92,7 @@ export class Otp implements OnInit, OnDestroy {
       const nextInput = this.otpInputs.toArray()[index + 1];
       nextInput?.nativeElement.focus();
     }
+    this.isMatched = this.otpForm.valid;
   }
 
   onKeyDown(event: KeyboardEvent, index: number): void {
@@ -73,6 +102,9 @@ export class Otp implements OnInit, OnDestroy {
       const prevInput = this.otpInputs.toArray()[index - 1];
       prevInput?.nativeElement.focus();
     }
+    setTimeout(() => {
+      this.isMatched = this.otpForm.valid;
+    });
   }
 
   // onInput(event: Event, index: number) {
@@ -105,38 +137,12 @@ export class Otp implements OnInit, OnDestroy {
       }
     });
 
-    // focus ช่องถัดไปหรือสุดท้าย
     const inputs = this.otpInputs.toArray();
     const nextIndex =
       digits.length < inputs.length ? digits.length : inputs.length - 1;
     inputs[nextIndex]?.nativeElement.focus();
+    this.isMatched = this.otpForm.valid;
   }
-  otpForm = new FormGroup({
-    digit1: new FormControl('', [
-      Validators.required,
-      Validators.pattern(/^[0-9]$/),
-    ]),
-    digit2: new FormControl('', [
-      Validators.required,
-      Validators.pattern(/^[0-9]$/),
-    ]),
-    digit3: new FormControl('', [
-      Validators.required,
-      Validators.pattern(/^[0-9]$/),
-    ]),
-    digit4: new FormControl('', [
-      Validators.required,
-      Validators.pattern(/^[0-9]$/),
-    ]),
-    digit5: new FormControl('', [
-      Validators.required,
-      Validators.pattern(/^[0-9]$/),
-    ]),
-    digit6: new FormControl('', [
-      Validators.required,
-      Validators.pattern(/^[0-9]$/),
-    ]),
-  });
 
   get digits() {
     return [

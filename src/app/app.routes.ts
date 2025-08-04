@@ -9,6 +9,8 @@ import { GameRules } from './game-rules/game-rules';
 import { AuthGuard } from '../component/auth-expired-token';
 import { ForgotPassword } from './forgot-password/forgot-password';
 import { ChangePassword } from './change-password/change-password';
+import { Recapcha } from './recapcha/recapcha';
+import { GameStart } from './game-start/game-start';
 
 export const routes: Routes = [
   { path: 'signup', component: Signup },
@@ -20,6 +22,12 @@ export const routes: Routes = [
   { path: 'home', component: Home, canActivate: [AuthGuard] },
   { path: 'condition', component: GameCondition, canActivate: [AuthGuard] },
   { path: 'rules', component: GameRules, canActivate: [AuthGuard] },
+  { path: 'recaptcha', component: Recapcha, canActivate: [AuthGuard] },
+  {
+    path: 'game-start',
+    loadComponent: () =>
+      import('./game-start/game-start').then((m) => m.GameStart),
+  },
   {
     path: '',
     redirectTo: '/index',

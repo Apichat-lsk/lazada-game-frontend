@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule, Location } from '@angular/common';
@@ -16,6 +16,7 @@ import { UserTransferService } from '../signup/user-transfer.service';
 export class GameCondition {
   user: any;
   isChecked = false;
+  scrolledToBottom = false;
 
   constructor(
     private otp: OtpService,
@@ -27,7 +28,33 @@ export class GameCondition {
     this.user = this.userTransferService.userData;
     // this.userTransferService.userData = null;
   }
+  @ViewChild('scrollContainer') scrollContainer!: ElementRef;
 
+  ngAfterViewInit(): void {
+    this.checkScrollPosition();
+  }
+
+  onScroll(event: Event): void {
+    this.checkScrollPosition();
+  }
+
+  scrollToBottom(): void {
+    const el = this.scrollContainer.nativeElement;
+    el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' });
+
+    setTimeout(() => {
+      this.checkScrollPosition();
+    }, 500);
+  }
+
+  checkScrollPosition(): void {
+    const el = this.scrollContainer.nativeElement;
+    const atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 10;
+
+    if (atBottom) {
+      this.scrolledToBottom = true;
+    }
+  }
   Direct(path: string) {
     this.otp.send(this.user).subscribe({
       next: (res) => {

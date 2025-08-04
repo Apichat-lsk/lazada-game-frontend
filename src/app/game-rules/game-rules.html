@@ -9,66 +9,31 @@
         </div>
         <div class="w-full flex flex-col items-center justify-center">
             <div class="w-full flex flex-col justify-between items-center gap-8">
-                <p class="text-xl sm:text-2xl mb-6 font-semibold">กติกาการเล่นเกมส์</p>
+                <p class="text-xl sm:text-2xl mb-6 font-semibold">วิธีการเล่นเกมส์</p>
+
                 <div class="w-full flex flex-col items-center gap-4">
-                    <div class="w-full h-[60vh] sm:h-[50vh] p-4 leading-relaxed text-sm sm:text-base text-black overflow-y-scroll">
-                        <p>Terms & Conditions (T&C) — 9.9 Mega Brands Sale Microsite
-                            Below is a draft of the Terms & Conditions for participating in the Lazada 9.9 Mega Brands Sale Microsite game, based on the project brief:
-                            1. Eligibility & Participation
-                            The activity is open to all users accessing the Lazada app during the campaign period.
-                            Each user can participate only once per day. The game resets daily at 20:00.
-                            To participate, users must log in or register with accurate information, including:
-                            Full name
-                            Delivery address
-                            Email address
-                            Mobile phone number
-                            Username
-                            Once registration is completed, information cannot be edited.
-                            2. Consent
-                            By joining, users agree to all Terms & Conditions and Lazada’s Privacy Policy.
-                            3. Gameplay
-                            After registration and T&C acceptance, users may read the instructions and then start the quiz.
-                            Each round consists of 5 multiple-choice questions about shopping.
-                            Each question must be answered within 10 seconds.
-                            4. Passing Criteria
-                            Users who answer at least 4 out of 5 questions correctly will be awarded a downloadable certificate.
-                            Users who do not pass may try again on the next day after 20:00.
-                            5. Leaderboard & Scoring
-                            Scores are based on the number of correct answers and response speed.
-                            Real-time rankings and scores are shown on the leaderboard following each attempt.
-                            The leaderboard resets every day at 20:00.
-                            6. Rewards & Announcements
-                            Daily winners are announced via the app at 20:00 the day after participation.
-                            Winners will also be notified by email.
-                            Prizes will be delivered to the address provided upon registration.
-                            All rewards are subject to availability, and Lazada reserves the right to change prize details with equivalent value.
-                            7. Fraud Detection & Disqualification
-                            Lazada reserves the right to disqualify users if evidence of fraud is found, such as:
-                            Unusually high, inhuman scores
-                            Use of bots or automated tools
-                            Multiple account registrations with the same IP address
-                            Providing false information
-                            Use of Lazada or Alibaba employee emails
-                            Disqualified users will be barred from further participation and ineligible for prizes.
-                            8. Final Decision
-                            All Lazada decisions regarding winner selection, fraud detection, and rewards are final.
-                            Note: These T&C are tailored directly from the provided campaign brief. All data collected is exclusively for user verification and prize fulfillment.
-                            Participation constitutes full and unconditional agreement with the rules above</p>
+
+                    <div *ngIf="showSlides" class="w-full">
+                        <div class="relative w-full h-[300px] sm:h-[350px] overflow-hidden rounded-lg mb-4">
+                            <img [src]="slides[currentSlide].img" alt="Slide Image" class="w-full h-full max-h-[350px] object-cover transition-all duration-500" />
+                        </div>
+                        <p class="text-center text-sm sm:text-base text-gray-700 mb-4 px-2">
+                            {{ slides[currentSlide].caption }}
+                        </p>
+
+                        <div class="flex justify-between items-center w-full">
+                            <button *ngIf="currentSlide > 0" (click)="prevSlide()" class="text-sm px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-full">ก่อนหน้า</button>
+                            <!-- <button (click)="nextSlide()" class="text-sm px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-full">ถัดไป</button> -->
+                        </div>
+
+
                     </div>
-                    <div class="w-full flex items-start gap-2">
-                        <input type="checkbox" id="agree" [(ngModel)]="isChecked" class="mt-1" />
-                        <label for="agree" class="text-sm text-gray-800">
-                            ฉันยอมรับเงื่อนไขการเข้าเล่นเกมส์
-                        </label>
-                    </div>
-                    <button type="submit" [disabled]="!isChecked" class="w-full h-[50px] bg-[rgba(255,0,102,1)] text-white font-bold text-lg rounded-full
-                            shadow-[0_4px_0_0_rgba(0,0,0,0.4),_inset_0_-4px_0_0_rgba(0,0,0,0.4)]
-                            active:shadow-[0_0px_0_0_rgba(0,0,0,0.4),_inset_0_4px_0_0_rgba(0,0,0,0.4)]
-                            transition duration-150 hover:brightness-110 cursor-pointer" (click)="Direct('rules')">
-                        CONTINUE
-                    </button>
+                    <button class="w-full h-[50px] text-white bg-[rgba(255,0,102,1)] font-bold text-lg rounded-full
+         shadow-[0_4px_0_0_rgba(0,0,0,0.4),_inset_0_-4px_0_0_rgba(0,0,0,0.4)]
+         active:shadow-[0_0px_0_0_rgba(0,0,0,0.4),_inset_0_4px_0_0_rgba(0,0,0,0.4)]
+         transition duration-150 hover:brightness-110 cursor-pointer" (click)="currentSlide < slides.length - 1 ? nextSlide() : acknowledge()">
+                        {{ currentSlide < slides.length - 1 ? 'ต่อไป' : 'รับทราบ' }} </button>
                 </div>
             </div>
         </div>
     </div>
-</div>

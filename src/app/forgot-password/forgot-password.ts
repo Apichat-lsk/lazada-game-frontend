@@ -19,20 +19,28 @@ import { OtpService } from '../../services/otp-service';
   styleUrl: './forgot-password.css',
 })
 export class ForgotPassword {
+  forgotPasswordForm!: FormGroup;
+  isMatched = false;
+
   constructor(
     private otp: OtpService,
     private router: Router,
     private location: Location
   ) {
     this.location.replaceState('');
+    this.forgotPasswordForm = new FormGroup({
+      email: new FormControl('oxford.apichat@gmail.com', [
+        Validators.required,
+        Validators.email,
+      ]),
+    });
   }
 
-  forgotPasswordForm = new FormGroup({
-    email: new FormControl('oxford.apichat@gmail.com', [
-      Validators.required,
-      Validators.email,
-    ]),
-  });
+  ngOnInit() {
+    this.forgotPasswordForm.valueChanges.subscribe(() => {
+      this.isMatched = !!this.forgotPasswordForm.get('email')?.valid;
+    });
+  }
 
   onSubmit() {
     if (this.forgotPasswordForm.valid) {
