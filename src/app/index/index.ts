@@ -21,7 +21,7 @@ export class Index {
   ngOnInit(): void {
     const token = this.authTokenService.getToken();
     if (token && this.isTokenValid(token)) {
-      this.router.navigate(['/recaptcha']);
+      this.router.navigate(['/home']);
     }
   }
 
