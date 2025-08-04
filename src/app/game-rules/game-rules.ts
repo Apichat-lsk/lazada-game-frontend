@@ -56,7 +56,7 @@ export class GameRules {
   // }
 
   acknowledge() {
-    this.router.navigate(['/signin']);
+    this.router.navigate(['/recaptcha']);
   }
   goBack(): void {
     this.router.navigate(['/home']);
