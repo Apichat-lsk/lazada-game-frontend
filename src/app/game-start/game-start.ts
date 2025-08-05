@@ -4,10 +4,13 @@ import {
   OnInit,
   ChangeDetectionStrategy,
   NgZone,
+  ViewChild,
+  ElementRef,
 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule, Location } from '@angular/common';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-game-start',
@@ -18,6 +21,7 @@ import { CommonModule, Location } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class GameStart implements OnInit {
+  @ViewChild('captureArea', { static: false }) captureArea!: ElementRef;
   constructor(
     private router: Router,
     private location: Location,
@@ -28,7 +32,7 @@ export class GameStart implements OnInit {
   }
   countdown = 3;
   isGameStarted = false;
-
+  currentDate = new Date();
   questionIndex = 0;
   currentQuestion: any = null;
 
@@ -37,7 +41,8 @@ export class GameStart implements OnInit {
   gameTimer: any;
   selectedAnswer: string | null = null;
   score = 0;
-  maxScorePerQuestion = 10;
+  maxScorePerQuestion = 100;
+  correctAnswers = 0;
 
   questions = [
     {
@@ -60,7 +65,12 @@ export class GameStart implements OnInit {
     console.log('ngOnInit');
     this.startCountdown();
   }
-
+  shuffleArray(array: any[]): any[] {
+    return array
+      .map((value) => ({ value, sort: Math.random() }))
+      .sort((a, b) => a.sort - b.sort)
+      .map(({ value }) => value);
+  }
   startCountdown() {
     this.countdown = 3;
     const intervalId = setInterval(() => {
@@ -79,6 +89,10 @@ export class GameStart implements OnInit {
   startGame() {
     this.isGameStarted = true;
     this.questionIndex = 0;
+    this.questions = this.questions.map((q) => ({
+      ...q,
+      choices: this.shuffleArray([...q.choices]),
+    }));
     this.currentQuestion = this.questions[this.questionIndex];
     this.timeLeft = this.questionTime;
     this.cd.detectChanges();
@@ -113,6 +127,7 @@ export class GameStart implements OnInit {
       const gainedScore =
         (this.timeLeft / this.questionTime) * this.maxScorePerQuestion;
       this.score += Math.round(gainedScore);
+      this.correctAnswers++;
       console.log(`ถูกต้อง! คุณได้ ${Math.round(gainedScore)} คะแนน`);
     } else {
       console.log('ผิด!');
@@ -137,5 +152,18 @@ export class GameStart implements OnInit {
     this.currentQuestion = null;
     this.isGameStarted = false;
     this.cd.detectChanges();
+  }
+  capture() {
+    if (!this.captureArea) return;
+
+    html2canvas(this.captureArea.nativeElement).then((canvas) => {
+      const link = document.createElement('a');
+      link.download = `cert-${new Date().getTime()}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    });
+  }
+  Direct(path: string) {
+    this.router.navigate([path]);
   }
 }

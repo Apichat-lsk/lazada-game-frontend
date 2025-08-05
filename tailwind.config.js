@@ -4,6 +4,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        primary: "#ff0066",
         background: "#282C33",
         glow: "#C778DD",
         secondary: "#ABB2BF",
@@ -14,4 +15,7 @@ module.exports = {
     },
   },
   plugins: [],
+  future: {
+    useOkLchColors: false,
+  },
 };

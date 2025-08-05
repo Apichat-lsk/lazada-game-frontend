@@ -11,6 +11,8 @@ import { ForgotPassword } from './forgot-password/forgot-password';
 import { ChangePassword } from './change-password/change-password';
 import { Recapcha } from './recapcha/recapcha';
 import { GameStart } from './game-start/game-start';
+import { Board } from './board/board';
+import { Thankyou } from './thankyou/thankyou';
 
 export const routes: Routes = [
   { path: 'signup', component: Signup },
@@ -28,6 +30,8 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./game-start/game-start').then((m) => m.GameStart),
   },
+  { path: 'board', component: Board, canActivate: [AuthGuard] },
+  { path: 'thankyou', component: Thankyou, canActivate: [AuthGuard] },
   {
     path: '',
     redirectTo: '/index',
