@@ -9,12 +9,12 @@
             </button>
         </div>
         <div class="w-full flex flex-col items-center justify-center">
-            <p class="text-xl sm:text-2xl mb-6 font-bold">เข้าสู่ระบบ</p>
+            <p class="text-2xl sm:text-4xl mb-6 font-bold">เข้าสู่ระบบ</p>
             <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="w-full bg-white p-6 rounded-lg  space-y-6" novalidate>
                 <div>
-                    <label for="username" class="block mb-2 font-semibold text-gray-700">ชื่อผู้ใช้ หรือ อีเมล์</label>
+                    <label for="username" class="block mb-2 font-semibold text-gray-700 text-2xl">ชื่อผู้ใช้ หรือ อีเมล์</label>
                     <input id="username" type="text" formControlName="username" placeholder="กรอกชื่อผู้ใช้งาน"
-                        class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 text-xl focus:ring-blue-400"
                         [class.border-red-500]="signupForm.get('username')?.invalid && signupForm.get('username')?.touched" />
                     <p *ngIf="signupForm.get('username')?.errors?.['required'] && signupForm.get('username')?.touched" class="text-red-600 text-sm mt-1">
                         กรุณากรอกชื่อผู้ใช้งาน
@@ -25,9 +25,9 @@
                 </div>
 
                 <div>
-                    <label for="password" class="block mb-2 font-semibold text-gray-700">รหัสผ่าน</label>
+                    <label for="password" class="block mb-2 font-semibold text-gray-700 text-2xl">รหัสผ่าน</label>
                     <input id="password" type="password" formControlName="password" placeholder="กรอกรหัสผ่าน"
-                        class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 text-xl focus:ring-blue-400"
                         [class.border-red-500]="signupForm.get('password')?.invalid && signupForm.get('password')?.touched" />
                     <p *ngIf="signupForm.get('password')?.errors?.['required'] && signupForm.get('password')?.touched" class="text-red-600 text-sm mt-1">
                         กรุณากรอกรหัสผ่าน
@@ -44,7 +44,7 @@
                 <button type="submit" [ngClass]="{
     'bg-[rgba(255,0,102,1)]': isMatched,
     'bg-gray-400': !isMatched
-  }" class="w-full h-[50px] text-white font-bold text-lg rounded-full
+  }" class="w-full h-[50px] text-white font-bold text-2xl rounded-full
          shadow-[0_4px_0_0_rgba(0,0,0,0.4),_inset_0_-4px_0_0_rgba(0,0,0,0.4)]
          active:shadow-[0_0px_0_0_rgba(0,0,0,0.4),_inset_0_4px_0_0_rgba(0,0,0,0.4)]
          transition duration-150 hover:brightness-110 cursor-pointer">

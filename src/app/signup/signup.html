@@ -9,13 +9,13 @@
             </button>
         </div>
         <div class="w-full flex flex-col justify-center items-center">
-            <p class="text-xl sm:text-2xl mb-6 font-semibold">สมัครสมาชิค</p>
+            <p class="text-2xl sm:text-4xl mb-6 font-semibold">สมัครสมาชิค</p>
             <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="w-full bg-white p-4 sm:p-6 rounded-lg shadow-md space-y-6" novalidate>
 
                 <div>
-                    <label for="fullname" class="block mb-2 font-semibold text-gray-700">ชื่อ - นามสกุล</label>
+                    <label for="fullname" class="block mb-2 font-semibold text-gray-700 text-2xl">ชื่อ - นามสกุล</label>
                     <input id="fullname" type="text" formControlName="fullname" placeholder="กรอกชื่อ - นามสกุล"
-                        class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 text-xl focus:ring-blue-400"
                         [class.border-red-500]="signupForm.get('fullname')?.invalid && signupForm.get('fullname')?.touched" />
                     <p *ngIf="signupForm.get('fullname')?.errors?.['required'] && signupForm.get('fullname')?.touched" class="text-red-600 text-sm mt-1">กรุณากรอกชื่อ - นามสกุล</p>
                     <p *ngIf="signupForm.get('fullname')?.errors?.['pattern'] && signupForm.get('fullname')?.touched" class="text-red-600 text-sm mt-1">
@@ -23,9 +23,9 @@
                 </div>
 
                 <div>
-                    <label for="username" class="block mb-2 font-semibold text-gray-700">ชื่อผู้ใช้งาน</label>
+                    <label for="username" class="block mb-2 font-semibold text-gray-700 text-2xl">ชื่อผู้ใช้งาน</label>
                     <input id="username" type="text" formControlName="username" placeholder="กรอกชื่อผู้ใช้งาน"
-                        class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 text-xl focus:ring-blue-400"
                         [class.border-red-500]="signupForm.get('username')?.invalid && signupForm.get('username')?.touched" />
                     <p *ngIf="signupForm.get('username')?.errors?.['required'] && signupForm.get('username')?.touched" class="text-red-600 text-sm mt-1">กรุณากรอกชื่อผู้ใช้งาน</p>
                     <p *ngIf="signupForm.get('username')?.errors?.['pattern'] && signupForm.get('username')?.touched" class="text-red-600 text-sm mt-1">
@@ -33,9 +33,9 @@
                 </div>
 
                 <div>
-                    <label for="password" class="block mb-2 font-semibold text-gray-700">รหัสผ่าน</label>
+                    <label for="password" class="block mb-2 font-semibold text-gray-700 text-2xl">รหัสผ่าน</label>
                     <input id="password" type="text" formControlName="password" placeholder="กรอกรหัสผ่าน"
-                        class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 text-xl focus:ring-blue-400"
                         [class.border-red-500]="signupForm.get('password')?.invalid && signupForm.get('password')?.touched" />
                     <p *ngIf="signupForm.get('password')?.errors?.['required'] && signupForm.get('password')?.touched" class="text-red-600 text-sm mt-1">กรุณากรอกรหัสผ่าน</p>
                     <p *ngIf="signupForm.get('password')?.errors?.['pattern'] && signupForm.get('password')?.touched" class="text-red-600 text-sm mt-1">
@@ -43,18 +43,18 @@
                 </div>
 
                 <div>
-                    <label for="email" class="block mb-2 font-semibold text-gray-700">อีเมล</label>
+                    <label for="email" class="block mb-2 font-semibold text-gray-700 text-2xl">อีเมล</label>
                     <input id="email" type="email" formControlName="email" placeholder="example@mail.com"
-                        class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 text-xl focus:ring-blue-400"
                         [class.border-red-500]="signupForm.get('email')?.invalid && signupForm.get('email')?.touched" />
                     <p *ngIf="signupForm.get('email')?.errors?.['required'] && signupForm.get('email')?.touched" class="text-red-600 text-sm mt-1">กรุณากรอกอีเมล</p>
                     <p *ngIf="signupForm.get('email')?.errors?.['email'] && signupForm.get('email')?.touched" class="text-red-600 text-sm mt-1">กรุณากรอกอีเมลให้ถูกต้อง</p>
                 </div>
 
                 <div>
-                    <label for="tel" class="block mb-2 font-semibold text-gray-700">เบอร์โทร</label>
+                    <label for="tel" class="block mb-2 font-semibold text-gray-700 text-2xl">เบอร์โทร</label>
                     <input id="tel" type="tel" formControlName="tel" placeholder="0812345678 หรือ +66812345678"
-                        class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 text-xl focus:ring-blue-400"
                         [class.border-red-500]="signupForm.get('tel')?.invalid && signupForm.get('tel')?.touched" />
                     <p *ngIf="signupForm.get('tel')?.errors?.['required'] && signupForm.get('tel')?.touched" class="text-red-600 text-sm mt-1">กรุณากรอกเบอร์โทร</p>
                     <p *ngIf="signupForm.get('tel')?.errors?.['pattern'] && signupForm.get('tel')?.touched" class="text-red-600 text-sm mt-1">กรุณากรอกเบอร์โทรให้ถูกต้อง</p>
@@ -63,7 +63,7 @@
                 <button type="submit" [ngClass]="{
     'bg-[rgba(255,0,102,1)]': isMatched,
     'bg-gray-400': !isMatched
-  }" class="w-full h-[50px] text-white font-bold text-lg rounded-full
+  }" class="w-full h-[50px] text-white font-bold text-2xl rounded-full
          shadow-[0_4px_0_0_rgba(0,0,0,0.4),_inset_0_-4px_0_0_rgba(0,0,0,0.4)]
          active:shadow-[0_0px_0_0_rgba(0,0,0,0.4),_inset_0_4px_0_0_rgba(0,0,0,0.4)]
          transition duration-150 hover:brightness-110 cursor-pointer">

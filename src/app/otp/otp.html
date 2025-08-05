@@ -9,7 +9,7 @@
             </button>
         </div>
         <div class="w-full flex flex-col items-center justify-center">
-            <p class="text-xl sm:text-2xl mb-6 font-semibold">กรุณายืนยัน OTP</p>
+            <p class="text-2xl sm:text-4xl mb-6 font-semibold">กรุณายืนยัน OTP</p>
             <form [formGroup]="otpForm" (ngSubmit)="onSubmit()" autocomplete="one-time-code" class="w-full max-w-md flex flex-col items-center space-y-6">
                 <div class="flex justify-between w-full">
                     <input type="text" #otpInput0 (keydown)="onKeyDown($event, 0)" maxlength="1" inputmode="numeric" pattern="[0-9]*" formControlName="digit1"
@@ -33,7 +33,7 @@
                         [class.border-red-500]="digits[5]?.invalid && digits[5]?.touched" autocomplete="one-time-code" />
                 </div>
 
-                <div class="w-full text-red-600 text-sm">
+                <div class="w-full text-red-600 text-lg">
                     <p *ngIf="isOtpTouchedAndInvalid" class="text-red-600">
                         กรุณากรอก OTP ให้ครบถ้วนและถูกต้อง
                     </p>
