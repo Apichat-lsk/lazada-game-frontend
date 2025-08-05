@@ -29,22 +29,24 @@
                         <div class="text-xl absolute bottom-0 translate-y-12">{{thirdPoint}}</div>
                     </div>
                 </div>
-                <div class="w-full h-[40vh] bg-white opacity-80 m-4 rounded-xl overflow-y-auto flex justify-center items-center">
-                    <div *ngIf="currentDate >= scoreDate" class="text-2xl">ประกาศรางวัลหลัง 20.00 น.</div>
-                    <div class="p-4" *ngIf="currentDate < scoreDate">
-                        <h2 class="text-2xl font-bold mb-2">🏆 อันดับคะแนนสูงสุด</h2>
-                        <ul class="space-y-2">
+                <div class="w-full bg-white opacity-80 m-4 rounded-xl overflow-y-auto flex flex-col items-center
+    h-[40vh] sm:h-[40vh] xs:h-[30vh] xs:max-h-[40vh]">
+                    <div *ngIf="currentDate >= scoreDate" class="text-xl sm:text-2xl p-4 text-center">
+                        ประกาศรางวัลหลัง 20.00 น.
+                    </div>
+                    <div *ngIf="currentDate < scoreDate" class="p-4 w-full max-w-md">
+                        <h2 class="text-xl sm:text-2xl font-bold mb-2 text-center">🏆 อันดับคะแนนสูงสุด</h2>
+                        <ul class="space-y-1 sm:space-y-2">
                             <li *ngFor="let user of pagedUsers(); let i = index" [ngClass]="{
-                    'bg-white border-2 border-pink-500': user.username === myName,
-                    'bg-yellow-300': (i + (currentPage - 1) * itemsPerPage) === 0,
-                    'bg-gray-200': (i + (currentPage - 1) * itemsPerPage) === 1,
-                    'bg-orange-200': (i + (currentPage - 1) * itemsPerPage) === 2
-                }" class="flex justify-between items-center px-4 py-2 rounded-md text-xl" [attr.id]="user.username === myName ? 'myUserItem' : null">
+          'bg-white border-2 border-pink-500': user.username === myName,
+          'bg-yellow-300': (i + (currentPage - 1) * itemsPerPage) === 0,
+          'bg-gray-200': (i + (currentPage - 1) * itemsPerPage) === 1,
+          'bg-orange-200': (i + (currentPage - 1) * itemsPerPage) === 2
+        }" class="flex justify-between items-center px-2 py-1 sm:px-4 sm:py-2 rounded-md text-base sm:text-xl" [attr.id]="user.username === myName ? 'myUserItem' : null">
                                 <span>{{ (i + 1) + (currentPage - 1) * itemsPerPage }}. {{ user.username }}</span>
                                 <span>{{ user.score }}</span>
                             </li>
                         </ul>
-
                         <!-- <div class="flex justify-center items-center mt-4 gap-4">
                             <button (click)="prevPage()" [disabled]="currentPage === 1"
                                 class="w-10 h-10 flex items-center justify-center rounded-full bg-white border border-yellow-400 text-yellow-500 disabled:opacity-30 disabled:cursor-not-allowed">
@@ -60,7 +62,7 @@
                                 </svg>
                             </button>
                         </div> -->
-                        <div class="flex justify-center items-center mt-4 gap-4">
+                        <div class="flex flex-col sm:flex-row justify-center items-center mt-4 gap-3 sm:gap-4">
                             <button (click)="prevDate()" [disabled]="currentDate <= minDate"
                                 class="w-10 h-10 flex items-center justify-center rounded-full bg-white border border-yellow-400 text-yellow-500 disabled:opacity-30 disabled:cursor-not-allowed">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -68,8 +70,8 @@
                                 </svg>
                             </button>
 
-                            <span class="text-lg font-medium text-gray-700">
-                                วันที่ {{ currentDate | date:'dd MMM yyyy' }}
+                            <span class="text-base sm:text-lg font-medium text-gray-700">
+                                วันที่ {{ currentDate | date: 'dd MMM yyyy' }}
                             </span>
 
                             <button (click)="nextDate()" [disabled]="currentPage >= totalPages"
