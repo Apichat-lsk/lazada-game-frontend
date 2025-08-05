@@ -49,7 +49,7 @@ export class Board {
   currentDate: Date = new Date();
   minDate = new Date(2025, 7, 1);
   maxDate = new Date(2025, 7, 10);
-  scoreDate = new Date('2025-08-05 13:00');
+  scoreDate = new Date();
   firstUsername: string = '';
   secondUsername: string = '';
   thirdUsername: string = '';
@@ -58,8 +58,8 @@ export class Board {
   thirdPoint: number = 0;
   totalPages = 5;
   ngOnInit() {
+    this.scoreDate.setHours(20, 0, 0, 0);
     console.log(this.scoreDate);
-
     this.updateUsersByDate();
   }
 
