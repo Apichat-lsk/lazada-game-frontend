@@ -9,7 +9,7 @@
             </button>
         </div>
         <div class="w-full flex flex-col items-center justify-center">
-            <div class="w-full flex flex-col justify-between items-center gap-8 min-h-[calc(90vh-40px)] max-h-[calc(90vh-40px)]">
+            <div class="w-full flex flex-col justify-between items-center gap-8 min-h-[calc(80vh-40px)] max-h-[calc(80vh-40px)]">
                 <p class="text-2xl sm:text-4xl mb-6 font-semibold">บอร์ดคะแนน</p>
                 <div class="w-full flex justify-between items-center">
                     <div class="w-[80px] h-[80px] border-2 border-white rounded-full flex justify-center items-center relative">
@@ -29,17 +29,17 @@
                         <div class="text-xl absolute bottom-0 translate-y-12">{{thirdPoint}}</div>
                     </div>
                 </div>
-                <div class="w-full h-[40vh] bg-white opacity-80 m-4 rounded-xl overflow-y-auto flex justify-center items-center">
-                    <div *ngIf="currentDate >= scoreDate" class="text-2xl">ประกาศรางวัลหลัง 20.00 น.</div>
-                    <div class="p-4" *ngIf="currentDate < scoreDate">
-                        <h2 class="text-2xl font-bold mb-2">🏆 อันดับคะแนนสูงสุด</h2>
-                        <ul class="space-y-2">
+                <div class="w-full h-[40vh] bg-white opacity-80 m-4 rounded-xl p-4 flex flex-col">
+                    <div *ngIf="currentDate < scoreDate" class="w-full h-full flex flex-col">
+
+                        <h2 class="text-2xl font-bold mb-2 sticky top-0 bg-white z-10">🏆 อันดับคะแนนสูงสุด</h2>
+                        <ul class="space-y-2 overflow-y-auto max-h-full pr-2">
                             <li *ngFor="let user of pagedUsers(); let i = index" [ngClass]="{
-                    'bg-white border-2 border-pink-500': user.username === myName,
-                    'bg-yellow-300': (i + (currentPage - 1) * itemsPerPage) === 0,
-                    'bg-gray-200': (i + (currentPage - 1) * itemsPerPage) === 1,
-                    'bg-orange-200': (i + (currentPage - 1) * itemsPerPage) === 2
-                }" class="flex justify-between items-center px-4 py-2 rounded-md text-xl" [attr.id]="user.username === myName ? 'myUserItem' : null">
+                'bg-white border-2 border-pink-500': user.username === myName,
+                'bg-yellow-300': (i + (currentPage - 1) * itemsPerPage) === 0,
+                'bg-gray-200': (i + (currentPage - 1) * itemsPerPage) === 1,
+                'bg-orange-200': (i + (currentPage - 1) * itemsPerPage) === 2
+            }" class="flex justify-between items-center px-4 py-2 rounded-md text-xl" [attr.id]="user.username === myName ? 'myUserItem' : null">
                                 <span>{{ (i + 1) + (currentPage - 1) * itemsPerPage }}. {{ user.username }}</span>
                                 <span>{{ user.score }}</span>
                             </li>
@@ -64,6 +64,9 @@
                             </button>
                         </div>
                     </div>
+                    <div *ngIf="currentDate >= scoreDate" class="text-2xl text-center">
+                        ประกาศรางวัลหลัง 20.00 น.
+                    </div>
                 </div>
                 <button type="submit" class="w-full h-[50px] bg-[rgba(255,0,102,1)] text-white font-bold text-2xl rounded-full
                             shadow-[0_4px_0_0_rgba(0,0,0,0.4),_inset_0_-4px_0_0_rgba(0,0,0,0.4)]
@@ -75,3 +78,18 @@
         </div>
     </div>
 </div>
+<!-- <div class="flex justify-center items-center mt-4 gap-4">
+                            <button (click)="prevPage()" [disabled]="currentPage === 1"
+                                class="w-10 h-10 flex items-center justify-center rounded-full bg-white border border-yellow-400 text-yellow-500 disabled:opacity-30 disabled:cursor-not-allowed">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                                </svg>
+                            </button>
+                            <span class="text-lg font-medium text-gray-700">หน้า {{ currentPage }} / {{ totalPages }}</span>
+                            <button (click)="nextPage()" [disabled]="currentPage === totalPages"
+                                class="w-10 h-10 flex items-center justify-center rounded-full bg-white border border-yellow-400 text-yellow-500 disabled:opacity-30 disabled:cursor-not-allowed">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </button>
+                        </div> -->
