@@ -70,7 +70,7 @@ export class GameCondition {
             queryParams: { email: this.user.email, type: 'register' },
           });
         } else {
-          console.error('❌ Register error:', res.message);
+          console.error('❌ Game Conditon error:', res.message);
           Swal.fire({
             position: 'top-end',
             icon: 'error',
@@ -81,7 +81,7 @@ export class GameCondition {
         }
       },
       error: (err) => {
-        console.error('❌ Register error:', err);
+        console.error('❌ Game Conditon error:', err);
         Swal.fire({
           position: 'top-end',
           icon: 'error',

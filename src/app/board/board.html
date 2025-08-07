@@ -30,7 +30,7 @@
                     </div>
                 </div>
                 <div class="w-full h-[40vh] bg-white opacity-80 m-4 rounded-xl p-4 flex flex-col">
-                    <div *ngIf="currentDate < scoreDate" class="w-full h-full flex flex-col">
+                    <div *ngIf="currentDate > scoreDate" class="w-full h-full flex flex-col">
 
                         <h2 class="text-2xl font-bold mb-2 sticky top-0 bg-white z-10">🏆 อันดับคะแนนสูงสุด</h2>
                         <ul class="space-y-2 overflow-y-auto max-h-full pr-2">
@@ -64,7 +64,7 @@
                             </button>
                         </div>
                     </div>
-                    <div *ngIf="currentDate >= scoreDate" class="text-2xl text-center">
+                    <div *ngIf="currentDate <= scoreDate" class="text-2xl text-center">
                         ประกาศรางวัลหลัง 20.00 น.
                     </div>
                 </div>

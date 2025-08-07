@@ -3,6 +3,9 @@ import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule, Location } from '@angular/common';
 import { AuthTokenService } from '../../component/auth-token.service';
+import { BoardService } from '../../services/board-service';
+import { NgZone } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-board',
@@ -15,33 +18,15 @@ export class Board {
   constructor(
     private router: Router,
     private location: Location,
-    private authTokenService: AuthTokenService
+    private authTokenService: AuthTokenService,
+    private board: BoardService,
+    private zone: NgZone,
+    private cdr: ChangeDetectorRef
   ) {
     this.location.replaceState('');
   }
   @ViewChildren('myUserEl') userElements!: QueryList<ElementRef>;
-  topUsers = [
-    { username: 'สมชาย', score: 1200, date: new Date('2025-08-01') },
-    { username: 'สมชาย', score: 1000, date: new Date('2025-08-02') },
-    { username: 'สมชาย', score: 1150, date: new Date('2025-08-03') },
-    { username: 'สมชาย', score: 1150, date: new Date('2025-08-04') },
-    { username: 'สมชาย', score: 1000, date: new Date('2025-08-05') },
-    { username: 'สมหมาย', score: 500, date: new Date('2025-08-01') },
-    { username: 'สมหมาย', score: 1001, date: new Date('2025-08-02') },
-    { username: 'สมหมาย', score: 1150, date: new Date('2025-08-03') },
-    { username: 'สมหมาย', score: 1150, date: new Date('2025-08-04') },
-    { username: 'สมหมาย', score: 900, date: new Date('2025-08-05') },
-    { username: 'Apichat', score: 300, date: new Date('2025-08-01') },
-    { username: 'Apichat', score: 1200, date: new Date('2025-08-02') },
-    { username: 'Apichat', score: 1150, date: new Date('2025-08-03') },
-    { username: 'Apichat', score: 1150, date: new Date('2025-08-04') },
-    { username: 'Apichat', score: 700, date: new Date('2025-08-05') },
-    { username: 'Jhon', score: 1150, date: new Date('2025-08-01') },
-    { username: 'Jhon', score: 1150, date: new Date('2025-08-02') },
-    { username: 'Jhon', score: 1150, date: new Date('2025-08-03') },
-    { username: 'Jhon', score: 1150, date: new Date('2025-08-04') },
-    { username: 'Jhon', score: 400, date: new Date('2025-08-05') },
-  ];
+  topUsers: any[] = [];
   filteredSortedUsers: any[] = [];
   myName = 'Apichat';
   currentPage = 1;
@@ -57,23 +42,43 @@ export class Board {
   secondPoint: number = 0;
   thirdPoint: number = 0;
   totalPages = 5;
-  ngOnInit() {
-    this.scoreDate.setHours(20, 0, 0, 0);
-    console.log(this.scoreDate);
+
+  async ngOnInit() {
+    this.scoreDate.setHours(18, 0, 0, 0);
+    await this.getAllBoard(this.currentDate);
     this.updateUsersByDate();
   }
-
+  getAllBoard(date: Date): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.board.board({ date }).subscribe({
+        next: (res) => {
+          this.zone.run(() => {
+            this.topUsers = res || [];
+            this.updateUsersByDate(); // <-- ให้ Angular detect การเปลี่ยนแปลง
+          });
+          resolve();
+        },
+        error: (err) => {
+          console.error('❌ Game Start error:', err);
+          reject();
+        },
+      });
+    });
+  }
   updateUsersByDate() {
     this.filteredSortedUsers = this.topUsers
-      .filter((user) => this.isSameDate(user.date, this.currentDate))
+      // .filter((user) => this.isSameDate(user.date, this.currentDate))
       .sort((a, b) => b.score - a.score);
 
-    this.firstUsername = this.filteredSortedUsers[0]?.username || '';
-    this.secondUsername = this.filteredSortedUsers[1]?.username || '';
-    this.thirdUsername = this.filteredSortedUsers[2]?.username || '';
-    this.firstPoint = this.filteredSortedUsers[0]?.score || 0;
-    this.secondPoint = this.filteredSortedUsers[1]?.score || 0;
-    this.thirdPoint = this.filteredSortedUsers[2]?.score || 0;
+    if (new Date() >= this.scoreDate) {
+      this.firstUsername = this.filteredSortedUsers[0]?.username || '';
+      this.secondUsername = this.filteredSortedUsers[1]?.username || '';
+      this.thirdUsername = this.filteredSortedUsers[2]?.username || '';
+      this.firstPoint = this.filteredSortedUsers[0]?.score || 0;
+      this.secondPoint = this.filteredSortedUsers[1]?.score || 0;
+      this.thirdPoint = this.filteredSortedUsers[2]?.score || 0;
+      this.cdr.detectChanges();
+    }
   }
   ngAfterViewInit(): void {
     setTimeout(() => {
@@ -91,45 +96,33 @@ export class Board {
   }
 
   isSameDate(d1: Date, d2: Date): boolean {
+    if (!d1 || !d2) return false;
+
     return (
       d1.getFullYear() === d2.getFullYear() &&
       d1.getMonth() === d2.getMonth() &&
       d1.getDate() === d2.getDate()
     );
   }
-  // pagedUsers() {
-  //   const start = (this.currentPage - 1) * this.itemsPerPage;
-  //   const end = start + this.itemsPerPage;
-  //   return this.topUsers.slice(start, end);
-  // }
-  nextDate() {
+
+  async nextDate() {
     const next = new Date(this.currentDate);
     next.setDate(this.currentDate.getDate() + 1);
     if (next <= this.maxDate) {
       this.currentDate = next;
-      this.updateUsersByDate();
+      await this.getAllBoard(this.currentDate);
     }
   }
 
-  prevDate() {
+  async prevDate() {
     const prev = new Date(this.currentDate);
     prev.setDate(this.currentDate.getDate() - 1);
     if (prev >= this.minDate) {
       this.currentDate = prev;
-      this.updateUsersByDate();
+      await this.getAllBoard(this.currentDate);
     }
   }
-  // nextPage() {
-  //   if (this.currentPage < this.totalPages) {
-  //     this.currentPage++;
-  //   }
-  // }
 
-  // prevPage() {
-  //   if (this.currentPage > 1) {
-  //     this.currentPage--;
-  //   }
-  // }
   cancel(path: string) {
     this.router.navigate([path]);
   }

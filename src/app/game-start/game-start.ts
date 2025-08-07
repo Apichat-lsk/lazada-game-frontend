@@ -11,6 +11,10 @@ import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule, Location } from '@angular/common';
 import html2canvas from 'html2canvas';
+import { QuestionsService } from '../../services/questions-service';
+import { AuthService } from '../../services/auth-service';
+import { AuthTokenService } from '../../component/auth-token.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-game-start',
@@ -26,44 +30,58 @@ export class GameStart implements OnInit {
     private router: Router,
     private location: Location,
     private zone: NgZone,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private service: QuestionsService,
+    private authTokenService: AuthTokenService
   ) {
     this.location.replaceState('');
   }
+  userData: any = {};
+  email = '';
   countdown = 3;
   isGameStarted = false;
   currentDate = new Date();
   questionIndex = 0;
   currentQuestion: any = null;
-
-  questionTime = 10; // เวลาต่อคำถาม (วินาที)
+  questionTime = 10;
   timeLeft = this.questionTime;
   gameTimer: any;
   selectedAnswer: string | null = null;
   score = 0;
+  titleChoice = '';
   maxScorePerQuestion = 100;
   correctAnswers = 0;
-
-  questions = [
-    {
-      question: 'กรุงเทพฯ เป็นเมืองหลวงของประเทศใด?',
-      choices: ['ญี่ปุ่น', 'ไทย', 'จีน', 'เกาหลี'],
-      answer: 'ไทย',
-    },
-    {
-      question: 'สีน้ำเงินผสมกับสีเหลืองจะได้สีอะไร?',
-      choices: ['ส้ม', 'เขียว', 'ม่วง', 'ดำ'],
-      answer: 'เขียว',
-    },
-  ];
+  questions: any[] = [];
+  resultQuestions: any[] = [];
+  totalQuestionsArray: number[] = [];
+  resultAnswers: { [key: string]: boolean }[] = [];
 
   get totalQuestions(): number {
     return this.questions.length;
   }
 
-  ngOnInit() {
-    console.log('ngOnInit');
+  async ngOnInit() {
+    this.userData = this.authTokenService.decodeToken();
+    this.email = this.userData.email;
+    await this.getAllQuestions();
     this.startCountdown();
+  }
+  getAllQuestions(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.service.findAllQuestions().subscribe({
+        next: (res) => {
+          this.questions = res.data;
+          resolve();
+        },
+        error: (err) => {
+          console.error('❌ Game Start error:', err);
+          reject();
+        },
+      });
+    });
+  }
+  getChoiceLabel(index: number): string {
+    return String.fromCharCode(65 + index);
   }
   shuffleArray(array: any[]): any[] {
     return array
@@ -77,7 +95,6 @@ export class GameStart implements OnInit {
       this.zone.run(() => {
         this.countdown--;
         this.cd.detectChanges();
-        console.log('Countdown:', this.countdown); // ตรวจสอบค่าลดลงไหม
         if (this.countdown <= 0) {
           clearInterval(intervalId);
           this.startGame();
@@ -120,23 +137,45 @@ export class GameStart implements OnInit {
     }, 1000);
   }
 
-  selectAnswer(choice: string) {
+  selectAnswer(choice: string, index: number) {
     clearInterval(this.gameTimer);
     this.selectedAnswer = choice;
+    const titleChoice = String.fromCharCode(65 + index);
+    const questionNumber = this.questionIndex + 1;
     if (choice === this.currentQuestion.answer) {
       const gainedScore =
         (this.timeLeft / this.questionTime) * this.maxScorePerQuestion;
-      this.score += Math.round(gainedScore);
-      this.correctAnswers++;
-      console.log(`ถูกต้อง! คุณได้ ${Math.round(gainedScore)} คะแนน`);
+      // this.score += Math.round(gainedScore);
+      // this.correctAnswers++;
+      this.resultQuestions.push({
+        id: this.currentQuestion.id,
+        user_id: this.userData.uid,
+        questionsNumber: questionNumber,
+        questions: this.currentQuestion.question,
+        titleChoice: titleChoice,
+        inputAnswer: choice,
+        score: Math.round(gainedScore),
+        time: this.timeLeft,
+      });
+      // console.log(`ถูกต้อง! คุณได้ ${Math.round(gainedScore)} คะแนน`);
     } else {
-      console.log('ผิด!');
+      // console.log('ผิด!');
+      this.resultQuestions.push({
+        id: this.currentQuestion.id,
+        user_id: this.userData.uid,
+        questionsNumber: questionNumber,
+        questions: this.currentQuestion.question,
+        titleChoice: titleChoice,
+        inputAnswer: choice,
+        score: 0,
+        time: this.timeLeft,
+      });
     }
 
     this.nextQuestion();
   }
 
-  nextQuestion() {
+  async nextQuestion() {
     this.questionIndex++;
     if (this.questionIndex < this.questions.length) {
       this.currentQuestion = this.questions[this.questionIndex];
@@ -144,14 +183,39 @@ export class GameStart implements OnInit {
       this.cd.detectChanges();
       this.startTimer();
     } else {
-      this.endGame();
+      await this.endGame();
     }
   }
+  getResultStatus(index: number): boolean {
+    const item = this.resultAnswers[index];
+    if (!item) return false;
+    const key = Object.keys(item)[0];
+    return item[key] === true;
+  }
+  getKeys(obj: object): string[] {
+    return Object.keys(obj);
+  }
+  async endGame() {
+    return new Promise((resolve, reject) => {
+      this.zone.run(() => {
+        this.currentQuestion = null;
+        this.isGameStarted = false;
+        this.service.answer({ input: this.resultQuestions }).subscribe({
+          next: (res) => {
+            this.resultAnswers = [...res.answerList]; // เปลี่ยน reference array
+            this.score = res.score;
+            this.correctAnswers = res.correct;
 
-  endGame() {
-    this.currentQuestion = null;
-    this.isGameStarted = false;
-    this.cd.detectChanges();
+            this.cd.detectChanges();
+            resolve(true);
+          },
+          error: (err) => {
+            console.error('❌ Game Start error:', err);
+            reject(err);
+          },
+        });
+      });
+    });
   }
   capture() {
     if (!this.captureArea) return;
@@ -163,6 +227,69 @@ export class GameStart implements OnInit {
       link.click();
     });
   }
+  pressTimer: any;
+
+  startPress() {
+    // เริ่มจับเวลากดค้าง 800ms
+    this.pressTimer = setTimeout(() => {
+      this.handleLongPress();
+    }, 800);
+  }
+
+  endPress() {
+    if (this.pressTimer) {
+      clearTimeout(this.pressTimer);
+      this.pressTimer = null;
+    }
+  }
+
+  handleLongPress() {
+    // ตัวอย่าง: เรียกฟังก์ชันบันทึกภาพ หรือ แชร์ภาพ
+    this.captureAndShare();
+  }
+
+  captureAndShare() {
+    const container = document.querySelector(
+      '.relative.inline-block'
+    ) as HTMLElement;
+    if (!container) return;
+
+    import('html2canvas').then(({ default: html2canvas }) => {
+      html2canvas(container).then((canvas) => {
+        canvas.toBlob((blob) => {
+          if (!blob) return;
+          const file = new File([blob], 'certificate.png', {
+            type: 'image/png',
+          });
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            navigator
+              .share({
+                files: [file],
+                title: 'Certificate',
+                text: 'แชร์ใบประกาศของฉัน',
+              })
+              .catch((err) => {
+                console.error('แชร์ไม่สำเร็จ', err);
+              });
+          } else {
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(file);
+            link.download = 'certificate.png';
+            link.click();
+            URL.revokeObjectURL(link.href);
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: 'บันทึกรูปภาพเรียบร้อย',
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
+        });
+      });
+    });
+  }
+
   Direct(path: string) {
     this.router.navigate([path]);
   }
