@@ -192,9 +192,13 @@ export class GameStart implements OnInit {
     const key = Object.keys(item)[0];
     return item[key] === true;
   }
-  getKeys(obj: object): string[] {
-    return Object.keys(obj);
+  getValue(index: number): string {
+    const item = this.resultAnswers[index];
+    if (!item) return '';
+    const key = Object.keys(item)[0];
+    return key;
   }
+
   async endGame() {
     return new Promise((resolve, reject) => {
       this.zone.run(() => {

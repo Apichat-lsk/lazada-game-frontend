@@ -44,7 +44,7 @@ export class Board {
   totalPages = 5;
 
   async ngOnInit() {
-    this.scoreDate.setHours(18, 0, 0, 0);
+    this.scoreDate.setHours(20, 0, 0, 0);
     await this.getAllBoard(this.currentDate);
     this.updateUsersByDate();
   }
@@ -108,19 +108,23 @@ export class Board {
   async nextDate() {
     const next = new Date(this.currentDate);
     next.setDate(this.currentDate.getDate() + 1);
-    if (next <= this.maxDate) {
-      this.currentDate = next;
-      await this.getAllBoard(this.currentDate);
-    }
+    this.scoreDate = new Date(next.setHours(20, 0, 0, 0));
+    // if (next <= this.maxDate) {
+    this.currentDate = next;
+    await this.getAllBoard(this.currentDate);
+    this.cdr.detectChanges();
+    // }
   }
 
   async prevDate() {
     const prev = new Date(this.currentDate);
     prev.setDate(this.currentDate.getDate() - 1);
-    if (prev >= this.minDate) {
-      this.currentDate = prev;
-      await this.getAllBoard(this.currentDate);
-    }
+    this.scoreDate = new Date(prev.setHours(20, 0, 0, 0));
+    // if (prev >= this.minDate) {
+    this.currentDate = prev;
+    await this.getAllBoard(this.currentDate);
+    this.cdr.detectChanges();
+    // }
   }
 
   cancel(path: string) {

@@ -32,7 +32,7 @@
             <div class="mb-2 text-5xl">🎉 เกมจบแล้ว!</div>
             <div *ngIf="resultAnswers?.length " class="flex flex-col gap-3 items-center my-4">
                 <div *ngFor="let result of resultAnswers; let i = index" class="flex items-center gap-3">
-                    <span class="text-3xl">ข้อ {{ i + 1 }}:</span>
+                    <span class="text-3xl">ข้อ {{ i + 1 }}: {{getValue(i)}}</span>
                     <img [src]="getResultStatus(i) ? '/assets/images/correct.png' : '/assets/images/wrong.png'" class="w-10 h-10" />
                 </div>
             </div>
