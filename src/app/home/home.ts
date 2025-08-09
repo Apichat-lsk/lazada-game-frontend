@@ -1,17 +1,48 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule, Location } from '@angular/common';
+import { GameService } from '../../services/game-service';
+import { AuthTokenService } from '../../component/auth-token.service';
+import { NgZone } from '@angular/core';
 
 @Component({
   selector: 'app-home',
+  standalone: true,
   imports: [FormsModule, CommonModule, RouterModule],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
-export class Home {
-  constructor(private router: Router, private location: Location) {
+export class Home implements OnInit {
+  constructor(
+    private router: Router,
+    private location: Location,
+    private gameService: GameService,
+    private decodeToken: AuthTokenService,
+    private cd: ChangeDetectorRef,
+    private zone: NgZone
+  ) {
     this.location.replaceState('');
+  }
+
+  checkGameToday = true;
+
+  ngOnInit(): void {
+    this.gameService
+      .checkGameDate({ userId: this.decodeToken.decodeToken()?.uid })
+      .subscribe({
+        next: (res) => {
+          if (!res) {
+            this.zone.run(() => {
+              this.checkGameToday = false;
+              this.cd.detectChanges();
+            });
+          }
+        },
+        error: (err) => {
+          console.error('❌ Game Start error:', err);
+        },
+      });
   }
 
   Direct(path: string) {

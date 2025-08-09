@@ -5,6 +5,7 @@ export const API = {
   LOGIN: `${URL}/api/auth/login`,
   CHANGE_PASSWORD: `${URL}/api/auth/change-password`,
   SEND_OTP: `${URL}/api/otp/send`,
+  SEND_OTP_AGAIN: `${URL}/api/otp/send-otp-again`,
   VERIFY_OTP: `${URL}/api/otp/verify`,
   GET_OTP: `${URL}/api/otp/get`,
   FORGOT_PASSWORD_VERIFY_OTP: `${URL}/api/otp/verify-otp-forgot-password`,
@@ -12,4 +13,5 @@ export const API = {
   QUESTIONS: `${URL}/api/question`,
   ANSWER: `${URL}/api/question`,
   BOARD: `${URL}/api/board`,
+  CHECK_GAME_DATE: `${URL}/api/game/check-game-date`,
 };

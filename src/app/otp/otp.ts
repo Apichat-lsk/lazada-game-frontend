@@ -32,9 +32,14 @@ import Swal from 'sweetalert2';
 export class Otp implements OnInit, OnDestroy {
   otpForm!: FormGroup;
   isMatched = false;
+  isTime = false;
   private email: string = '';
   private type: string = '';
   private pathUrl: string = '';
+  // นับเวลาถอยหลัง 5 นาที = 300 วินาที
+  totalSeconds = 300;
+  displayMinutes = '05';
+  displaySeconds = '00';
 
   constructor(
     private otp: OtpService,
@@ -84,6 +89,16 @@ export class Otp implements OnInit, OnDestroy {
 
   private timerSubscription?: Subscription;
 
+  ngOnInit() {
+    this.totalSeconds = 300; // หรือ 300 ตาม requirement
+    this.startTimer();
+  }
+
+  ngOnDestroy() {
+    this.timerSubscription?.unsubscribe();
+    this.isTime = true;
+  }
+
   onInput(event: Event, index: number): void {
     const input = event.target as HTMLInputElement;
     const value = input.value;
@@ -106,13 +121,40 @@ export class Otp implements OnInit, OnDestroy {
       this.isMatched = this.otpForm.valid;
     });
   }
+  startTimer() {
+    this.isTime = false;
+    this.timerSubscription?.unsubscribe();
 
-  // onInput(event: Event, index: number) {
-  //   const input = event.target as HTMLInputElement;
-  //   if (input.value.length === 1 && index < this.otpInputs.length - 1) {
-  //     this.otpInputs.toArray()[index + 1].nativeElement.focus();
-  //   }
-  // }
+    this.timerSubscription = interval(1000).subscribe(() => {
+      if (this.totalSeconds > 0) {
+        this.totalSeconds--;
+        const minutes = Math.floor(this.totalSeconds / 60);
+        const seconds = this.totalSeconds % 60;
+        this.displayMinutes = minutes < 10 ? '0' + minutes : '' + minutes;
+        this.displaySeconds = seconds < 10 ? '0' + seconds : '' + seconds;
+        this.cdr.detectChanges();
+      } else {
+        this.isTime = true;
+        this.timerSubscription?.unsubscribe();
+        this.cdr.detectChanges();
+      }
+    });
+  }
+  requestOtpAgain() {
+    this.totalSeconds = 300;
+    this.otp.sendAgain({ email: this.email }).subscribe({
+      next: (res) => {
+        if (res.check == true) {
+        } else {
+          console.error('❌ Game Conditon error:', res.message);
+        }
+      },
+      error: (err) => {
+        console.error('❌ Game Conditon error:', err);
+      },
+    });
+    this.startTimer();
+  }
   onPaste(event: ClipboardEvent) {
     event.preventDefault();
 
@@ -157,31 +199,6 @@ export class Otp implements OnInit, OnDestroy {
 
   get isOtpTouchedAndInvalid() {
     return this.otpForm.invalid && this.digits.some((d) => d?.touched);
-  }
-
-  // นับเวลาถอยหลัง 5 นาที = 300 วินาที
-  totalSeconds = 300;
-  displayMinutes = '05';
-  displaySeconds = '00';
-
-  ngOnInit() {
-    this.timerSubscription = interval(1000).subscribe(() => {
-      if (this.totalSeconds > 0) {
-        this.totalSeconds--;
-        const minutes = Math.floor(this.totalSeconds / 60);
-        const seconds = this.totalSeconds % 60;
-        this.displayMinutes = minutes < 10 ? '0' + minutes : '' + minutes;
-        this.displaySeconds = seconds < 10 ? '0' + seconds : '' + seconds;
-
-        this.cdr.detectChanges(); // <-- ตรงนี้
-      } else {
-        this.timerSubscription?.unsubscribe();
-      }
-    });
-  }
-
-  ngOnDestroy() {
-    this.timerSubscription?.unsubscribe();
   }
 
   onSubmit() {

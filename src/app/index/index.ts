@@ -18,10 +18,18 @@ export class Index {
   ) {
     this.location.replaceState('');
   }
+
+  currentDate = new Date();
+  gameEndDate = new Date(new Date().setDate(15));
+
   ngOnInit(): void {
     const token = this.authTokenService.getToken();
     if (token && this.isTokenValid(token)) {
-      this.router.navigate(['/home']);
+      if (this.currentDate >= this.gameEndDate) {
+        this.router.navigate(['/thankyou']);
+      } else {
+        this.router.navigate(['/home']);
+      }
     }
   }
 

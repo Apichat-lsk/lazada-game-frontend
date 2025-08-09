@@ -12,6 +12,9 @@ export class OtpService {
   send(data: any): Observable<any> {
     return this.http.post(API.SEND_OTP, data);
   }
+  sendAgain(data: any): Observable<any> {
+    return this.http.post(API.SEND_OTP_AGAIN, data);
+  }
   verify(data: any): Observable<any> {
     return this.http.post(API.VERIFY_OTP, data);
   }

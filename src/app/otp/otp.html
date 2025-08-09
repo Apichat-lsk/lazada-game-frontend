@@ -8,27 +8,27 @@
                 </svg>
             </button>
         </div>
-        <div class="w-full flex flex-col items-center justify-center">
-            <p class="text-2xl sm:text-4xl mb-6 font-semibold">กรุณายืนยัน OTP</p>
+        <div class="w-full flex flex-col">
+            <p class="text-2xl sm:text-4xl mb-6 font-semibold">กรอกรหัส OTP</p>
             <form [formGroup]="otpForm" (ngSubmit)="onSubmit()" autocomplete="one-time-code" class="w-full max-w-md flex flex-col items-center space-y-6">
                 <div class="flex justify-between w-full">
-                    <input type="text" #otpInput0 (keydown)="onKeyDown($event, 0)" maxlength="1" inputmode="numeric" pattern="[0-9]*" formControlName="digit1"
+                    <input type="tel" #otpInput0 (keydown)="onKeyDown($event, 0)" maxlength="1" inputmode="numeric" pattern="[0-9]*" formControlName="digit1"
                         (input)="onInput($event, 0)" (paste)="onPaste($event)"
                         class="w-12 h-12 text-center text-xl border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                         [class.border-red-500]="digits[0]?.invalid && digits[0]?.touched" autocomplete="one-time-code" />
-                    <input type="text" #otpInput1 (keydown)="onKeyDown($event, 1)" maxlength="1" inputmode="numeric" pattern="[0-9]*" formControlName="digit2"
+                    <input type="tel" #otpInput1 (keydown)="onKeyDown($event, 1)" maxlength="1" inputmode="numeric" pattern="[0-9]*" formControlName="digit2"
                         (input)="onInput($event, 1)" class="w-12 h-12 text-center text-xl border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                         [class.border-red-500]="digits[1]?.invalid && digits[1]?.touched" autocomplete="one-time-code" />
-                    <input type="text" #otpInput2 (keydown)="onKeyDown($event, 2)" maxlength="1" inputmode="numeric" pattern="[0-9]*" formControlName="digit3"
+                    <input type="tel" #otpInput2 (keydown)="onKeyDown($event, 2)" maxlength="1" inputmode="numeric" pattern="[0-9]*" formControlName="digit3"
                         (input)="onInput($event, 2)" class="w-12 h-12 text-center text-xl border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                         [class.border-red-500]="digits[2]?.invalid && digits[2]?.touched" autocomplete="one-time-code" />
-                    <input type="text" #otpInput3 (keydown)="onKeyDown($event, 3)" maxlength="1" inputmode="numeric" pattern="[0-9]*" formControlName="digit4"
+                    <input type="tel" #otpInput3 (keydown)="onKeyDown($event, 3)" maxlength="1" inputmode="numeric" pattern="[0-9]*" formControlName="digit4"
                         (input)="onInput($event, 3)" class="w-12 h-12 text-center text-xl border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                         [class.border-red-500]="digits[3]?.invalid && digits[3]?.touched" autocomplete="one-time-code" />
-                    <input type="text" #otpInput4 (keydown)="onKeyDown($event, 4)" maxlength="1" inputmode="numeric" pattern="[0-9]*" formControlName="digit5"
+                    <input type="tel" #otpInput4 (keydown)="onKeyDown($event, 4)" maxlength="1" inputmode="numeric" pattern="[0-9]*" formControlName="digit5"
                         (input)="onInput($event, 4)" class="w-12 h-12 text-center text-xl border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                         [class.border-red-500]="digits[4]?.invalid && digits[4]?.touched" autocomplete="one-time-code" />
-                    <input type="text" #otpInput5 (keydown)="onKeyDown($event, 5)" maxlength="1" inputmode="numeric" pattern="[0-9]*" formControlName="digit6"
+                    <input type="tel" #otpInput5 (keydown)="onKeyDown($event, 5)" maxlength="1" inputmode="numeric" pattern="[0-9]*" formControlName="digit6"
                         (input)="onInput($event, 5)" class="w-12 h-12 text-center text-xl border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                         [class.border-red-500]="digits[5]?.invalid && digits[5]?.touched" autocomplete="one-time-code" />
                 </div>
@@ -38,8 +38,14 @@
                         กรุณากรอก OTP ให้ครบถ้วนและถูกต้อง
                     </p>
                 </div>
-                <div class="mt-4 text-center text-gray-700 font-semibold">
-                    เวลาที่เหลือ: {{ displayMinutes }}:{{ displaySeconds }}
+                <div *ngIf="!isTime" class="mt-4 text-center text-gray-700 font-semibold flex items-center justify-center gap-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v6h6M20 20v-6h-6M5 19a9 9 0 0014-7V9M19 5a9 9 0 00-14 7v3" />
+                    </svg>
+                    ขอ OTP ใหม่ ได้ในอีก <span class="text-red-500">{{ displaySeconds }} วินาที</span>
+                </div>
+                <div *ngIf="isTime" class="text-blue-500 cursor-pointer" (click)="requestOtpAgain()">
+                    ขอ OTP อีกครั้ง
                 </div>
                 <button type="submit" [ngClass]="{
     'bg-[rgba(255,0,102,1)]': isMatched,

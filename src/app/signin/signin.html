@@ -12,7 +12,7 @@
             <p class="text-2xl sm:text-4xl mb-6 font-bold">เข้าสู่ระบบ</p>
             <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="w-full bg-white p-6 rounded-lg  space-y-6" novalidate>
                 <div>
-                    <label for="username" class="block mb-2 font-semibold text-gray-700 text-2xl">ชื่อผู้ใช้ หรือ อีเมล์</label>
+                    <label for="username" class="block mb-2 font-semibold text-gray-700 text-2xl">ชื่อผู้ใช้ หรือ อีเมล</label>
                     <input id="username" type="text" formControlName="username" placeholder="กรอกชื่อผู้ใช้งาน"
                         class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 text-xl focus:ring-blue-400"
                         [class.border-red-500]="signupForm.get('username')?.invalid && signupForm.get('username')?.touched" />

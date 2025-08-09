@@ -4,6 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { CommonModule, Location } from '@angular/common';
 import { OtpService } from '../../services/otp-service';
 import { UserTransferService } from '../signup/user-transfer.service';
+import { GameService } from '../../services/game-service';
 
 @Component({
   selector: 'app-game-rules',
@@ -15,29 +16,38 @@ import { UserTransferService } from '../signup/user-transfer.service';
 export class GameRules {
   showSlides = true;
   currentSlide = 0;
+  canAcknowledge = false;
 
   constructor(
     private otp: OtpService,
     private router: Router,
     private location: Location,
-    private userTransferService: UserTransferService
+    private userTransferService: UserTransferService,
+    private gameService: GameService
   ) {
     this.location.replaceState('');
   }
   slides = [
     {
       img: 'https://images.pexels.com/photos/260024/pexels-photo-260024.jpeg?auto=compress&cs=tinysrgb&w=600',
-      caption: '1. อ่านเงื่อนไขและกดเริ่มเล่นเกมส์',
+      title: 'เมื่อกดเริ่มเกม',
+      caption:
+        '1. ระบบจะนับถอยหลัง 5 วินาที จากนั้นผู้ใช้งานเลือกคำตอบที่ถูกต้อง',
     },
     {
       img: 'https://images.pexels.com/photos/1670977/pexels-photo-1670977.jpeg?auto=compress&cs=tinysrgb&w=600',
-      caption: '2. ตอบคำถามให้ถูกอย่างน้อย 4 ข้อจากทั้งหมด 5 ข้อ',
+      title: 'แต่ละคำถาม 10 วินาที',
+      caption: '2. ผู้ที่ตอบถูกและไวที่สุดจะได้คะแนนมาก',
     },
     {
       img: 'https://images.pexels.com/photos/442576/pexels-photo-442576.jpeg?auto=compress&cs=tinysrgb&w=600',
-      caption: '3. ถ้าสอบผ่านจะได้รับใบประกาศนียบัตร',
+      title: 'ยิ่งตอบไวยิ่งได้คะแนนมาก',
+      caption:
+        '3. ตอบถูก 4 ข้อขึ้นไป ได้รับใบรับรอง ถ้าตอบถูกน้อยกว่า 4 ข้อ สามารถเล่นใหม่อีกครั้งในวันถัดไป',
     },
   ];
+
+  ngOnInit(): void {}
 
   nextSlide() {
     if (this.currentSlide < this.slides.length - 1) {
@@ -51,12 +61,18 @@ export class GameRules {
     }
   }
 
-  // Direct(path: string) {
-  //   this.router.navigate([path]);
-  // }
+  onScroll(event: Event) {
+    const target = event.target as HTMLElement;
+    const isBottom =
+      target.scrollTop + target.clientHeight >= target.scrollHeight - 20;
+
+    this.canAcknowledge = isBottom;
+  }
 
   acknowledge() {
-    this.router.navigate(['/recaptcha']);
+    if (this.canAcknowledge) {
+      this.router.navigate(['/recaptcha']);
+    }
   }
   goBack(): void {
     this.router.navigate(['/home']);

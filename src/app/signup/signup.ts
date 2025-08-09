@@ -41,6 +41,10 @@ export class Signup {
         Validators.required,
         Validators.pattern(/^[ก-๏A-Za-z\s]+$/),
       ]),
+      address: new FormControl('Bankok', [
+        Validators.required,
+        Validators.pattern(/^[ก-๏A-Za-z\s]+$/),
+      ]),
       password: new FormControl('123456', [
         Validators.required,
         Validators.pattern(/^[ก-๏A-Za-z0-9\s!@#$%^&*]{6,}$/),
@@ -63,46 +67,77 @@ export class Signup {
         !!this.signupForm.get('password')?.valid &&
         !!this.signupForm.get('email')?.valid &&
         !!this.signupForm.get('tel')?.valid &&
+        !!this.signupForm.get('address')?.valid &&
         !!this.signupForm.get('fullname')?.valid;
     });
   }
 
   onSubmit() {
     if (this.signupForm.valid) {
-      this.otp.send(this.signupForm.value).subscribe({
-        next: (res) => {
-          if (res.check == true) {
-            Swal.fire({
-              position: 'top-end',
-              icon: 'success',
-              title: res.message,
-              showConfirmButton: false,
-              timer: 1500,
-            });
-            this.userTransferService.userData = this.signupForm.value;
-            this.router.navigate(['/condition']);
-            this.signupForm.reset();
-          } else {
-            console.error('❌ Register error:', res.message);
-            Swal.fire({
-              position: 'top-end',
-              icon: 'error',
-              title: res.message,
-              showConfirmButton: false,
-              timer: 1500,
-            });
-          }
+      Swal.fire({
+        title: 'ยืนยันการสมัคร?',
+        text: 'ระบบไม่สามารถกลับไปแก้ไขข้อมูลได้ กรุณาตรวจสอบข้อมูลให้ถูกต้องก่อนกดปุ่ม “ตกลง”',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'ตกลง',
+        cancelButtonText: 'ยกเลิก',
+        customClass: {
+          popup: 'p-6', // กรณีอยากปรับ padding เพิ่ม
+          actions: 'flex justify-center gap-4', // container ปุ่ม: แสดงเป็น flex แนวนอน ห่างกัน 1rem
+          confirmButton: `
+      bg-[rgba(255,0,102,1)] w-36 h-[50px] text-white font-bold text-2xl rounded-full
+      shadow-[0_4px_0_0_rgba(0,0,0,0.4),_inset_0_-4px_0_0_rgba(0,0,0,0.4)]
+      active:shadow-[0_0px_0_0_rgba(0,0,0,0.4),_inset_0_4px_0_0_rgba(0,0,0,0.4)]
+      transition duration-150 hover:brightness-110 cursor-pointer
+    `
+            .replace(/\s+/g, ' ')
+            .trim(),
+          cancelButton: `
+      bg-gray-400 w-36 h-[50px] text-white font-bold text-2xl rounded-full
+      transition duration-150 hover:bg-gray-500 cursor-pointer
+    `
+            .replace(/\s+/g, ' ')
+            .trim(),
         },
-        error: (err) => {
-          console.error('❌ Register error:', err);
-          Swal.fire({
-            position: 'top-end',
-            icon: 'error',
-            title: err.error,
-            showConfirmButton: false,
-            timer: 1500,
+        buttonsStyling: false,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.otp.send(this.signupForm.value).subscribe({
+            next: (res) => {
+              if (res.check == true) {
+                Swal.fire({
+                  position: 'top-end',
+                  icon: 'success',
+                  title: res.message,
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+                this.userTransferService.userData = this.signupForm.value;
+                this.router.navigate(['/condition']);
+                this.signupForm.reset();
+              } else {
+                console.error('❌ Register error:', res.message);
+                Swal.fire({
+                  position: 'top-end',
+                  icon: 'error',
+                  title: res.message,
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+              }
+            },
+            error: (err) => {
+              console.error('❌ Register error:', err);
+              Swal.fire({
+                position: 'top-end',
+                icon: 'error',
+                title: err.error,
+                showConfirmButton: false,
+                timer: 1500,
+              });
+            },
           });
-        },
+        }
       });
     } else {
       this.signupForm.markAllAsTouched();

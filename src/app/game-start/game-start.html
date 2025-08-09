@@ -46,10 +46,10 @@
       shadow-[0_4px_0_0_rgba(0,0,0,0.4),_inset_0_-4px_0_0_rgba(0,0,0,0.4)]
       active:shadow-[0_0px_0_0_rgba(0,0,0,0.4),_inset_0_4px_0_0_rgba(0,0,0,0.4)]
       transition duration-150 hover:brightness-110 cursor-pointer" (click)="Direct('board')">
-                บอร์ดคะแนน
+                LeaderBoard
             </button>
         </div>
-        <div *ngIf="!isGameStarted && countdown === 0 && !currentQuestion && correctAnswers == totalQuestions" class="text-white text-center text-2xl mt-6">
+        <div *ngIf="!isGameStarted && countdown === 0 && !currentQuestion && correctAnswers >= totalQuestions-1" class="text-white text-center text-2xl mt-6">
             <div class="mb-2">🎉 เกมจบแล้ว!</div>
             <div>ยินดีด้วย! คุณสอบผ่าน!</div>
             <div>คะแนนรวม: {{ score }} / {{ totalQuestions * maxScorePerQuestion }}</div>
@@ -78,10 +78,9 @@
                             shadow-[0_4px_0_0_rgba(0,0,0,0.4),_inset_0_-4px_0_0_rgba(0,0,0,0.4)]
                             active:shadow-[0_0px_0_0_rgba(0,0,0,0.4),_inset_0_4px_0_0_rgba(0,0,0,0.4)]
                             transition duration-150 hover:brightness-110 cursor-pointer" (click)="Direct('board')">
-                    บอร์ดคะแนน
+                    LeaderBoard
                 </button>
             </div>
         </div>
-
     </div>
 </div>

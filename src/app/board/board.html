@@ -31,41 +31,48 @@
                 </div>
                 <div class="w-full h-[40vh] bg-white opacity-80 m-4 rounded-xl p-4 flex flex-col">
                     <div *ngIf="currentDate >= scoreDate" class="w-full h-full flex flex-col">
+                        <div class="flex items-center justify-center">
+                            <h2 class="text-2xl font-bold mb-2 sticky top-0 bg-white z-10">🏆 อันดับคะแนนสูงสุด</h2>
 
-                        <h2 class="text-2xl font-bold mb-2 sticky top-0 bg-white z-10">🏆 อันดับคะแนนสูงสุด</h2>
+                        </div>
                         <ul class="space-y-2 overflow-y-auto max-h-full pr-2">
                             <li *ngFor="let user of pagedUsers(); let i = index" [ngClass]="{
-                'bg-white border-2 border-pink-500': user.username === myName,
-                'bg-yellow-300': (i + (currentPage - 1) * itemsPerPage) === 0,
-                'bg-gray-200': (i + (currentPage - 1) * itemsPerPage) === 1,
-                'bg-orange-200': (i + (currentPage - 1) * itemsPerPage) === 2
-            }" class="flex justify-between items-center px-4 py-2 rounded-md text-xl" [attr.id]="user.username === myName ? 'myUserItem' : null">
+                            'bg-white border-2 border-pink-500': user.username === myName,
+                            'bg-yellow-300': (i + (currentPage - 1) * itemsPerPage) === 0,
+                            'bg-gray-200': (i + (currentPage - 1) * itemsPerPage) === 1,
+                            'bg-orange-200': (i + (currentPage - 1) * itemsPerPage) === 2
+                        }" class="flex justify-between items-center px-4 py-2 rounded-md text-xl" [attr.id]="user.username === myName ? 'myUserItem' : null">
                                 <span>{{ (i + 1) + (currentPage - 1) * itemsPerPage }}. {{ user.username }}</span>
                                 <span>{{ user.score }}</span>
                             </li>
                         </ul>
-                        <div class="flex justify-center items-center mt-4 gap-4">
-                            <button (click)="prevDate()" [disabled]="currentDate <= minDate"
-                                class="w-10 h-10 flex items-center justify-center rounded-full bg-white border border-yellow-400 text-yellow-500 disabled:opacity-30 disabled:cursor-not-allowed">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                                </svg>
-                            </button>
-
-                            <span class="text-lg font-medium text-gray-700">
-                                วันที่ {{ currentDate | date:'dd MMM yyyy' }}
-                            </span>
-
-                            <button (click)="nextDate()" [disabled]="currentPage >= totalPages"
-                                class="w-10 h-10 flex items-center justify-center rounded-full bg-white border border-yellow-400 text-yellow-500 disabled:opacity-30 disabled:cursor-not-allowed">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                                </svg>
-                            </button>
-                        </div>
                     </div>
                     <div *ngIf="currentDate < scoreDate" class="text-2xl text-center">
                         ประกาศรางวัลหลัง 20.00 น.
+                    </div>
+                    <div class="flex justify-center items-center mt-4 gap-4">
+                        <button (click)="prevDate()" [disabled]="currentDate <= minDate || isLoading"
+                            class="w-10 h-10 flex items-center justify-center rounded-full bg-white border border-yellow-400 text-yellow-500 disabled:opacity-30 disabled:cursor-not-allowed">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+
+                        <span class="text-lg font-medium text-gray-700">
+                            วันที่ {{ currentDate | date:'dd MMM yyyy' }}
+                        </span>
+
+                        <button (click)="nextDate()" [disabled]="currentDate > maxDate || isLoading"
+                            class="w-10 h-10 flex items-center justify-center rounded-full bg-white border border-yellow-400 text-yellow-500 disabled:opacity-30 disabled:cursor-not-allowed">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Loading Spinner -->
+                    <div *ngIf="isLoading" class="flex justify-center items-center mt-2">
+                        <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-pink-500"></div>
                     </div>
                 </div>
                 <button type="submit" class="w-full h-[50px] bg-[rgba(255,0,102,1)] text-white font-bold text-2xl rounded-full

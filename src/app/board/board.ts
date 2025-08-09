@@ -32,7 +32,7 @@ export class Board {
   currentPage = 1;
   itemsPerPage = 20;
   currentDate: Date = new Date();
-  minDate = new Date(2025, 7, 1);
+  minDate = new Date(2025, 7, 2);
   maxDate = new Date(2025, 7, 10);
   scoreDate = new Date();
   firstUsername: string = '';
@@ -41,10 +41,11 @@ export class Board {
   firstPoint: number = 0;
   secondPoint: number = 0;
   thirdPoint: number = 0;
-  totalPages = 5;
+  totalPages = 10;
+  isLoading = false;
 
   async ngOnInit() {
-    this.scoreDate.setHours(20, 0, 0, 0);
+    this.scoreDate.setHours(20, 30, 0, 0);
     await this.getAllBoard(this.currentDate);
     this.updateUsersByDate();
   }
@@ -106,25 +107,27 @@ export class Board {
   }
 
   async nextDate() {
+    this.isLoading = true;
     const next = new Date(this.currentDate);
     next.setDate(this.currentDate.getDate() + 1);
     this.scoreDate = new Date(next.setHours(20, 0, 0, 0));
-    // if (next <= this.maxDate) {
+
     this.currentDate = next;
     await this.getAllBoard(this.currentDate);
+    this.isLoading = false;
     this.cdr.detectChanges();
-    // }
   }
 
   async prevDate() {
+    this.isLoading = true;
     const prev = new Date(this.currentDate);
     prev.setDate(this.currentDate.getDate() - 1);
     this.scoreDate = new Date(prev.setHours(20, 0, 0, 0));
-    // if (prev >= this.minDate) {
+
     this.currentDate = prev;
     await this.getAllBoard(this.currentDate);
+    this.isLoading = false;
     this.cdr.detectChanges();
-    // }
   }
 
   cancel(path: string) {
