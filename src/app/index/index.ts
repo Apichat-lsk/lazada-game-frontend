@@ -24,7 +24,9 @@ export class Index {
 
   ngOnInit(): void {
     const token = this.authTokenService.getToken();
-    if (token && this.isTokenValid(token)) {
+    if (!token || !this.isTokenValid(token)) {
+      this.router.navigate(['/index']);
+    } else {
       if (this.currentDate >= this.gameEndDate) {
         this.router.navigate(['/thankyou']);
       } else {
@@ -33,7 +35,7 @@ export class Index {
     }
   }
 
-  isTokenValid(token: string): boolean {
+  isTokenValid(token: string | null): boolean {
     if (!token) return false;
     try {
       const payload = token.split('.')[1];
@@ -41,7 +43,7 @@ export class Index {
       const exp = decoded.exp;
       const now = Math.floor(Date.now() / 1000);
       return now < exp;
-    } catch (err) {
+    } catch {
       return false;
     }
   }

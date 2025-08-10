@@ -13,12 +13,12 @@
             <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="w-full bg-white p-4 sm:p-6 rounded-lg shadow-md space-y-4" novalidate>
 
                 <div>
-                    <label for="fullname" class="block font-semibold text-gray-700 text-2xl">ชื่อ - นามสกุล</label>
-                    <input id="fullname" type="text" formControlName="fullname" placeholder="กรอกชื่อ - นามสกุล"
+                    <label for="fullName" class="block font-semibold text-gray-700 text-2xl">ชื่อ - นามสกุล</label>
+                    <input id="fullName" type="text" formControlName="fullName" placeholder="กรอกชื่อ - นามสกุล"
                         class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 text-xl focus:ring-blue-400"
-                        [class.border-red-500]="signupForm.get('fullname')?.invalid && signupForm.get('fullname')?.touched" />
-                    <p *ngIf="signupForm.get('fullname')?.errors?.['required'] && signupForm.get('fullname')?.touched" class="text-red-600 text-sm mt-1">กรุณากรอกชื่อ - นามสกุล</p>
-                    <p *ngIf="signupForm.get('fullname')?.errors?.['pattern'] && signupForm.get('fullname')?.touched" class="text-red-600 text-sm mt-1">
+                        [class.border-red-500]="signupForm.get('fullName')?.invalid && signupForm.get('fullName')?.touched" />
+                    <p *ngIf="signupForm.get('fullName')?.errors?.['required'] && signupForm.get('fullName')?.touched" class="text-red-600 text-sm mt-1">กรุณากรอกชื่อ - นามสกุล</p>
+                    <p *ngIf="signupForm.get('fullName')?.errors?.['pattern'] && signupForm.get('fullName')?.touched" class="text-red-600 text-sm mt-1">
                         กรุณากรอกชื่อ - นามสกุลให้ถูกต้อง</p>
                 </div>
 
@@ -57,8 +57,8 @@
                     <input id="address" type="address" formControlName="address" placeholder="กรอกที่อยู่"
                         class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 text-xl focus:ring-blue-400"
                         [class.border-red-500]="signupForm.get('address')?.invalid && signupForm.get('address')?.touched" />
-                    <p *ngIf="signupForm.get('address')?.errors?.['required'] && signupForm.get('address')?.touched" class="text-red-600 text-sm mt-1">กรุณากรอกอีเมล</p>
-                    <p *ngIf="signupForm.get('address')?.errors?.['address'] && signupForm.get('address')?.touched" class="text-red-600 text-sm mt-1">กรุณากรอกอีเมลให้ถูกต้อง</p>
+                    <p *ngIf="signupForm.get('address')?.errors?.['required'] && signupForm.get('address')?.touched" class="text-red-600 text-sm mt-1">กรุณากรอกที่อยู่</p>
+                    <p *ngIf="signupForm.get('address')?.errors?.['address'] && signupForm.get('address')?.touched" class="text-red-600 text-sm mt-1">กรุณากรอกที่อยู่ให้ถูกต้อง</p>
                 </div>
 
                 <div>

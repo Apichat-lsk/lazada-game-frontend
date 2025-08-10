@@ -22,7 +22,7 @@ export const routes: Routes = [
   { path: 'otp', component: Otp },
   { path: 'index', component: Index },
   { path: 'home', component: Home, canActivate: [AuthGuard] },
-  { path: 'condition', component: GameCondition, canActivate: [AuthGuard] },
+  { path: 'condition', component: GameCondition },
   { path: 'rules', component: GameRules, canActivate: [AuthGuard] },
   { path: 'recaptcha', component: Recapcha, canActivate: [AuthGuard] },
   {

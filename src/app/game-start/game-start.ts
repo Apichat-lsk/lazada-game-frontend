@@ -55,6 +55,7 @@ export class GameStart implements OnInit {
   resultQuestions: any[] = [];
   totalQuestionsArray: number[] = [];
   resultAnswers: { [key: string]: boolean }[] = [];
+  isGameEnded = false;
 
   get totalQuestions(): number {
     return this.questions.length;
@@ -70,8 +71,10 @@ export class GameStart implements OnInit {
     return new Promise((resolve, reject) => {
       this.service.findAllQuestions().subscribe({
         next: (res) => {
-          this.questions = res.data;
-          resolve();
+          if (res.data.length) {
+            this.questions = res.data;
+            resolve();
+          }
         },
         error: (err) => {
           console.error('❌ Game Start error:', err);
@@ -138,6 +141,7 @@ export class GameStart implements OnInit {
   }
 
   selectAnswer(choice: string, index: number) {
+    if (this.isGameEnded) return;
     clearInterval(this.gameTimer);
     this.selectedAnswer = choice;
     const titleChoice = String.fromCharCode(65 + index);
@@ -176,6 +180,7 @@ export class GameStart implements OnInit {
   }
 
   async nextQuestion() {
+    if (this.isGameEnded) return;
     this.questionIndex++;
     if (this.questionIndex < this.questions.length) {
       this.currentQuestion = this.questions[this.questionIndex];
@@ -200,6 +205,10 @@ export class GameStart implements OnInit {
   }
 
   async endGame() {
+    if (this.gameTimer) {
+      clearInterval(this.gameTimer);
+      this.gameTimer = null;
+    }
     return new Promise((resolve, reject) => {
       this.zone.run(() => {
         this.currentQuestion = null;

@@ -20,6 +20,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Subscription, interval } from 'rxjs';
 import { OtpService } from '../../services/otp-service';
 import Swal from 'sweetalert2';
+import { UserTransferService } from '../signup/user-transfer.service';
 
 @Component({
   selector: 'app-otp',
@@ -36,7 +37,7 @@ export class Otp implements OnInit, OnDestroy {
   private email: string = '';
   private type: string = '';
   private pathUrl: string = '';
-  // นับเวลาถอยหลัง 5 นาที = 300 วินาที
+  user: any;
   totalSeconds = 300;
   displayMinutes = '05';
   displaySeconds = '00';
@@ -46,9 +47,11 @@ export class Otp implements OnInit, OnDestroy {
     private router: Router,
     private cdr: ChangeDetectorRef,
     private location: Location,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private userTransferService: UserTransferService
   ) {
     this.location.replaceState('');
+    this.user = this.userTransferService.userData;
     this.route.queryParamMap.subscribe((params) => {
       this.email = params.get('email') || '';
       this.type = params.get('type') || '';
@@ -90,7 +93,9 @@ export class Otp implements OnInit, OnDestroy {
   private timerSubscription?: Subscription;
 
   ngOnInit() {
-    this.totalSeconds = 300; // หรือ 300 ตาม requirement
+    this.totalSeconds = 10;
+    this.displayMinutes = '00';
+    this.displaySeconds = '10';
     this.startTimer();
   }
 
@@ -132,19 +137,23 @@ export class Otp implements OnInit, OnDestroy {
         const seconds = this.totalSeconds % 60;
         this.displayMinutes = minutes < 10 ? '0' + minutes : '' + minutes;
         this.displaySeconds = seconds < 10 ? '0' + seconds : '' + seconds;
-        this.cdr.detectChanges();
+        this.cdr.markForCheck(); // แนะนำใช้ markForCheck แทน detectChanges
       } else {
         this.isTime = true;
         this.timerSubscription?.unsubscribe();
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
       }
     });
   }
   requestOtpAgain() {
-    this.totalSeconds = 300;
-    this.otp.sendAgain({ email: this.email }).subscribe({
+    this.totalSeconds = 10;
+    this.displayMinutes = '00';
+    this.displaySeconds = '10';
+    this.otp.sendAgain(this.user).subscribe({
       next: (res) => {
+        console.log('🚀 ~ Otp ~ requestOtpAgain ~ res:', res);
         if (res.check == true) {
+          this.isTime = false;
         } else {
           console.error('❌ Game Conditon error:', res.message);
         }

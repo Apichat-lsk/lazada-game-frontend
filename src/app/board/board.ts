@@ -33,8 +33,9 @@ export class Board {
   itemsPerPage = 20;
   currentDate: Date = new Date();
   minDate = new Date(2025, 7, 2);
-  maxDate = new Date(2025, 7, 10);
+  maxDate = new Date(2025, 7, 15);
   scoreDate = new Date();
+  isNext = false;
   firstUsername: string = '';
   secondUsername: string = '';
   thirdUsername: string = '';
@@ -45,9 +46,11 @@ export class Board {
   isLoading = false;
 
   async ngOnInit() {
-    this.scoreDate.setHours(20, 30, 0, 0);
-    await this.getAllBoard(this.currentDate);
-    this.updateUsersByDate();
+    this.scoreDate.setHours(20, 0, 0, 0);
+    if (this.currentDate >= this.scoreDate) {
+      await this.getAllBoard(this.currentDate);
+      this.updateUsersByDate();
+    }
   }
   getAllBoard(date: Date): Promise<void> {
     return new Promise((resolve, reject) => {
@@ -55,7 +58,7 @@ export class Board {
         next: (res) => {
           this.zone.run(() => {
             this.topUsers = res || [];
-            this.updateUsersByDate(); // <-- ให้ Angular detect การเปลี่ยนแปลง
+            this.updateUsersByDate();
           });
           resolve();
         },
@@ -105,15 +108,18 @@ export class Board {
       d1.getDate() === d2.getDate()
     );
   }
-
+  canGoNext(): boolean {
+    const now = new Date();
+    // อนุญาตกดได้ถ้าถึงหรือเกินเวลา scoreDate
+    return now >= this.scoreDate;
+  }
   async nextDate() {
     this.isLoading = true;
     const next = new Date(this.currentDate);
     next.setDate(this.currentDate.getDate() + 1);
     this.scoreDate = new Date(next.setHours(20, 0, 0, 0));
-
     this.currentDate = next;
-    await this.getAllBoard(this.currentDate);
+    await this.getAllBoard(next);
     this.isLoading = false;
     this.cdr.detectChanges();
   }
@@ -125,7 +131,7 @@ export class Board {
     this.scoreDate = new Date(prev.setHours(20, 0, 0, 0));
 
     this.currentDate = prev;
-    await this.getAllBoard(this.currentDate);
+    await this.getAllBoard(prev);
     this.isLoading = false;
     this.cdr.detectChanges();
   }
