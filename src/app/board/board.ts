@@ -33,9 +33,8 @@ export class Board {
   itemsPerPage = 20;
   currentDate: Date = new Date();
   minDate = new Date(2025, 7, 2);
-  maxDate = new Date(2025, 7, 15);
+  maxDate = new Date();
   scoreDate = new Date();
-  isNext = false;
   firstUsername: string = '';
   secondUsername: string = '';
   thirdUsername: string = '';
@@ -54,6 +53,14 @@ export class Board {
   }
   getAllBoard(date: Date): Promise<void> {
     return new Promise((resolve, reject) => {
+      const now = new Date().getDate();
+      const currentDay = this.currentDate.getDate();
+      if (now == currentDay) {
+        if (this.currentDate < this.scoreDate) {
+          this.isLoading = false;
+          return;
+        }
+      }
       this.board.board({ date }).subscribe({
         next: (res) => {
           this.zone.run(() => {
@@ -92,9 +99,7 @@ export class Board {
       }
     }, 100);
   }
-  // get totalPages(): number {
-  //   return Math.ceil(this.topUsers.length / this.itemsPerPage);
-  // }
+
   pagedUsers() {
     return this.filteredSortedUsers;
   }
@@ -109,27 +114,56 @@ export class Board {
     );
   }
   canGoNext(): boolean {
-    const now = new Date();
-    // อนุญาตกดได้ถ้าถึงหรือเกินเวลา scoreDate
-    return now >= this.scoreDate;
+    const now = new Date().getDate();
+    const currentDay = this.currentDate.getDate();
+    if (now == currentDay) {
+      return true;
+    }
+    return false;
   }
   async nextDate() {
     this.isLoading = true;
     const next = new Date(this.currentDate);
     next.setDate(this.currentDate.getDate() + 1);
-    this.scoreDate = new Date(next.setHours(20, 0, 0, 0));
+    // this.scoreDate = new Date(next.setHours(20, 0, 0, 0));
     this.currentDate = next;
     await this.getAllBoard(next);
     this.isLoading = false;
     this.cdr.detectChanges();
   }
 
+  canShowScore(): boolean {
+    const now = new Date().getDate();
+    const currentDay = this.currentDate.getDate();
+    if (now == currentDay) {
+      if (this.currentDate > this.scoreDate) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return true;
+    }
+  }
+  canShowTime(): boolean {
+    const now = new Date().getDate();
+    const currentDay = this.currentDate.getDate();
+    if (now == currentDay) {
+      if (this.currentDate > this.scoreDate) {
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      return false;
+    }
+  }
+
   async prevDate() {
     this.isLoading = true;
     const prev = new Date(this.currentDate);
     prev.setDate(this.currentDate.getDate() - 1);
-    this.scoreDate = new Date(prev.setHours(20, 0, 0, 0));
-
+    // this.scoreDate = new Date(prev.setHours(20, 0, 0, 0));
     this.currentDate = prev;
     await this.getAllBoard(prev);
     this.isLoading = false;
