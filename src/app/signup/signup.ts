@@ -23,6 +23,7 @@ import { UserTransferService } from './user-transfer.service';
 export class Signup {
   signupForm!: FormGroup;
   isMatched = false;
+  showPassword = false;
 
   constructor(
     private otp: OtpService,
@@ -72,6 +73,9 @@ export class Signup {
     });
   }
 
+  togglePassword() {
+    this.showPassword = !this.showPassword;
+  }
   onSubmit() {
     if (this.signupForm.valid) {
       Swal.fire({

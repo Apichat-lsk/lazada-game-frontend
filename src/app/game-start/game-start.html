@@ -28,7 +28,7 @@
             <p class="text-xl text-white">เหลือเวลา {{ timeLeft }} วินาที</p>
         </div>
 
-        <div *ngIf="!isGameStarted && countdown === 0 && !currentQuestion && correctAnswers < totalQuestions" class="text-white text-center text-2xl mt-6">
+        <div *ngIf="!isGameStarted && countdown === 0 && !currentQuestion && correctAnswers <= totalQuestions-2" class="text-white text-center text-2xl mt-6">
             <div class="mb-2 text-5xl">🎉 เกมจบแล้ว!</div>
             <div *ngIf="resultAnswers?.length " class="flex flex-col gap-3 items-center my-4">
                 <div *ngFor="let result of resultAnswers; let i = index" class="flex items-center gap-3">

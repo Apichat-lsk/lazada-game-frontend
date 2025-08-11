@@ -37,14 +37,15 @@ export class Signin {
         'admin',
         [Validators.required, Validators.pattern(/^[a-zA-Z0-9]+$/)],
       ],
-      password: [
-        '123456',
-        [Validators.required, Validators.pattern(/^.{6,}$/)],
-      ],
+      password: new FormControl('123456', [
+        Validators.required,
+        Validators.pattern(/^[ก-๏A-Za-z0-9\s!@#$%^&*]{6,}$/),
+      ]),
     });
   }
 
   isMatched = false;
+  showPassword = false;
 
   ngOnInit() {
     this.signupForm.valueChanges.subscribe(() => {
@@ -53,7 +54,9 @@ export class Signin {
         !!this.signupForm.get('password')?.valid;
     });
   }
-
+  togglePassword() {
+    this.showPassword = !this.showPassword;
+  }
   onSubmit() {
     if (this.signupForm.valid) {
       this.auth.login(this.signupForm.value).subscribe({

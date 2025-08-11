@@ -56,6 +56,7 @@ export class GameStart implements OnInit {
   totalQuestionsArray: number[] = [];
   resultAnswers: { [key: string]: boolean }[] = [];
   isGameEnded = false;
+  audio = new Audio();
 
   get totalQuestions(): number {
     return this.questions.length;
@@ -94,11 +95,18 @@ export class GameStart implements OnInit {
   }
   startCountdown() {
     this.countdown = 3;
+    const audio = new Audio();
+    audio.src = 'assets/sounds/count-down.mp3';
+    audio.load();
+    audio.play().catch((err) => {
+      console.warn('Unable to play sound:', err);
+    });
     const intervalId = setInterval(() => {
       this.zone.run(() => {
         this.countdown--;
         this.cd.detectChanges();
         if (this.countdown <= 0) {
+          audio.pause();
           clearInterval(intervalId);
           this.startGame();
         }
@@ -107,6 +115,7 @@ export class GameStart implements OnInit {
   }
 
   startGame() {
+    this.playSoundGame('assets/sounds/game-play.mp3');
     this.isGameStarted = true;
     this.questionIndex = 0;
     this.questions = this.questions.map((q) => ({
@@ -118,7 +127,22 @@ export class GameStart implements OnInit {
     this.cd.detectChanges();
     this.startTimer();
   }
-  playSound(src: string) {
+  playSoundGame(src: string) {
+    this.audio.src = src;
+    this.audio.load();
+    this.audio.play().catch((err) => {
+      console.warn('Unable to play sound:', err);
+    });
+  }
+  playSoundSelectAnswer(src: string) {
+    const audio = new Audio();
+    audio.src = src;
+    audio.load();
+    audio.play().catch((err) => {
+      console.warn('Unable to play sound:', err);
+    });
+  }
+  playSoundCountDown(src: string) {
     const audio = new Audio();
     audio.src = src;
     audio.load();
@@ -141,6 +165,7 @@ export class GameStart implements OnInit {
   }
 
   selectAnswer(choice: string, index: number) {
+    this.playSoundSelectAnswer('assets/sounds/pop.mp3');
     if (this.isGameEnded) return;
     clearInterval(this.gameTimer);
     this.selectedAnswer = choice;
@@ -205,6 +230,7 @@ export class GameStart implements OnInit {
   }
 
   async endGame() {
+    this.audio.pause();
     if (this.gameTimer) {
       clearInterval(this.gameTimer);
       this.gameTimer = null;
