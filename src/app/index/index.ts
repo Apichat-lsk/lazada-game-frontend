@@ -20,7 +20,7 @@ export class Index {
   }
 
   currentDate = new Date();
-  gameEndDate = new Date(new Date().setDate(15));
+  gameEndDate = new Date(new Date().setDate(20));
 
   ngOnInit(): void {
     const token = this.authTokenService.getToken();
@@ -47,10 +47,7 @@ export class Index {
       return false;
     }
   }
-  Login() {
-    this.router.navigate(['/signin']);
-  }
-  Register() {
-    this.router.navigate(['/signup']);
+  Direct(path: string) {
+    this.router.navigate([path]);
   }
 }
