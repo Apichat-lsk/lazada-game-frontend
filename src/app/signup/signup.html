@@ -1,89 +1,78 @@
 <div class="w-full h-screen bg-gray-900 flex justify-center items-center">
-    <div class="w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl
-                min-h-[calc(100vh-40px)] max-h-[calc(100vh-40px)] overflow-auto
-                bg-[url('/assets/images/forgot/BG.png')] bg-center bg-contain bg-no-repeat p-4 sm:p-6 rounded-xl flex flex-col justify-end items-center relative">
-        <button type="button" (click)="goBack()" class="absolute top-3 left-4 sm:left-10 w-12 h-12 sm:w-14 sm:h-14">
-            <img src="/assets/images/login/BTN-Back.png" class="w-full object-cover cursor-pointer" alt="Back">
+    <div class="w-full min-h-screen max-h-screen overflow-auto
+             bg-[url('/assets/images/forgot/BG.png')] bg-center bg-contain bg-no-repeat p-6 rounded-xl flex flex-col justify-end items-center relative">
+        <button type="button" (click)="goBack()" class="absolute top-3 left-6 md:left-10 w-10 md:w-14 h-10 md:h-14">
+            <img src="/assets/images/login/BTN-Back.png" class="w-8 md:w-12 object-cover cursor-pointer" alt="Back">
         </button>
-        <div class="w-[650px] max-w-full aspect-[650/1409]
-                    flex flex-col items-center justify-center
-                    bg-[url('/assets/images/register/Form.png')] bg-center bg-contain bg-no-repeat p-4 sm:p-6">
-            <p class="text-3xl sm:text-4xl font-bold text-white mb-4">สมัครสมาชิค</p>
-            <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="w-full px-6 sm:px-10 rounded-lg" novalidate>
-
+        <div class="w-full max-w-[650px] aspect-[650/1409] 
+             flex flex-col items-center justify-center 
+             bg-[url('/assets/images/register/Form.png')] bg-center bg-contain bg-no-repeat">
+            <p class="text-3xl sm:text-4xl font-bold text-white mb-4 md:mb-8">สมัครสมาชิค</p>
+            <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="w-full px-10 sm:px-10 rounded-lg" novalidate>
                 <div class="mb-4">
-                    <label for="fullName" class="block font-semibold text-white text-xl sm:text-2xl mb-1">ชื่อ - นามสกุล</label>
+                    <label for="fullName" class="block font-semibold text-white text-lg sm:text-2xl">ชื่อ - นามสกุล</label>
                     <input id="fullName" type="text" formControlName="fullName" placeholder="กรอกชื่อ - นามสกุล"
-                        class="w-full px-3 py-2 sm:px-4 sm:py-2 border rounded focus:outline-none focus:ring-2 bg-white text-gray-500 text-base sm:text-xl focus:ring-pink-400"
+                        class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 bg-white text-gray-500 text-base sm:text-xl focus:ring-pink-400"
                         [class.border-red-500]="signupForm.get('fullName')?.invalid && signupForm.get('fullName')?.touched" />
-                    <p *ngIf="signupForm.get('fullName')?.errors?.['required'] && signupForm.get('fullName')?.touched" class="text-red-600 text-xs sm:text-sm mt-1">กรุณากรอกชื่อ -
-                        นามสกุล</p>
-                    <p *ngIf="signupForm.get('fullName')?.errors?.['pattern'] && signupForm.get('fullName')?.touched" class="text-red-600 text-xs sm:text-sm mt-1">
-                        กรุณากรอกชื่อ - นามสกุลให้ถูกต้อง</p>
+                    <p *ngIf="signupForm.get('fullName')?.errors?.['required'] && signupForm.get('fullName')?.touched" class="text-red-600 text-sm mt-1">กรุณากรอกชื่อ - นามสกุล</p>
+                    <p *ngIf="signupForm.get('fullName')?.errors?.['pattern'] && signupForm.get('fullName')?.touched" class="text-red-600 text-sm mt-1">กรุณากรอกชื่อ -
+                        นามสกุลให้ถูกต้อง</p>
                 </div>
-
                 <div class="mb-4">
-                    <label for="username" class="block font-semibold text-white text-xl sm:text-2xl mb-1">ชื่อผู้ใช้งาน</label>
+                    <label for="username" class="block font-semibold text-white text-lg sm:text-2xl">ชื่อผู้ใช้งาน</label>
                     <input id="username" type="text" formControlName="username" placeholder="กรอกชื่อผู้ใช้งาน"
-                        class="w-full px-3 py-2 sm:px-4 sm:py-2 border rounded focus:outline-none focus:ring-2 bg-white text-gray-500 text-base sm:text-xl focus:ring-pink-400"
+                        class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 bg-white text-gray-500 text-base sm:text-xl focus:ring-pink-400"
                         [class.border-red-500]="signupForm.get('username')?.invalid && signupForm.get('username')?.touched" />
-                    <p *ngIf="signupForm.get('username')?.errors?.['required'] && signupForm.get('username')?.touched" class="text-red-600 text-xs sm:text-sm mt-1">
-                        กรุณากรอกชื่อผู้ใช้งาน</p>
-                    <p *ngIf="signupForm.get('username')?.errors?.['pattern'] && signupForm.get('username')?.touched" class="text-red-600 text-xs sm:text-sm mt-1">
+                    <p *ngIf="signupForm.get('username')?.errors?.['required'] && signupForm.get('username')?.touched" class="text-red-600 text-sm mt-1">กรุณากรอกชื่อผู้ใช้งาน</p>
+                    <p *ngIf="signupForm.get('username')?.errors?.['pattern'] && signupForm.get('username')?.touched" class="text-red-600 text-sm mt-1">
                         กรุณากรอกชื่อผู้ใช้งานให้ถูกต้อง</p>
                 </div>
 
                 <div class="relative mb-4">
-                    <label for="password" class="block font-semibold text-white text-xl sm:text-2xl mb-1">รหัสผ่าน</label>
+                    <label for="password" class="block font-semibold text-white text-lg sm:text-2xl">รหัสผ่าน</label>
                     <input id="password" [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="กรอกรหัสผ่าน"
-                        class="w-full px-3 py-2 sm:px-4 sm:py-2 border rounded focus:outline-none focus:ring-2 bg-white text-gray-500 text-base sm:text-xl focus:ring-pink-400 pr-12"
+                        class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 bg-white text-gray-500 text-base sm:text-xl focus:ring-pink-400 pr-12"
                         [class.border-red-500]="signupForm.get('password')?.invalid && signupForm.get('password')?.touched" />
-                    <button type="button" (click)="togglePassword()"
-                        class="absolute right-3 top-1/2 translate-y-2 sm:translate-y-1 text-gray-500 hover:text-white focus:outline-none">
-                        <span *ngIf="!showPassword" class="text-lg sm:text-xl cursor-pointer">👁</span>
-                        <span *ngIf="showPassword" class="text-lg sm:text-xl cursor-pointer">🙈</span>
+                    <button type="button" (click)="togglePassword()" class="absolute right-3 top-1/2 translate-y-1  text-gray-500 hover:text-white focus:outline-none">
+                        <span *ngIf="!showPassword" class="text-xl cursor-pointer">👁</span>
+                        <span *ngIf="showPassword" class="text-xl cursor-pointer">🙈</span>
                     </button>
-                    <p *ngIf="signupForm.get('password')?.errors?.['required'] && signupForm.get('password')?.touched" class="text-red-600 text-xs sm:text-sm mt-1">
-                        กรุณากรอกรหัสผ่าน</p>
-                    <p *ngIf="signupForm.get('password')?.errors?.['pattern'] && signupForm.get('password')?.touched" class="text-red-600 text-xs sm:text-sm mt-1">
-                        กรุณากรอกรหัสผ่านให้ถูกต้อง
+                    <p *ngIf="signupForm.get('password')?.errors?.['required'] && signupForm.get('password')?.touched" class="text-red-600 text-sm mt-1">กรุณากรอกรหัสผ่าน</p>
+                    <p *ngIf="signupForm.get('password')?.errors?.['pattern'] && signupForm.get('password')?.touched" class="text-red-600 text-sm mt-1">กรุณากรอกรหัสผ่านให้ถูกต้อง
                     </p>
                 </div>
 
                 <div class="mb-4">
-                    <label for="email" class="block font-semibold text-white text-xl sm:text-2xl mb-1">อีเมล</label>
+                    <label for="email" class="block font-semibold text-white text-lg sm:text-2xl">อีเมล</label>
                     <input id="email" type="email" formControlName="email" placeholder="กรอกอีเมล"
-                        class="w-full px-3 py-2 sm:px-4 sm:py-2 border rounded focus:outline-none focus:ring-2 bg-white text-gray-500 text-base sm:text-xl focus:ring-pink-400"
+                        class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 bg-white text-gray-500 text-base sm:text-xl focus:ring-pink-400"
                         [class.border-red-500]="signupForm.get('email')?.invalid && signupForm.get('email')?.touched" />
-                    <p *ngIf="signupForm.get('email')?.errors?.['required'] && signupForm.get('email')?.touched" class="text-red-600 text-xs sm:text-sm mt-1">กรุณากรอกอีเมล</p>
-                    <p *ngIf="signupForm.get('email')?.errors?.['email'] && signupForm.get('email')?.touched" class="text-red-600 text-xs sm:text-sm mt-1">กรุณากรอกอีเมลให้ถูกต้อง
-                    </p>
+                    <p *ngIf="signupForm.get('email')?.errors?.['required'] && signupForm.get('email')?.touched" class="text-red-600 text-sm mt-1">กรุณากรอกอีเมล</p>
+                    <p *ngIf="signupForm.get('email')?.errors?.['email'] && signupForm.get('email')?.touched" class="text-red-600 text-sm mt-1">กรุณากรอกอีเมลให้ถูกต้อง</p>
                 </div>
 
                 <div class="mb-4">
-                    <label for="address" class="block font-semibold text-white text-xl sm:text-2xl mb-1">ที่อยู่</label>
+                    <label for="address" class="block font-semibold text-white text-lg sm:text-2xl">ที่อยู่</label>
                     <input id="address" type="address" formControlName="address" placeholder="กรอกที่อยู่"
-                        class="w-full px-3 py-2 sm:px-4 sm:py-2 border rounded focus:outline-none focus:ring-2 bg-white text-gray-500 text-base sm:text-xl focus:ring-pink-400"
+                        class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 bg-white text-gray-500 text-base sm:text-xl focus:ring-pink-400"
                         [class.border-red-500]="signupForm.get('address')?.invalid && signupForm.get('address')?.touched" />
-                    <p class="text-white text-sm sm:text-xl mt-1">*กรุณากรอกที่อยู่ตามจริง เพื่อรับของรางวัล</p>
-                    <p *ngIf="signupForm.get('address')?.errors?.['required'] && signupForm.get('address')?.touched" class="text-red-600 text-xs sm:text-sm mt-1">กรุณากรอกที่อยู่
-                    </p>
-                    <p *ngIf="signupForm.get('address')?.errors?.['address'] && signupForm.get('address')?.touched" class="text-red-600 text-xs sm:text-sm mt-1">
-                        กรุณากรอกที่อยู่ให้ถูกต้อง</p>
+                    <p class="text-white text-sm sm:text-xl">*กรุณากรอกที่อยู่ตามจริง เพื่อรับของรางวัล</p>
+                    <p *ngIf="signupForm.get('address')?.errors?.['required'] && signupForm.get('address')?.touched" class="text-red-600 text-sm mt-1">กรุณากรอกที่อยู่</p>
+                    <p *ngIf="signupForm.get('address')?.errors?.['address'] && signupForm.get('address')?.touched" class="text-red-600 text-sm mt-1">กรุณากรอกที่อยู่ให้ถูกต้อง</p>
                 </div>
 
-                <div class="mb-6">
-                    <label for="tel" class="block font-semibold text-white text-xl sm:text-2xl mb-1">เบอร์โทร</label>
+                <div class="mb-4">
+                    <label for="tel" class="block font-semibold text-white text-lg sm:text-2xl">เบอร์โทร</label>
                     <input id="tel" type="tel" formControlName="tel" placeholder="0812345678 หรือ +66812345678"
-                        class="w-full px-3 py-2 sm:px-4 sm:py-2 border rounded focus:outline-none focus:ring-2 bg-white text-gray-500 text-base sm:text-xl focus:ring-pink-400"
+                        class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 bg-white text-gray-500 text-base sm:text-xl focus:ring-pink-400"
                         [class.border-red-500]="signupForm.get('tel')?.invalid && signupForm.get('tel')?.touched" />
-                    <p class="text-white text-sm sm:text-xl mt-1">*กรุณากรอกเบอร์ที่ติดต่อได้ เพื่อรับของรางวัล</p>
-                    <p *ngIf="signupForm.get('tel')?.errors?.['required'] && signupForm.get('tel')?.touched" class="text-red-600 text-xs sm:text-sm mt-1">กรุณากรอกเบอร์โทร</p>
-                    <p *ngIf="signupForm.get('tel')?.errors?.['pattern'] && signupForm.get('tel')?.touched" class="text-red-600 text-xs sm:text-sm mt-1">กรุณากรอกเบอร์โทรให้ถูกต้อง
-                    </p>
+                    <p class="text-white text-sm sm:text-xl">*กรุณากรอกเบอร์ที่ติดต่อได้ เพื่อรับของรางวัล</p>
+                    <p *ngIf="signupForm.get('tel')?.errors?.['required'] && signupForm.get('tel')?.touched" class="text-red-600 text-sm mt-1">กรุณากรอกเบอร์โทร</p>
+                    <p *ngIf="signupForm.get('tel')?.errors?.['pattern'] && signupForm.get('tel')?.touched" class="text-red-600 text-sm mt-1">กรุณากรอกเบอร์โทรให้ถูกต้อง</p>
                 </div>
-                <div class="flex justify-center items-center">
-                    <img src="/assets/images/register/BTN.png" (click)="onSubmit()" class="w-[150px] sm:w-[200px] object-cover object-center cursor-pointer" alt="Submit Button">
+
+                <div class="flex justify-center items-center mt-6">
+                    <img src="/assets/images/register/BTN.png" (click)="onSubmit()" class="w-[150px] sm:w-[200px] object-cover object-center cursor-pointer" alt="ยืนยัน">
                 </div>
             </form>
         </div>
