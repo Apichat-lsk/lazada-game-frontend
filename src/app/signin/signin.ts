@@ -35,7 +35,10 @@ export class Signin {
     this.signupForm = this.fb.group({
       username: [
         'admin',
-        [Validators.required, Validators.pattern(/^[a-zA-Z0-9]+$/)],
+        [
+          Validators.required,
+          // Validators.pattern(/^[a-zA-Z0-9]+$/) || Validators.email,
+        ],
       ],
       password: new FormControl('123456', [
         Validators.required,
