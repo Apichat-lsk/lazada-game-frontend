@@ -23,7 +23,7 @@ export const routes: Routes = [
   { path: 'index', component: Index },
   { path: 'home', component: Home, canActivate: [AuthGuard] },
   { path: 'condition', component: GameCondition },
-  { path: 'rules', component: GameRules, canActivate: [AuthGuard] },
+  { path: 'rules', component: GameRules },
   { path: 'recaptcha', component: Recapcha, canActivate: [AuthGuard] },
   {
     path: 'game-start',

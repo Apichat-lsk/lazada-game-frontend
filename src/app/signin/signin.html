@@ -1,15 +1,15 @@
 <div class="w-full min-h-screen bg-gray-900 flex justify-center items-center">
-    <div
-        class="w-full max-w-sm min-h-[calc(100vh-40px)] max-h-[calc(100vh-40px)] overflow-auto
-              bg-[url('/assets/images/login/BG.png')] bg-center bg-[length:460%] md:bg-[length:460%] lg:bg-[length:460%] xl:bg-[length:430%] p-1 sm:p-4 rounded-xl flex flex-col justify-between items-center relative">
-        <img src="/assets/images/login/Logo.png" class="w-[250px] object-cover object-center " alt="">
-        <button type="button" (click)="goBack()" class="absolute top-1/4 left-4 w-12 h-12">
+    <div class="w-full max-w-sm min-h-[calc(100vh-40px)] max-h-[calc(100vh-40px)] overflow-auto
+              bg-[url('/assets/images/forgot/BG.png')] bg-center bg-contain bg-no-repeat p-2 sm:p-6 rounded-xl flex flex-col justify-start items-center relative">
+        <img src="/assets/images/login/Logo.png" class="w-[347px] aspect-[347/245]  sm:w-[347px] max-w-full sm:aspect-[347/245] object-contain" alt="">
+        <button type="button" (click)="goBack()" class="absolute top-2/9 left-4 w-16 h-16">
             <img src="/assets/images/login/BTN-Back.png" class="w-full h-full object-cover cursor-pointer" alt="Back">
         </button>
-        <div class="w-full flex flex-col items-center justify-center ">
-            <form [formGroup]="signupForm" (ngSubmit)="onSubmit()"
-                class="w-[350px] h-[480px] p-8 sm:p-10  rounded-lg  space-y-6 sm:space-y-2 bg-[url('/assets/images/login/BG-FORM.png')] bg-cover bg-center" novalidate>
-                <p class="text-2xl sm:text-4xl mb-6 font-bold text-center text-white">เข้าสู่ระบบ</p>
+        <div class="w-[650px] max-w-full aspect-[650/901] 
+            flex flex-col items-center justify-center 
+            bg-[url('/assets/images/login/Form.png')] bg-center bg-contain bg-no-repeat p-5">
+            <p class="text-4xl font-bold text-white">เข้าสู่ระบบ</p>
+            <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="w-full p-6 rounded-lg space-y-4 sm:space-y-6" novalidate>
                 <div>
                     <label for="username" class="block mb-2 font-semibold text-white text-2xl">ชื่อผู้ใช้ หรือ อีเมล</label>
                     <input id="username" type="text" formControlName="username" placeholder="กรอกชื่อผู้ใช้งาน"

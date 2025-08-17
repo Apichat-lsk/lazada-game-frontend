@@ -3,14 +3,13 @@
 
 @font-face {
   font-family: "MyFont";
-  src: url("/assets/fonts/DB Heavent Bd v3.2.ttf") format("truetype");
+  src: url("/assets/fonts/DB HelvethaicaMon X Med.ttf");
   font-weight: normal;
   font-style: normal;
 }
 
 * {
   font-family: "MyFont", sans-serif;
-  font-weight: 300;
   font-style: normal;
 }
 
@@ -18,4 +17,11 @@ img {
   image-rendering: crisp-edges; /* ช่วยให้ภาพพิกเซลชัดขึ้น (เหมาะกับภาพพิกเซลอาร์ต) */
   image-rendering: -webkit-optimize-contrast; /* Chrome, Safari */
   image-rendering: pixelated; /* ทำให้ภาพดูไม่เบลอ (เหมาะกับภาพพิกเซล) */
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE, Edge */
+  scrollbar-width: none; /* Firefox */
 }
