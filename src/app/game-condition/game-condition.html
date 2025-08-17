@@ -1,42 +1,177 @@
 <div class="w-full min-h-screen bg-gray-900 flex justify-center items-center">
     <div class="w-full max-w-sm min-h-[calc(100vh-40px)] max-h-[calc(100vh-40px)] overflow-auto
               bg-[url('/assets/images/forgot/BG.png')] bg-center bg-contain bg-no-repeat p-6 rounded-xl flex flex-col justify-end items-center relative">
+
+        <!-- Back button -->
         <button type="button" (click)="goBack()" class="absolute top-1 left-10 w-14 h-14">
-            <img src="/assets/images/login/BTN-Back.png" class="w-full h-full object-cover cursor-pointer" alt="Back">
+            <img src="/assets/images/login/BTN-Back.png" class="w-12 object-cover cursor-pointer" alt="Back">
         </button>
+
         <div class="w-full flex flex-col items-center justify-center">
             <div class="flex flex-col justify-center items-center w-[650px] max-w-full aspect-[650/1409]
-            bg-[url('/assets/images/t&c/Form.png')] bg-center bg-contain bg-no-repeat px-10">
+                  bg-[url('/assets/images/t&c/Form.png')] bg-center bg-contain bg-no-repeat px-10">
                 <p class="text-4xl font-bold text-white text-center">ข้อกำหนดและเงื่อนไข สำหรับกิจกรรม</p>
                 <p class="text-2xl font-bold text-yellow-300 text-center"> "แบบทดสอบลาซลูกขุน" และ "ประกวดวีดีโอสอบปฏิบัติ"</p>
                 <img src="/assets/images/t&c/Liner.png" class="w-full m-2" alt="">
-                <div class="w-full flex flex-col items-center gap-4">
-                    <div class="w-full text-xl text-white overflow-y-scroll  h-[400px] hide-scrollbar" (scroll)="onScroll($event)" #scrollContainer>
-                        <p> โปรดอ่านข้อกำหนดและเงื่อนไขเหล่านี้
+                <div class="w-full flex flex-col items-center">
+                    <div class="w-full text-2xl text-white overflow-y-scroll h-[300px] hide-scrollbar flex flex-col gap-4" (scroll)="onScroll($event)" #scrollContainer>
+                        <p>โปรดอ่านข้อกำหนดและเงื่อนไขเหล่านี้
                             อย่างละเอียดก่อนเข้าร่วมกิจกรรม
                             การเข้าร่วมกิจกรรมนี้ถือว่าท่านได้
                             ยอมรับและตกลงที่จะปฏิบัติตาม
                             ข้อกำหนดทั้งหมด</p>
-                        <p class="mt-3 font-bold">
-                            1. ระยะเวลาและคุณสมบัติผู้เข้าร่วม กิจกรรม
+                        <p class="font-bold">1. ระยะเวลาและคุณสมบัติผู้เข้าร่วม กิจกรรม </p>
+                        <p>กิจกรรมจะจัดขึ้นระหว่างวันที่
+                            <span class="font-bold">1 กันยายน 2568 เวลา 00.01 น.
+                                ถึงวันที่ 8 กันยายน 2568
+                                เวลา 19.59 น.</span>
                         </p>
-                        <p>กิจกรรมจะจัดขึ้นระหว่างวันที่</p>
-                        <p class="mt-3 font-bold"> 1 กันยายน 2568 เวลา 00.01 น.
-                            ถึงวันที่ 8 กันยายน 2568
-                            เวลา 19.59 น.</p>
                         <ul class="list-disc pl-6 mt-3">
+                            <li>ผู้เข้าร่วมต้องเป็นผู้ใช้งานแอป Lazada</li>
+                            <li>กิจกรรมนี้แบ่งออกเป็น 2 ส่วนหลัก คือ
+                                กิจกรรมแบบทดสอบลาซลูกขุน และ
+                                กิจกรรมการประกวดวิดีโอสอบปฏิบัติ</li>
+                        </ul>
+                        <p class="font-bold">2. การลงทะเบียนและข้อมูลส่วนบุคคล</p>
+                        <p>
+                            ก่อนเข้าร่วมกิจกรรม ท่านจะต้องกรอก
+                            ข้อมูลในหน้าลงทะเบียนและยอมรับ
+                            ข้อกำหนดและเงื่อนไข รวมถึงนโยบาย
+                            ความเป็นส่วนตัวของ Lazada ข้อมูลที่
+                            จำเป็นประกอบด้วย
+                        </p>
+                        <p>
+                            (1) ชื่อ-นามสกุลจริง; (2) ที่อยู่สำหรับจัด
+                            ส่งของรางวัล; (3) ที่อยู่อีเมล; และ
+                            (4) เบอร์โทรศัพท์มือถือ
+                        </p>
+                        <ul class="list-disc pl-6 mt-3">
+                            <li><span class="font-bold">การใช้ข้อมูล</span>: ข้อมูลที่ท่านให้ไว้จะถูกนำ
+                                ไปใช้เพื่อวัตถุประสงค์ในการยืนยันตัวตน
+                                และจัดส่งของรางวัลให้แก่ผู้ชนะเท่านั้น
+                            </li>
+                            <li><span class="font-bold">ความถูกต้องของข้อมูล</span>: ท่านมีหน้าที่
+                                รับผิดชอบในการตรวจสอบความถูกต้อง
+                                ของข้อมูลที่ให้ไว้ เมื่อลงทะเบียนเสร็จสิ้น
+                                แล้ว ท่านจะไม่สามารถแก้ไขหรือเปลี่ยน
+                                แปลงข้อมูลได้ Lazada จะไม่รับผิดชอบ
+                                ในกรณีที่เกิดปัญหาจากการจัดส่งของ
+                                รางวัลเนื่องจากข้อมูลที่ท่านให้มาไม่
+                                ถูกต้อง</li>
+                        </ul>
+                        <img src="/assets/images/t&c/Liner.png" class="w-full m-2" alt="">
+                        <p class="text-center">
+                            ส่วนที่ 1: แบบทดสอบลาซลูกขุน
+                            (กิจกรรมรายวัน)
+                        </p>
+                        <p>
+                            <span class="font-bold">ระยะเวลา: 1 – 8 กันยายน 2568</span>
+                            (ในแต่ละวันกิจกรรมจะสิ้นสุดลงเวลา
+                            20.00 น.)
+                        </p>
+                        <p>
+                            3.1 ผู้เข้าร่วมสามารถเล่นเกมแบบ
+                            ทดสอบ "แบบทดสอบลาซลูกขุน"
+                            ได้วันละ 1 ครั้ง โดยสามารถเข้าถึงได้ผ่าน
+                            ทางแอปพลิเคชัน Lazada
+                        </p>
+                        <p>
+                            <span class="font-bold"> 3.2 การให้คะแนน</span>: คะแนนจะขึ้นอยู่กับ
+                            ความรวดเร็วและความถูกต้องใน
+                            การตอบคำถามทั้ง 5 ข้อ
+                        </p>
+                        <p class="font-bold">
+                            3.3 การประกาศผลรางวัลรายวัน:
+                        </p>
+                        <ul class="list-disc pl-6 mt-3">
+                            <li>ผู้เล่นที่มีคะแนนสูงสุด [XX] อันดับแรก
+                                ในแต่ละวันจะถือเป็นผู้ชนะรายวันและ
+                                มีสิทธิ์ได้รับของรางวัล
+                            </li>
+                            <li>รายละเอียดและมูลค่าของของรางวัล
+                                รายวันคือ [xxxx]</li>
                             <li>
-                                ผู้เข้าร่วมต้องเป็นผู้ใช้งานแอปพลิเคชัน
-                                Lazada
+                                รายชื่อผู้ชนะรายวันจะถูกประกาศใน
+                                เวลา 20.30 น. ของวันถัดไปผ่านทาง
+                                แอปพลิเคชัน Lazada และจะได้รับการ
+                                ยืนยันทางอีเมลจาก [xxxxxx]
                             </li>
                             <li>
-                                กิจกรรมนี้แบ่งออกเป็น 2 ส่วนหลัก คือ
-                                กิจกรรมแบบทดสอบลาซลูกขุน และ
-                                กิจกรรมการประกวดวิดีโอสอบปฏิบัติ
+                                ของรางวัลจะถูกจัดส่งไปยังที่อยู่ที่
+                                ลงทะเบียนไว้ภายในวันที่ [xxxx]
                             </li>
                         </ul>
-
-                        <p class="mt-3 font-bold">2. การลงทะเบียนและข้อมูลส่วนบุคคล </p>
+                        <p>
+                            <span class="font-bold"> 3.4 เกียรติบัตรผ่านแบบทดสอบ</span>:
+                            ผู้เล่นที่ตอบคำถามถูก อย่างน้อย
+                            4 ใน 5 ข้อ จะได้รับ "เกียรติบัตรผ่าน
+                            แบบทดสอบ" ซึ่งสามารถใช้ในการ
+                            เข้าร่วม"ประกวดวิดีโอสอบปฏิบัติ"
+                            ในส่วนที่ 2
+                        </p>
+                        <p class="text-center font-bold">ส่วนที่ 2: "ประกวดวิดีโอสอบปฏิบัติ"</p>
+                        <p><span class="font-bold">ระยะเวลา: 1 – 5 กันยายน 2568</span>
+                            (สิ้นสุดการส่งหลักฐานเวลา 20.00 น.)
+                        </p>
+                        <p>
+                            <span class="font-bold"> 4.1 คุณสมบัติ</span>: ผู้เข้าร่วมกิจกรรมใน
+                            ส่วนนี้ต้องมี "เกียรติบัตรผ่านแบบ
+                            ทดสอบ" ที่ได้รับจากการผ่านแบบ
+                            ทดสอบในส่วนที่ 1 เท่านั้น
+                        </p>
+                        <p>
+                            <span class="font-bold"> 4.2 การจัดทำวิดีโอ</span>: ผู้เข้าร่วมต้องจัด
+                            ทำวิดีโอภายใต้หัวข้อ “<span class="font-bold">ช้อปยังไงไม่ให้
+                                รู้สึกผิด</span>” โดยภายในวิดีโอต้องประกอบ
+                            ด้วย:
+                        </p>
+                        <ul class="list-disc pl-6 mt-3">
+                            <li> การแนะนำตัว</li>
+                            <li>การเล่าเหตุผลว่าทำไมจึงเป็นผู้เชี่ยว
+                                ชาญด้านการช้อปและช้อปได้อย่างไม่
+                                รู้สึกผิด</li>
+                            <li> การใช้ภาพ "<span class="font-bold">เกียรติบัตรผ่านแบบ
+                                    ทดสอบ</span>" ประกอบในวิดีโอ</li>
+                        </ul>
+                        <p><span class="font-bold">4.3 การโพสต์และส่งหลักฐาน</span>:</p>
+                        <ul class="list-disc pl-6 mt-3">
+                            <li> โพสต์วิดีโอลงบนช่องทางโซเชียลมีเดีย
+                                ของตนเอง พร้อมติดแฮชแท็ก
+                                <span class="font-bold">#LazadaTH</span>
+                            </li>
+                            <li>ส่งลิงก์วิดีโอผ่าน Google Form ซึ่ง
+                                สามารถเข้าถึงได้จาก QR Code หรือ
+                                ลิงก์ที่โพสต์ในช่องทางโซเชียลมีเดียของ
+                                Lazada ภายในวันที่ <span class="font-bold">5 กันยายน 2568
+                                    เวลา 20.00 น.</span></li>
+                        </ul>
+                        <p class="font-bold">4.4 การคัดเลือกและประกาศผลผู้ชนะ: </p>
+                        <ul class="list-disc pl-6 mt-3">
+                            <li>คณะกรรมการจะพิจารณาคัดเลือก
+                                ผู้ชนะจำนวน 150 ท่าน จากวิดีโอที่ส่ง
+                                เข้ามา
+                            </li>
+                            <li>Lazada จะประกาศรายชื่อผู้ชนะในวันที่
+                                <span class="font-bold">6 กันยายน 2568 เวลา 10.00 น.</span>
+                                ผ่านช่องทาง X (Twitter) ของ Lazada
+                            </li>
+                        </ul>
+                        <p><span class="font-bold">4.5 การเข้าร่วมงาน</span>: ผู้ชนะจะได้รับเชิญ
+                            ให้เข้าร่วมงานในวันที่ <span class="font-bold">8 กันยายน 2568
+                                เวลา 19.00 น. ณ [xxxxx Siamsquare One]</span>
+                            หรือสามารถรับชมการถ่ายทอดสดผ่าน
+                            LazLIVE บนแอปพลิเคชัน Lazada ได้
+                        </p>
+                        <p class="font-bold">5. บททั่วไป</p>
+                        <p>5.1 การตัดสิทธิ์: Lazada ขอสงวนสิทธิ์
+                            ในการตัดสิทธิ์ผู้เข้าร่วมกิจกรรมที่ใช้
+                            โปรแกรมช่วยเล่น, บอท, หรือการช่วย
+                            เหลือที่ไม่ได้รับอนุญาต หากตรวจพบ
+                            รวมถึงการละเมิดข้อกำหนดและเงื่อนไข
+                            ใดๆ ที่ระบุไว้
+                        <p><span class="font-bold">5.2 คำตัดสิน</span>: คำตัดสินของคณะ
+                            กรรมการและ Lazada ถือเป็นที่สิ้นสุด
+                            ในทุกกรณี</p>
                         <div class="w-full flex items-center gap-2">
                             <input type="checkbox" id="agree" [(ngModel)]="isChecked" class="mt-1" />
                             <label for="agree" class="text-xl text-white">
@@ -44,28 +179,13 @@
                             </label>
                         </div>
                     </div>
-                    <div class="flex justify-center items-center cursor-pointer" *ngIf="!scrolledToBottom" (click)="scrollToBottom()">
-                        <img src="/assets/images/t&c/Scroll.png" (click)="onSubmit()" class="w-[200px] object-cover object-center cursor-pointer" alt="">
+                    <div *ngIf="!scrolledToBottom" class="flex justify-center items-center cursor-pointer" (click)="scrollToBottom()">
+                        <img src="/assets/images/t&c/Scroll.png" class="w-[200px] object-cover object-center cursor-pointer" alt="Scroll">
                     </div>
-                    <div class="flex justify-center items-center cursor-pointer" *ngIf="scrolledToBottom" type="submit" (click)="Direct('otp')">
-                        <img src="/assets/images/t&c/Submit.png" (click)="onSubmit()" class="w-[200px] object-cover object-center cursor-pointer" alt="">
+                    <div *ngIf="scrolledToBottom" class="flex justify-center items-center cursor-pointer" [class.opacity-50]="!isChecked" [class.pointer-events-none]="!isChecked"
+                        (click)="isChecked && Direct('otp')">
+                        <img src="/assets/images/t&c/Submit.png" class="w-[200px] object-cover object-center cursor-pointer" alt="Submit">
                     </div>
-                    <!-- <button *ngIf="!scrolledToBottom" class="w-full h-[50px] text-white bg-[rgba(255,0,102,1)] font-bold text-2xl rounded-full
-               shadow-[0_4px_0_0_rgba(0,0,0,0.4),_inset_0_-4px_0_0_rgba(0,0,0,0.4)]
-               active:shadow-[0_0px_0_0_rgba(0,0,0,0.4),_inset_0_4px_0_0_rgba(0,0,0,0.4)]
-               transition duration-150 hover:brightness-110 cursor-pointer" (click)="scrollToBottom()">
-                        เลื่อนลงเพื่ออ่านเงื่อนไขให้จบ
-                    </button> -->
-
-                    <!-- <button *ngIf="scrolledToBottom" type="submit" [disabled]="!isChecked" [ngClass]="{
-          'bg-[rgba(255,0,102,1)]': isChecked,
-          'bg-gray-400': !isChecked
-        }" class="w-full h-[50px] text-white font-bold text-2xl rounded-full
-               shadow-[0_4px_0_0_rgba(0,0,0,0.4),_inset_0_-4px_0_0_rgba(0,0,0,0.4)]
-               active:shadow-[0_0px_0_0_rgba(0,0,0,0.4),_inset_0_4px_0_0_rgba(0,0,0,0.4)]
-               transition duration-150 hover:brightness-110 cursor-pointer" (click)="Direct('otp')">
-                        ยืนยัน
-                    </button> -->
                 </div>
             </div>
         </div>
