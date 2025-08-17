@@ -37,6 +37,8 @@ export class ChangePassword implements OnInit {
   }
 
   isMatched: boolean = false;
+  showPassword = false;
+  showPasswordConfirm = false;
 
   changePasswordForm = new FormGroup(
     {
@@ -61,7 +63,12 @@ export class ChangePassword implements OnInit {
         !!newPassword && !!confirmPassword && newPassword === confirmPassword;
     });
   }
-
+  togglePassword() {
+    this.showPassword = !this.showPassword;
+  }
+  toggleConfirmPassword() {
+    this.showPasswordConfirm = !this.showPasswordConfirm;
+  }
   passwordsMatchValidator(
     group: AbstractControl
   ): { [key: string]: any } | null {
