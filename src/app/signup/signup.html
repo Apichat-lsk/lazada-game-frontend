@@ -1,15 +1,15 @@
 <div class="w-full h-screen bg-gray-900 flex justify-center items-center">
-    <div class="w-full min-h-screen max-h-screen overflow-auto
-             bg-[url('/assets/images/forgot/BG.png')] bg-center bg-contain bg-no-repeat p-6 rounded-xl flex flex-col justify-end items-center relative">
-        <button type="button" (click)="goBack()" class="absolute top-3 left-6 md:left-10 w-10 md:w-14 h-10 md:h-14">
+    <div class="w-full max-w-sm sm:max-w-lg min-h-[calc(100vh-40px)] max-h-[calc(100vh-40px)] overflow-auto
+                bg-[url('/assets/images/forgot/BG.png')] bg-center bg-contain bg-no-repeat p-8 sm:p-6 rounded-xl flex flex-col justify-end items-center relative">
+        <button type="button" (click)="goBack()" class="absolute top-15 left-10 w-10 md:w-14 h-10 md:h-14">
             <img src="/assets/images/login/BTN-Back.png" class="w-8 md:w-12 object-cover cursor-pointer" alt="Back">
         </button>
         <div class="w-full max-w-[650px] aspect-[650/1409] 
              flex flex-col items-center justify-center 
-             bg-[url('/assets/images/register/Form.png')] bg-center bg-contain bg-no-repeat">
-            <p class="text-3xl sm:text-4xl font-bold text-white mb-4 md:mb-8">สมัครสมาชิค</p>
+             bg-[url('/assets/images/register/Form.png')] bg-center bg-contain bg-no-repeat overflow-y-scroll">
+            <p class="text-3xl sm:text-4xl font-bold text-white">สมัครสมาชิค</p>
             <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="w-full px-10 sm:px-10 rounded-lg" novalidate>
-                <div class="mb-4">
+                <div class="">
                     <label for="fullName" class="block font-semibold text-white text-lg sm:text-2xl">ชื่อ - นามสกุล</label>
                     <input id="fullName" type="text" formControlName="fullName" placeholder="กรอกชื่อ - นามสกุล"
                         class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 bg-white text-gray-500 text-base sm:text-xl focus:ring-pink-400"
@@ -18,7 +18,7 @@
                     <p *ngIf="signupForm.get('fullName')?.errors?.['pattern'] && signupForm.get('fullName')?.touched" class="text-red-600 text-sm mt-1">กรุณากรอกชื่อ -
                         นามสกุลให้ถูกต้อง</p>
                 </div>
-                <div class="mb-4">
+                <div class="">
                     <label for="username" class="block font-semibold text-white text-lg sm:text-2xl">ชื่อผู้ใช้งาน</label>
                     <input id="username" type="text" formControlName="username" placeholder="กรอกชื่อผู้ใช้งาน"
                         class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 bg-white text-gray-500 text-base sm:text-xl focus:ring-pink-400"
@@ -28,7 +28,7 @@
                         กรุณากรอกชื่อผู้ใช้งานให้ถูกต้อง</p>
                 </div>
 
-                <div class="relative mb-4">
+                <div class="relative ">
                     <label for="password" class="block font-semibold text-white text-lg sm:text-2xl">รหัสผ่าน</label>
                     <input id="password" [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="กรอกรหัสผ่าน"
                         class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 bg-white text-gray-500 text-base sm:text-xl focus:ring-pink-400 pr-12"
@@ -42,7 +42,7 @@
                     </p>
                 </div>
 
-                <div class="mb-4">
+                <div class="">
                     <label for="email" class="block font-semibold text-white text-lg sm:text-2xl">อีเมล</label>
                     <input id="email" type="email" formControlName="email" placeholder="กรอกอีเมล"
                         class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 bg-white text-gray-500 text-base sm:text-xl focus:ring-pink-400"
@@ -51,7 +51,7 @@
                     <p *ngIf="signupForm.get('email')?.errors?.['email'] && signupForm.get('email')?.touched" class="text-red-600 text-sm mt-1">กรุณากรอกอีเมลให้ถูกต้อง</p>
                 </div>
 
-                <div class="mb-4">
+                <div class="">
                     <label for="address" class="block font-semibold text-white text-lg sm:text-2xl">ที่อยู่</label>
                     <input id="address" type="address" formControlName="address" placeholder="กรอกที่อยู่"
                         class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 bg-white text-gray-500 text-base sm:text-xl focus:ring-pink-400"
@@ -61,7 +61,7 @@
                     <p *ngIf="signupForm.get('address')?.errors?.['address'] && signupForm.get('address')?.touched" class="text-red-600 text-sm mt-1">กรุณากรอกที่อยู่ให้ถูกต้อง</p>
                 </div>
 
-                <div class="mb-4">
+                <div class="">
                     <label for="tel" class="block font-semibold text-white text-lg sm:text-2xl">เบอร์โทร</label>
                     <input id="tel" type="tel" formControlName="tel" placeholder="0812345678 หรือ +66812345678"
                         class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 bg-white text-gray-500 text-base sm:text-xl focus:ring-pink-400"
