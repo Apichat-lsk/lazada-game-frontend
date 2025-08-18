@@ -25,3 +25,13 @@ img {
   -ms-overflow-style: none; /* IE, Edge */
   scrollbar-width: none; /* Firefox */
 }
+/* ซ่อน scrollbar แบบ overlay ไม่ทำให้ content ขยับ */
+.scroll-hide::-webkit-scrollbar {
+  width: 0px; /* Chrome, Safari */
+  background: transparent;
+}
+
+.scroll-hide {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: transparent transparent;
+}
