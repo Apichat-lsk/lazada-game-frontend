@@ -34,7 +34,7 @@ export class Otp implements OnInit, OnDestroy {
   otpForm!: FormGroup;
   isMatched = false;
   isTime = false;
-  private email: string = '';
+  email: string = '';
   private type: string = '';
   private pathUrl: string = '';
   user: any;
