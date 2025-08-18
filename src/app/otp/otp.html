@@ -15,7 +15,7 @@
                         <div class="w-full flex flex-col justify-center items-center gap-4">
                             <p class="text-2xl sm:text-4xl font-semibold text-[#12268a]">กรอกรหัส OTP</p>
                             <img src="/assets/images/otp/Rectangle.png" class="w-48 object-cover cursor-pointer">
-                            <p class="text-lg text-[#12268a]">ฉันได้ส่งรหัส OTP ไปยังอีเมล {{email}}</p>
+                            <p class="text-lg text-[#12268a]">ฉันได้ส่งรหัส OTP ไปยังอีเมล {{showEmail}}</p>
                             <form [formGroup]="otpForm" (ngSubmit)="onSubmit()" autocomplete="one-time-code" class="w-full flex flex-col items-center">
                                 <div class="flex justify-between items-center w-full">
                                     <input type="tel" #otpInput0 (keydown)="onKeyDown($event, 0)" maxlength="1" inputmode="numeric" pattern="[0-9]*" formControlName="digit1"

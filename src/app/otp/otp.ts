@@ -34,7 +34,8 @@ export class Otp implements OnInit, OnDestroy {
   otpForm!: FormGroup;
   isMatched = false;
   isTime = false;
-  email: string = '';
+  private email: string = '';
+  showEmail: string = '';
   private type: string = '';
   private pathUrl: string = '';
   user: any;
@@ -54,6 +55,7 @@ export class Otp implements OnInit, OnDestroy {
     this.user = this.userTransferService.userData;
     this.route.queryParamMap.subscribe((params) => {
       this.email = params.get('email') || '';
+      this.showEmail = this.email.replace(/(.{2}).+(@.+)/, '$1***$2'); // แสดงแค่ 2 ตัวแรกและ @domain
       this.type = params.get('type') || '';
     });
     this.otpForm = new FormGroup({
@@ -93,9 +95,9 @@ export class Otp implements OnInit, OnDestroy {
   private timerSubscription?: Subscription;
 
   ngOnInit() {
-    this.totalSeconds = 10;
-    this.displayMinutes = '00';
-    this.displaySeconds = '10';
+    this.totalSeconds = 300; // 5 minutes
+    this.displayMinutes = '05';
+    this.displaySeconds = '00';
     this.startTimer();
   }
 
@@ -146,9 +148,9 @@ export class Otp implements OnInit, OnDestroy {
     });
   }
   requestOtpAgain() {
-    this.totalSeconds = 10;
-    this.displayMinutes = '00';
-    this.displaySeconds = '10';
+    this.totalSeconds = 300; // 5 minutes
+    this.displayMinutes = '05';
+    this.displaySeconds = '00';
     this.otp.sendAgain(this.user).subscribe({
       next: (res) => {
         console.log('🚀 ~ Otp ~ requestOtpAgain ~ res:', res);

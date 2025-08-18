@@ -26,23 +26,30 @@ export class Home implements OnInit {
   }
 
   checkGameToday = true;
+  currentDate: Date = new Date();
+  fixedDate: Date = new Date(new Date().setHours(19, 59, 0, 0));
 
   ngOnInit(): void {
-    this.gameService
-      .checkGameDate({ userId: this.decodeToken.decodeToken()?.uid })
-      .subscribe({
-        next: (res) => {
-          if (!res) {
-            this.zone.run(() => {
-              this.checkGameToday = false;
-              this.cd.detectChanges();
-            });
-          }
-        },
-        error: (err) => {
-          console.error('❌ Game Start error:', err);
-        },
-      });
+    if (this.currentDate.getTime() >= this.fixedDate.getTime()) {
+      this.checkGameToday = true;
+      this.cd.detectChanges();
+    } else {
+      this.gameService
+        .checkGameDate({ userId: this.decodeToken.decodeToken()?.uid })
+        .subscribe({
+          next: (res) => {
+            if (!res) {
+              this.zone.run(() => {
+                this.checkGameToday = false;
+                this.cd.detectChanges();
+              });
+            }
+          },
+          error: (err) => {
+            console.error('❌ Game Start error:', err);
+          },
+        });
+    }
   }
 
   Direct(path: string) {

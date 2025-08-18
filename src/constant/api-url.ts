@@ -4,6 +4,7 @@ const URL = 'https://63e7cb0a5f89.ngrok-free.app';
 export const API = {
   REGISTER: `${URL}/api/auth/register`,
   LOGIN: `${URL}/api/auth/login`,
+  CHECK_DUPLICATE: `${URL}/api/auth/check-duplicate`,
   CHANGE_PASSWORD: `${URL}/api/auth/change-password`,
   SEND_OTP: `${URL}/api/otp/send`,
   SEND_OTP_AGAIN: `${URL}/api/otp/send-otp-again`,

@@ -1,7 +1,8 @@
 <div class="w-full h-screen bg-gray-900 flex justify-center items-center">
-    <div class="w-full max-w-sm overflow-auto
-                bg-[url('/assets/images/forgot/BG.png')] bg-center bg-contain bg-no-repeat p-12 sm:p-8 rounded-xl flex flex-col justify-end items-center relative">
-        <div class="w-full rounded-[8vh] p- 
+    <div class="w-full h-screen max-w-sm overflow-auto
+                bg-[url('/assets/images/forgot/BG.png')] bg-center bg-contain bg-no-repeat  sm:p-8 rounded-xl flex flex-col  items-center relative"
+        [ngClass]="registerFlak ? 'justify-center p-6' : 'justify-center p-6'">
+        <div *ngIf="!registerFlak" class="w-full rounded-[8vh] p- 
             bg-gradient-to-b from-[#fa0eda] via-[#ed0e84] to-[#eb0e6c] border-t-2 border-white relative">
             <div class="w-full h-full rounded-[8vh] p-2 
             bg-gradient-to-b from-[#d91367] via-[#e13593] to-[#d30d62] border-b-2 border-white">
@@ -44,7 +45,7 @@
                                         [class.border-red-500]="signupForm.get('password')?.invalid && signupForm.get('password')?.touched" />
                                     <button type="button" (click)="togglePassword()"
                                         class="absolute right-3 top-1/2 translate-y-1  text-gray-500 hover:text-white focus:outline-none">
-                                        <span *ngIf="!showPassword" class="text-xl cursor-pointer">👁</span>
+                                        <span *ngIf="!showPassword" class="w-4 h-4 inline-block bg-[url('/assets/images/login/Eye.png')] bg-no-repeat bg-contain bg-center"></span>
                                         <span *ngIf="showPassword" class="text-xl cursor-pointer">🙈</span>
                                     </button>
                                     <p *ngIf="signupForm.get('password')?.errors?.['required'] && signupForm.get('password')?.touched" class="text-red-600 text-sm mt-1">
@@ -89,10 +90,38 @@
                                 </div>
 
                                 <div class="flex justify-center items-center mt-6">
-                                    <img src="/assets/images/register/BTN.png" (click)="onSubmit()" class="w-[150px] sm:w-[200px] object-cover object-center cursor-pointer"
+                                    <img src="/assets/images/register/BTN.png" (click)="onConfirm()" class="w-[150px] sm:w-[200px] object-cover object-center cursor-pointer"
                                         alt="ยืนยัน">
                                 </div>
                             </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="registerFlak" class="w-full rounded-[8vh] p-1
+            bg-[#112589] relative">
+            <div class="w-full h-full rounded-[8vh] p-1 
+          bg-[#ffffff]">
+                <div class="w-full h-full rounded-[8vh] p-2
+            bg-gradient-to-b from-[#ffcbeb] via-[#ffc3f1] to-[#ffb7f8]">
+                    <div class="flex flex-col justify-center items-center">
+                        <button type="button" (click)="goBack()" class="absolute top-0 -translate-y-10 left-5 w-10">
+                            <img src="/assets/images/login/BTN-Back.png" class="w-8 md:w-12 object-cover cursor-pointer" alt="Back">
+                        </button>
+                        <div class="w-full flex flex-col justify-center items-center gap-4 py-5">
+                            <p class="text-2xl sm:text-4xl font-semibold text-[#12268a]">ยืนยันการสมัคร</p>
+                            <img src="/assets/images/otp/Rectangle.png" class="w-48 object-cover cursor-pointer">
+                            <p class="text-[#12268a] text-center">ระบบไม่สามารถกลับไปแก้ไขข้อมูลได้
+                                กรุณาตรวจสอบข้อมูลให้ถูกต้อง
+                                ก่อนกดปุ่ม <span class="text-[#f4268f]">“ตกลง”</span></p>
+
+                            <div class="flex justify-center items-center">
+                                <img src="/assets/images/register/BTN.png" (click)="onSubmit()" class="w-40 sm:w-48 object-cover object-center cursor-pointer">
+                            </div>
+                            <div class="flex justify-center items-center">
+                                <img src="/assets/images/register/BTN-CENCEL.png" (click)="onCancel()" class="w-40 sm:w-48 object-cover object-center cursor-pointer">
+                            </div>
                         </div>
                     </div>
                 </div>
