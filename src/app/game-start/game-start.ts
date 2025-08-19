@@ -111,7 +111,7 @@ export class GameStart implements OnInit {
           this.startGame();
         }
       });
-    }, 1000);
+    }, 1200);
   }
 
   startGame() {
