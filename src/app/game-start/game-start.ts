@@ -48,6 +48,7 @@ export class GameStart implements OnInit {
   gameTimer: any;
   selectedAnswer: string | null = null;
   score = 0;
+  choice: string = '';
   titleChoice = '';
   maxScorePerQuestion = 100;
   correctAnswers = 0;
@@ -57,6 +58,10 @@ export class GameStart implements OnInit {
   resultAnswers: { [key: string]: boolean }[] = [];
   isGameEnded = false;
   audio = new Audio();
+  showNextButton = false;
+  isAnswerConfirmed = false;
+  checkAnswerByQuestions = {};
+  answerCorrect: string = '';
 
   get totalQuestions(): number {
     return this.questions.length;
@@ -106,7 +111,7 @@ export class GameStart implements OnInit {
         this.countdown--;
         this.cd.detectChanges();
         if (this.countdown <= 0) {
-          audio.pause();
+          // audio.pause();
           clearInterval(intervalId);
           this.startGame();
         }
@@ -150,6 +155,48 @@ export class GameStart implements OnInit {
       console.warn('Unable to play sound:', err);
     });
   }
+  selectAnswer(choice: string, index: number) {
+    // ถ้ายืนยันคำตอบแล้ว หรือเกมจบแล้ว ให้ return
+    if (this.isAnswerConfirmed || this.isGameEnded) return;
+
+    this.playSoundSelectAnswer('assets/sounds/pop.mp3');
+    clearInterval(this.gameTimer);
+
+    this.selectedAnswer = choice;
+
+    const questionNumber = this.questionIndex + 1;
+    const titleChoice = String.fromCharCode(65 + index);
+    this.choice = choice; // เก็บคำตอบที่เลือกไว้
+    // const gainedScore =
+    //   choice === this.currentQuestion.answer
+    //     ? (this.timeLeft / this.questionTime) * this.maxScorePerQuestion
+    //     : 0;
+
+    const existingIndex = this.resultQuestions.findIndex(
+      (q) => q.questionsNumber === questionNumber
+    );
+
+    const answerObj = {
+      id: this.currentQuestion.id,
+      user_id: this.userData.uid,
+      questionsNumber: questionNumber,
+      questions: this.currentQuestion.question,
+      titleChoice: titleChoice,
+      inputAnswer: choice,
+      // score: Math.round(gainedScore),
+      score: 0,
+      time: this.timeLeft,
+    };
+    this.checkAnswerByQuestions = answerObj;
+    if (existingIndex !== -1) {
+      this.resultQuestions[existingIndex] = answerObj;
+    } else {
+      this.resultQuestions.push(answerObj);
+    }
+
+    this.cd.detectChanges();
+  }
+
   startTimer() {
     if (this.gameTimer) clearInterval(this.gameTimer);
 
@@ -157,55 +204,49 @@ export class GameStart implements OnInit {
       this.zone.run(() => {
         this.timeLeft--;
         this.cd.detectChanges();
+
         if (this.timeLeft <= 0) {
-          this.nextQuestion();
+          clearInterval(this.gameTimer);
+
+          // ถ้าไม่เลือกคำตอบ
+          if (!this.selectedAnswer && this.currentQuestion) {
+            const questionNumber = this.questionIndex + 1;
+            this.checkAnswerByQuestions = {
+              id: this.currentQuestion.id,
+              user_id: this.userData.uid,
+              questionsNumber: questionNumber,
+              questions: this.currentQuestion.question,
+              titleChoice: '', // ไม่มีการเลือก
+              inputAnswer: '', // ไม่มีการเลือก
+              score: 0, // ได้ 0 คะแนน
+              time: 0, // เวลา 0
+            };
+            this.resultQuestions.push({
+              id: this.currentQuestion.id,
+              user_id: this.userData.uid,
+              questionsNumber: questionNumber,
+              questions: this.currentQuestion.question,
+              titleChoice: '', // ไม่มีการเลือก
+              inputAnswer: '', // ไม่มีการเลือก
+              score: 0, // ได้ 0 คะแนน
+              time: 0, // เวลา 0
+            });
+          }
+
+          this.selectedAnswer = null;
+          this.showNextButton = true; // แสดงปุ่มข้อต่อไป
+          this.cd.detectChanges();
         }
       });
     }, 1000);
   }
 
-  selectAnswer(choice: string, index: number) {
-    this.playSoundSelectAnswer('assets/sounds/pop.mp3');
-    if (this.isGameEnded) return;
-    clearInterval(this.gameTimer);
-    this.selectedAnswer = choice;
-    const titleChoice = String.fromCharCode(65 + index);
-    const questionNumber = this.questionIndex + 1;
-    if (choice === this.currentQuestion.answer) {
-      const gainedScore =
-        (this.timeLeft / this.questionTime) * this.maxScorePerQuestion;
-      // this.score += Math.round(gainedScore);
-      // this.correctAnswers++;
-      this.resultQuestions.push({
-        id: this.currentQuestion.id,
-        user_id: this.userData.uid,
-        questionsNumber: questionNumber,
-        questions: this.currentQuestion.question,
-        titleChoice: titleChoice,
-        inputAnswer: choice,
-        score: Math.round(gainedScore),
-        time: this.timeLeft,
-      });
-      // console.log(`ถูกต้อง! คุณได้ ${Math.round(gainedScore)} คะแนน`);
-    } else {
-      // console.log('ผิด!');
-      this.resultQuestions.push({
-        id: this.currentQuestion.id,
-        user_id: this.userData.uid,
-        questionsNumber: questionNumber,
-        questions: this.currentQuestion.question,
-        titleChoice: titleChoice,
-        inputAnswer: choice,
-        score: 0,
-        time: this.timeLeft,
-      });
-    }
+  nextQuestion() {
+    this.showNextButton = false;
+    this.selectedAnswer = null;
+    this.isAnswerConfirmed = false; // รีเซ็ตล็อกคำตอบ
+    this.cd.detectChanges();
 
-    this.nextQuestion();
-  }
-
-  async nextQuestion() {
-    if (this.isGameEnded) return;
     this.questionIndex++;
     if (this.questionIndex < this.questions.length) {
       this.currentQuestion = this.questions[this.questionIndex];
@@ -213,8 +254,37 @@ export class GameStart implements OnInit {
       this.cd.detectChanges();
       this.startTimer();
     } else {
-      await this.endGame();
+      this.endGame();
     }
+  }
+  checkAnswer() {
+    if (!this.selectedAnswer) return; // ถ้ายังไม่ได้เลือกคำตอบ
+    this.isAnswerConfirmed = true; // ล็อกคำตอบ
+    this.showNextButton = true;
+    this.cd.detectChanges();
+
+    // หยุด timer
+    if (this.gameTimer) clearInterval(this.gameTimer);
+
+    return new Promise((resolve, reject) => {
+      this.service.checkAnswer(this.checkAnswerByQuestions).subscribe({
+        next: (res) => {
+          this.answerCorrect = res.answer;
+          const gainedScore =
+            this.choice === res.answer
+              ? (this.timeLeft / this.questionTime) * this.maxScorePerQuestion
+              : 0;
+          this.resultQuestions[this.questionIndex].score =
+            Math.round(gainedScore);
+          this.cd.detectChanges();
+          resolve(true);
+        },
+        error: (err) => {
+          console.error('❌ Game Start error:', err);
+          reject(err);
+        },
+      });
+    });
   }
   getResultStatus(index: number): boolean {
     const item = this.resultAnswers[index];
@@ -230,6 +300,7 @@ export class GameStart implements OnInit {
   }
 
   async endGame() {
+    this.timeLeft = this.questionTime;
     this.audio.pause();
     if (this.gameTimer) {
       clearInterval(this.gameTimer);

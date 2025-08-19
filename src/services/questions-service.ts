@@ -16,4 +16,7 @@ export class QuestionsService {
   answer(data: any): Observable<any> {
     return this.http.post(API.ANSWER, data, this.auth.setAuthorization());
   }
+  checkAnswer(data: any): Observable<any> {
+    return this.http.post(API.CHECK_ANSWER, data, this.auth.setAuthorization());
+  }
 }

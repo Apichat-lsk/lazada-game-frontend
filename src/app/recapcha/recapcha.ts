@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { RecaptchaService } from '../../services/recaptcha-service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { AuthTokenService } from '../../component/auth-token.service';
 
 @Component({
   selector: 'app-recapcha',

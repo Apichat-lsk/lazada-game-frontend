@@ -13,20 +13,23 @@ import { Recapcha } from './recapcha/recapcha';
 import { GameStart } from './game-start/game-start';
 import { Board } from './board/board';
 import { Thankyou } from './thankyou/thankyou';
+import { Contact } from './contact/contact';
 
 export const routes: Routes = [
   { path: 'signup', component: Signup },
   { path: 'signin', component: Signin },
-  { path: 'forgot-password', component: ForgotPassword },
-  { path: 'change-password', component: ChangePassword },
   { path: 'otp', component: Otp },
   { path: 'index', component: Index },
-  { path: 'home', component: Home, canActivate: [AuthGuard] },
+  { path: 'contact', component: Contact },
   { path: 'condition', component: GameCondition },
+  { path: 'forgot-password', component: ForgotPassword },
+  { path: 'change-password', component: ChangePassword },
+  { path: 'home', component: Home, canActivate: [AuthGuard] },
   { path: 'rules', component: GameRules, canActivate: [AuthGuard] },
   { path: 'recaptcha', component: Recapcha, canActivate: [AuthGuard] },
   {
     path: 'game-start',
+    canActivate: [AuthGuard],
     loadComponent: () =>
       import('./game-start/game-start').then((m) => m.GameStart),
   },

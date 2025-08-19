@@ -14,6 +14,8 @@ export const API = {
   RECAPTCHA: `${URL}/api/recaptcha/verify-recaptcha`,
   QUESTIONS: `${URL}/api/question`,
   ANSWER: `${URL}/api/question`,
+  CHECK_ANSWER: `${URL}/api/question/check-answer-by-id`,
   BOARD: `${URL}/api/board`,
   CHECK_GAME_DATE: `${URL}/api/game/check-game-date`,
+  CONTACT: `${URL}/api/contact`,
 };

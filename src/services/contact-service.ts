@@ -7,10 +7,10 @@ import { AuthTokenService } from '../component/auth-token.service';
 @Injectable({
   providedIn: 'root',
 })
-export class RecaptchaService {
+export class ContactService {
   constructor(private http: HttpClient, private auth: AuthTokenService) {}
 
-  recaptcha(data: any): Observable<any> {
-    return this.http.post(API.RECAPTCHA, data, this.auth.setAuthorization());
+  create(data: any): Observable<any> {
+    return this.http.post(API.CONTACT, data);
   }
 }
