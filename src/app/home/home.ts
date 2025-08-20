@@ -55,10 +55,4 @@ export class Home implements OnInit {
   Direct(path: string) {
     this.router.navigate([path]);
   }
-  gotoLazada() {
-    window.open(
-      'https://pages.lazada.co.th/wow/gcp/route/lazada/th/upr_1000345_lazada/channel/th/upr-router/th?hybrid=1&data_prefetch=true&prefetch_replace=1&at_iframe=1&wh_pid=/lazada/megascenario/th/99megabrandssale/lazjury',
-      '_blank'
-    );
-  }
 }

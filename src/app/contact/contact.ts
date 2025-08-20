@@ -11,8 +11,8 @@ import { CommonModule, Location } from '@angular/common';
 import { OtpService } from '../../services/otp-service';
 import { Router, RouterModule } from '@angular/router';
 import Swal from 'sweetalert2';
-import { AuthService } from '../../services/auth-service';
 import { ContactService } from '../../services/contact-service';
+import { AuthTokenService } from '../../component/auth-token.service';
 
 @Component({
   selector: 'app-contact',
@@ -26,14 +26,17 @@ export class Contact {
   isMatched = false;
   showPassword = false;
   registerFlak = false;
+  token: string | null = null;
   constructor(
     private otp: OtpService,
     private contact: ContactService,
     private router: Router,
     private location: Location,
+    private auth: AuthTokenService,
     private fb: FormBuilder
   ) {
     this.location.replaceState('');
+    this.token = this.auth.getToken();
     this.contactForm = this.fb.group({
       title: new FormControl('', [
         Validators.required,
@@ -71,6 +74,10 @@ export class Contact {
     }
   }
   goBack(): void {
-    this.router.navigate(['/index']);
+    if (this.token) {
+      this.router.navigate(['/home']);
+    } else {
+      this.router.navigate(['/index']);
+    }
   }
 }

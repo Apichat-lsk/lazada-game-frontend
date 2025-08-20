@@ -1,4 +1,21 @@
 <div class="w-full min-h-screen bg-gray-900 flex justify-center items-center">
+    <div class="w-full max-w-sm h-[100vh] 
+                bg-[url('/assets/images/index/BG-1.png')] bg-center bg-contain p-6 bg-no-repeat flex flex-col justify-start items-center relative">
+        <img src="/assets/images/login/Logo.png" class="w-64 object-contain object-center" alt="Logo">
+        <img src="/assets/images/index/Date.png" class="w-[180px] object-contain absolute top-1/4 translate-y-3" alt="">
+        <div class="w-full flex flex-col justify-center items-center absolute bottom-5">
+            <img src="/assets/images/home/Start.png" class="w-[270px] object-contain object-center cursor-pointer" [class.pointer-events-none]="checkGameToday" alt=""
+                (click)="Direct('/rules')" />
+            <img src="/assets/images/home/Leaderboard.png" class="w-[270px] object-contain object-center cursor-pointer" alt="" (click)="Direct('/board')">
+            <p class="text-white text-2xl font-light underline cursor-pointer DBHelvethaicaRg" (click)="Direct('/contact')">ติดต่อสอบถาม</p>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- <div class="w-full min-h-screen bg-gray-900 flex justify-center items-center">
     <div
         class="w-full max-w-sm min-h-[calc(100vh-40px)] max-h-[calc(100vh-40px)] overflow-auto bg-[url('/assets/images/background.jpg')] bg-cover bg-center p-6 sm:p-10 rounded-xl flex items-center justify-center">
         <div class="w-full flex flex-col items-center justify-center">
@@ -24,4 +41,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->

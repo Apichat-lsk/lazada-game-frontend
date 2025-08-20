@@ -1,19 +1,29 @@
 /* @import url("https://fonts.googleapis.com/css2?family=Sriracha&display=swap"); */
 @import "tailwindcss";
 
+/* Font Bold */
 @font-face {
-  font-family: "MyFont";
+  font-family: "DBHelvethaicaBd";
   src: url("/assets/fonts/DBHelvethaicaMonX/DB HelvethaicaMon X Bd.ttf");
-  /* src: url("/assets/fonts/DB Heavent Bd v3.2.ttf"); */
+  font-weight: bold;
+  font-style: normal;
+}
+
+/* Font Regular */
+@font-face {
+  font-family: "DBHelvethaicaRg";
+  src: url("/assets/fonts/DBHelvethaicaMonX/._DB HelvethaicaMon X Cond.ttf");
   font-weight: normal;
   font-style: normal;
 }
 
 * {
-  font-family: "MyFont", sans-serif;
+  font-family: "DBHelvethaicaBd", sans-serif;
   font-style: normal;
 }
-
+.DBHelvethaicaRg {
+  font-family: "DBHelvethaicaRg", sans-serif;
+}
 img {
   image-rendering: crisp-edges; /* ช่วยให้ภาพพิกเซลชัดขึ้น (เหมาะกับภาพพิกเซลอาร์ต) */
   image-rendering: -webkit-optimize-contrast; /* Chrome, Safari */
