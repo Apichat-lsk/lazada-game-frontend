@@ -37,27 +37,24 @@ export class Signup {
   ) {
     this.location.replaceState('');
     this.signupForm = this.fb.group({
-      fullName: new FormControl('admin', [
+      fullName: new FormControl('', [
         Validators.required,
         Validators.pattern(/^[ก-๏A-Za-z\s]+$/),
       ]),
-      username: new FormControl('admin', [
+      username: new FormControl('', [
         Validators.required,
         Validators.pattern(/^[ก-๏A-Za-z\s]+$/),
       ]),
-      address: new FormControl('Bankok', [
+      address: new FormControl('', [
         Validators.required,
         Validators.pattern(/^[ก-๏A-Za-z\s]+$/),
       ]),
-      password: new FormControl('123456', [
+      password: new FormControl('', [
         Validators.required,
         Validators.pattern(/^[ก-๏A-Za-z0-9\s!@#$%^&*]{6,}$/),
       ]),
-      email: new FormControl('oxford.apichat@gmail.com', [
-        Validators.required,
-        Validators.email,
-      ]),
-      tel: new FormControl('0622488881', [
+      email: new FormControl('', [Validators.required, Validators.email]),
+      tel: new FormControl('', [
         Validators.required,
         Validators.pattern(/^(0|(\+66))[0-9]{8,9}$/),
       ]),

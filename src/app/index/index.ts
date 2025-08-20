@@ -20,7 +20,7 @@ export class Index {
   }
 
   currentDate = new Date();
-  gameEndDate = new Date(new Date().setDate(20));
+  gameEndDate = new Date(new Date().setDate(30));
 
   ngOnInit(): void {
     const token = this.authTokenService.getToken();

@@ -34,13 +34,13 @@ export class Signin {
 
     this.signupForm = this.fb.group({
       username: [
-        'admin',
+        '',
         [
           Validators.required,
           // Validators.pattern(/^[a-zA-Z0-9]+$/) || Validators.email,
         ],
       ],
-      password: new FormControl('123456', [
+      password: new FormControl('', [
         Validators.required,
         Validators.pattern(/^[ก-๏A-Za-z0-9\s!@#$%^&*]{6,}$/),
       ]),
