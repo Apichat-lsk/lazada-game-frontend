@@ -46,3 +46,12 @@ img {
   scrollbar-width: thin; /* Firefox */
   scrollbar-color: transparent transparent;
 }
+.\[text-stroke\:1px_\#381ccc\] {
+  -webkit-text-stroke: 1px #381ccc; /* ขอบรอบตัวหนังสือ */
+  -webkit-text-fill-color: white; /* สีตัวหนังสือ (ภายใน) */
+}
+.pattaya-regular {
+  font-family: "Pattaya", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+}

@@ -38,15 +38,18 @@ export class Contact {
     this.location.replaceState('');
     this.token = this.auth.getToken();
     this.contactForm = this.fb.group({
-      title: new FormControl('', [
+      title: new FormControl('เทส', [
         Validators.required,
-        Validators.pattern(/^[ก-๏A-Za-z\s]+$/),
+        // Validators.pattern(/^[ก-๏A-Za-z\s]+$/),
       ]),
-      description: new FormControl('', [
+      description: new FormControl('เทส', [
         Validators.required,
-        Validators.pattern(/^[ก-๏A-Za-z\s]+$/),
+        // Validators.pattern(/^[ก-๏A-Za-z\s]+$/),
       ]),
-      email: new FormControl('', [Validators.required, Validators.email]),
+      email: new FormControl('oxford.apichat@gmail.com', [
+        Validators.required,
+        Validators.email,
+      ]),
     });
   }
   ngOnInit() {

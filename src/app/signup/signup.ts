@@ -80,7 +80,11 @@ export class Signup {
     this.registerFlak = false;
   }
   onConfirm() {
-    this.registerFlak = true;
+    if (this.signupForm.valid) {
+      this.registerFlak = true;
+    } else {
+      this.signupForm.markAllAsTouched();
+    }
   }
 
   onSubmit() {

@@ -38,9 +38,18 @@ export class GameStart implements OnInit {
   }
   userData: any = {};
   email = '';
-  countdown = 3;
+  fullName = '';
+  countdown = 5;
+  countdownImg: any[] = [
+    '/assets/images/game/Num5.png',
+    '/assets/images/game/Num4.png',
+    '/assets/images/game/Num3.png',
+    '/assets/images/game/Num2.png',
+    '/assets/images/game/Num1.png',
+  ];
   isGameStarted = false;
   currentDate = new Date();
+  certDate = new Date();
   questionIndex = 0;
   currentQuestion: any = null;
   questionTime = 10;
@@ -62,6 +71,7 @@ export class GameStart implements OnInit {
   isAnswerConfirmed = false;
   checkAnswerByQuestions = {};
   answerCorrect: string = '';
+  result = this.genDateTime();
 
   get totalQuestions(): number {
     return this.questions.length;
@@ -69,6 +79,7 @@ export class GameStart implements OnInit {
 
   async ngOnInit() {
     this.userData = this.authTokenService.decodeToken();
+    this.fullName = this.userData.full_name;
     this.email = this.userData.email;
     await this.getAllQuestions();
     this.startCountdown();
@@ -89,6 +100,20 @@ export class GameStart implements OnInit {
       });
     });
   }
+  genDateTime() {
+    this.certDate = new Date();
+    const hours = String(this.certDate.getHours()).padStart(2, '0');
+    const minutes = String(this.certDate.getMinutes()).padStart(2, '0');
+    const time = `${hours}:${minutes}`;
+
+    const day = String(this.certDate.getDate()).padStart(2, '0');
+    const month = String(this.certDate.getMonth() + 1).padStart(2, '0');
+    const year = this.certDate.getFullYear();
+    const date = `${day}/${month}/${year}`;
+
+    // คืนค่าเป็น object
+    return { date, time };
+  }
   getChoiceLabel(index: number): string {
     return String.fromCharCode(65 + index);
   }
@@ -99,13 +124,13 @@ export class GameStart implements OnInit {
       .map(({ value }) => value);
   }
   startCountdown() {
-    this.countdown = 3;
-    const audio = new Audio();
-    audio.src = 'assets/sounds/count-down.mp3';
-    audio.load();
-    audio.play().catch((err) => {
-      console.warn('Unable to play sound:', err);
-    });
+    this.countdown = 5;
+    // const audio = new Audio();
+    // audio.src = 'assets/sounds/count-down.mp3';
+    // audio.load();
+    // audio.play().catch((err) => {
+    //   console.warn('Unable to play sound:', err);
+    // });
     const intervalId = setInterval(() => {
       this.zone.run(() => {
         this.countdown--;
@@ -120,7 +145,7 @@ export class GameStart implements OnInit {
   }
 
   startGame() {
-    this.playSoundGame('assets/sounds/game-play.mp3');
+    // this.playSoundGame('assets/sounds/game-play.mp3');
     this.isGameStarted = true;
     this.questionIndex = 0;
     this.questions = this.questions.map((q) => ({
@@ -359,43 +384,36 @@ export class GameStart implements OnInit {
   }
 
   captureAndShare() {
-    const container = document.querySelector(
-      '.relative.inline-block'
-    ) as HTMLElement;
-    if (!container) return;
+    if (!this.captureArea) return;
 
-    import('html2canvas').then(({ default: html2canvas }) => {
-      html2canvas(container).then((canvas) => {
-        canvas.toBlob((blob) => {
-          if (!blob) return;
-          const file = new File([blob], 'certificate.png', {
-            type: 'image/png',
+    html2canvas(this.captureArea.nativeElement).then((canvas) => {
+      canvas.toBlob((blob) => {
+        if (!blob) return;
+        const file = new File([blob], 'certificate.png', { type: 'image/png' });
+
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          navigator
+            .share({
+              files: [file],
+              title: 'Certificate',
+              text: 'แชร์ใบประกาศของฉัน',
+            })
+            .catch((err) => console.error('แชร์ไม่สำเร็จ', err));
+        } else {
+          const link = document.createElement('a');
+          link.href = URL.createObjectURL(file);
+          link.download = 'certificate.png';
+          link.click();
+          URL.revokeObjectURL(link.href);
+
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'บันทึกรูปภาพเรียบร้อย',
+            showConfirmButton: false,
+            timer: 1500,
           });
-          if (navigator.canShare && navigator.canShare({ files: [file] })) {
-            navigator
-              .share({
-                files: [file],
-                title: 'Certificate',
-                text: 'แชร์ใบประกาศของฉัน',
-              })
-              .catch((err) => {
-                console.error('แชร์ไม่สำเร็จ', err);
-              });
-          } else {
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(file);
-            link.download = 'certificate.png';
-            link.click();
-            URL.revokeObjectURL(link.href);
-            Swal.fire({
-              position: 'top-end',
-              icon: 'success',
-              title: 'บันทึกรูปภาพเรียบร้อย',
-              showConfirmButton: false,
-              timer: 1500,
-            });
-          }
-        });
+        }
       });
     });
   }
