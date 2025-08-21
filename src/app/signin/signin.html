@@ -15,7 +15,7 @@
                                 <img src="/assets/images/login/BTN-Back.png" class="w-8 md:w-12 object-cover cursor-pointer" alt="Back">
                             </button>
                             <p class="text-3xl sm:text-4xl font-bold text-white">เข้าสู่ระบบ</p>
-                            <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="w-full p-2 rounded-lg" novalidate>
+                            <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="w-full rounded-lg" novalidate>
                                 <div>
                                     <label for="username" class="block mb-1 font-semibold text-white text-xl sm:text-2xl">ชื่อผู้ใช้ หรือ อีเมล</label>
                                     <input id="username" type="text" formControlName="username" placeholder="กรอกชื่อผู้ใช้งาน" class="w-full  bg-white"
