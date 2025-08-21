@@ -1,26 +1,6 @@
 /* @import url("https://fonts.googleapis.com/css2?family=Sriracha&display=swap"); */
 @import "tailwindcss";
 
-/* Font Bold */
-@font-face {
-  font-family: "DBHelvethaicaBd";
-  src: url("/assets/fonts/DBHelvethaicaMonX/DB HelvethaicaMon X Bd.ttf");
-  font-weight: bold;
-  font-style: normal;
-}
-
-/* Font Regular */
-@font-face {
-  font-family: "DBHelvethaicaRg";
-  src: url("/assets/fonts/DBHelvethaicaMonX/._DB HelvethaicaMon X Cond.ttf");
-  font-weight: normal;
-  font-style: normal;
-}
-
-* {
-  font-family: "DBHelvethaicaBd", sans-serif;
-  font-style: normal;
-}
 .DBHelvethaicaRg {
   font-family: "DBHelvethaicaRg", sans-serif;
 }

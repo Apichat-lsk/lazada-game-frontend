@@ -30,7 +30,7 @@ export class Index {
       if (this.currentDate >= this.gameEndDate) {
         this.router.navigate(['/thankyou']);
       } else {
-        this.router.navigate(['/board']);
+        this.router.navigate(['/home']);
       }
     }
   }
