@@ -27,7 +27,7 @@ export class Home implements OnInit {
 
   checkGameToday = true;
   currentDate: Date = new Date();
-  fixedDate: Date = new Date(new Date().setHours(19, 59, 0, 0));
+  fixedDate: Date = new Date(new Date().setUTCHours(19, 59, 0, 0));
 
   ngOnInit(): void {
     if (this.currentDate.getTime() >= this.fixedDate.getTime()) {

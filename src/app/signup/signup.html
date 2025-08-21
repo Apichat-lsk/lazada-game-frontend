@@ -4,7 +4,7 @@
         [ngClass]="registerFlak ? 'justify-center p-6' : 'justify-center p-6'">
         <div *ngIf="!registerFlak" class="w-full rounded-[8vh] p- 
             bg-gradient-to-b from-[#fa0eda] via-[#ed0e84] to-[#eb0e6c] border-t-2 border-white relative">
-            <div class="w-full h-full rounded-[8vh] p-2 
+            <div class="w-full h-full rounded-[8vh] p-1 
             bg-gradient-to-b from-[#d91367] via-[#e13593] to-[#d30d62] border-b-2 border-white">
                 <div class="w-full h-full rounded-[8vh] p-3 
             bg-gradient-to-b from-[#f11472] via-[#fa3ca5] to-[#eb0e6d]">
@@ -15,11 +15,11 @@
                                 <img src="/assets/images/login/BTN-Back.png" class="w-8 md:w-12 object-cover cursor-pointer" alt="Back">
                             </button>
                             <p class="text-3xl sm:text-4xl font-bold text-white">สมัครสมาชิค</p>
-                            <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="w-full px-1 rounded-lg" novalidate>
+                            <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="w-full px-1 rounded-lg space-y-2" novalidate>
                                 <div class="">
-                                    <label for="fullName" class="block font-semibold text-white text-lg sm:text-2xl">ชื่อ - นามสกุล</label>
+                                    <label for="fullName" class="block text-white text-lg sm:text-2xl">ชื่อ - นามสกุล</label>
                                     <input id="fullName" type="text" formControlName="fullName" placeholder="กรอกชื่อ - นามสกุล"
-                                        class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 bg-white text-gray-500 text-base sm:text-xl focus:ring-pink-400"
+                                        class="w-full p-1 border rounded focus:outline-none focus:ring-2 bg-white text-gray-500 text-base sm:text-xl focus:ring-pink-400"
                                         [class.border-red-500]="signupForm.get('fullName')?.invalid && signupForm.get('fullName')?.touched" />
                                     <p *ngIf="signupForm.get('fullName')?.errors?.['required'] && signupForm.get('fullName')?.touched" class="text-red-600 text-sm mt-1">
                                         กรุณากรอกชื่อ - นามสกุล</p>
@@ -28,9 +28,9 @@
                                         นามสกุลให้ถูกต้อง</p>
                                 </div>
                                 <div class="">
-                                    <label for="username" class="block font-semibold text-white text-lg sm:text-2xl">ชื่อผู้ใช้งาน</label>
+                                    <label for="username" class="block text-white text-lg sm:text-2xl">ชื่อผู้ใช้งาน</label>
                                     <input id="username" type="text" formControlName="username" placeholder="กรอกชื่อผู้ใช้งาน"
-                                        class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 bg-white text-gray-500 text-base sm:text-xl focus:ring-pink-400"
+                                        class="w-full p-1 border rounded focus:outline-none focus:ring-2 bg-white text-gray-500 text-base sm:text-xl focus:ring-pink-400"
                                         [class.border-red-500]="signupForm.get('username')?.invalid && signupForm.get('username')?.touched" />
                                     <p *ngIf="signupForm.get('username')?.errors?.['required'] && signupForm.get('username')?.touched" class="text-red-600 text-sm mt-1">
                                         กรุณากรอกชื่อผู้ใช้งาน</p>
@@ -39,9 +39,9 @@
                                 </div>
 
                                 <div class="relative ">
-                                    <label for="password" class="block font-semibold text-white text-lg sm:text-2xl">รหัสผ่าน</label>
+                                    <label for="password" class="block text-white text-lg sm:text-2xl">รหัสผ่าน</label>
                                     <input id="password" [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="กรอกรหัสผ่าน"
-                                        class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 bg-white text-gray-500 text-base sm:text-xl focus:ring-pink-400 pr-12"
+                                        class="w-full p-1 border rounded focus:outline-none focus:ring-2 bg-white text-gray-500 text-base sm:text-xl focus:ring-pink-400 pr-12"
                                         [class.border-red-500]="signupForm.get('password')?.invalid && signupForm.get('password')?.touched" />
                                     <button type="button" (click)="togglePassword()"
                                         class="absolute right-3 top-1/2 translate-y-1  text-gray-500 hover:text-white focus:outline-none">
@@ -56,9 +56,9 @@
                                 </div>
 
                                 <div class="">
-                                    <label for="email" class="block font-semibold text-white text-lg sm:text-2xl">อีเมล</label>
+                                    <label for="email" class="block text-white text-lg sm:text-2xl">อีเมล</label>
                                     <input id="email" type="email" formControlName="email" placeholder="กรอกอีเมล"
-                                        class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 bg-white text-gray-500 text-base sm:text-xl focus:ring-pink-400"
+                                        class="w-full p-1 border rounded focus:outline-none focus:ring-2 bg-white text-gray-500 text-base sm:text-xl focus:ring-pink-400"
                                         [class.border-red-500]="signupForm.get('email')?.invalid && signupForm.get('email')?.touched" />
                                     <p *ngIf="signupForm.get('email')?.errors?.['required'] && signupForm.get('email')?.touched" class="text-red-600 text-sm mt-1">กรุณากรอกอีเมล
                                     </p>
@@ -67,9 +67,9 @@
                                 </div>
 
                                 <div class="">
-                                    <label for="address" class="block font-semibold text-white text-lg sm:text-2xl">ที่อยู่</label>
+                                    <label for="address" class="block text-white text-lg sm:text-2xl">ที่อยู่</label>
                                     <input id="address" type="address" formControlName="address" placeholder="กรอกที่อยู่"
-                                        class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 bg-white text-gray-500 text-base sm:text-xl focus:ring-pink-400"
+                                        class="w-full p-1 border rounded focus:outline-none focus:ring-2 bg-white text-gray-500 text-base sm:text-xl focus:ring-pink-400"
                                         [class.border-red-500]="signupForm.get('address')?.invalid && signupForm.get('address')?.touched" />
                                     <p class="text-white text-sm sm:text-xl">*กรุณากรอกที่อยู่ตามจริง เพื่อรับของรางวัล</p>
                                     <p *ngIf="signupForm.get('address')?.errors?.['required'] && signupForm.get('address')?.touched" class="text-red-600 text-sm mt-1">
@@ -79,9 +79,9 @@
                                 </div>
 
                                 <div class="">
-                                    <label for="tel" class="block font-semibold text-white text-lg sm:text-2xl">เบอร์โทร</label>
+                                    <label for="tel" class="block text-white text-lg sm:text-2xl">เบอร์โทร</label>
                                     <input id="tel" type="tel" formControlName="tel" placeholder="0812345678 หรือ +66812345678"
-                                        class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 bg-white text-gray-500 text-base sm:text-xl focus:ring-pink-400"
+                                        class="w-full p-1 border rounded focus:outline-none focus:ring-2 bg-white text-gray-500 text-base sm:text-xl focus:ring-pink-400"
                                         [class.border-red-500]="signupForm.get('tel')?.invalid && signupForm.get('tel')?.touched" />
                                     <p class="text-white text-sm sm:text-xl">*กรุณากรอกเบอร์ที่ติดต่อได้ เพื่อรับของรางวัล</p>
                                     <p *ngIf="signupForm.get('tel')?.errors?.['required'] && signupForm.get('tel')?.touched" class="text-red-600 text-sm mt-1">กรุณากรอกเบอร์โทร</p>
@@ -103,14 +103,14 @@
             bg-[#112589] relative">
             <div class="w-full h-full rounded-[8vh] p-1 
           bg-[#ffffff]">
-                <div class="w-full h-full rounded-[8vh] p-2
+                <div class="w-full h-full rounded-[8vh] p-1
             bg-gradient-to-b from-[#ffcbeb] via-[#ffc3f1] to-[#ffb7f8]">
                     <div class="flex flex-col justify-center items-center">
                         <button type="button" (click)="goBack()" class="absolute top-0 -translate-y-10 left-5 w-10">
                             <img src="/assets/images/login/BTN-Back.png" class="w-8 md:w-12 object-cover cursor-pointer" alt="Back">
                         </button>
                         <div class="w-full flex flex-col justify-center items-center gap-4 py-5">
-                            <p class="text-2xl sm:text-4xl font-semibold text-[#12268a]">ยืนยันการสมัคร</p>
+                            <p class="text-2xl sm:text-4xl text-[#12268a]">ยืนยันการสมัคร</p>
                             <img src="/assets/images/otp/Rectangle.png" class="w-48 object-cover cursor-pointer">
                             <p class="text-[#12268a] text-center">ระบบไม่สามารถกลับไปแก้ไขข้อมูลได้
                                 กรุณาตรวจสอบข้อมูลให้ถูกต้อง

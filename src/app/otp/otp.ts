@@ -39,9 +39,9 @@ export class Otp implements OnInit, OnDestroy {
   private type: string = '';
   private pathUrl: string = '';
   user: any;
-  totalSeconds = 300;
-  displayMinutes = '05';
-  displaySeconds = '00';
+  totalSeconds = 10;
+  displayMinutes = '00';
+  displaySeconds = '10';
 
   constructor(
     private otp: OtpService,
@@ -52,7 +52,6 @@ export class Otp implements OnInit, OnDestroy {
     private userTransferService: UserTransferService
   ) {
     this.location.replaceState('');
-    this.user = this.userTransferService.userData;
     this.route.queryParamMap.subscribe((params) => {
       this.email = params.get('email') || '';
       this.showEmail = this.email.replace(/(.{2}).+(@.+)/, '$1***$2'); // แสดงแค่ 2 ตัวแรกและ @domain
@@ -95,9 +94,9 @@ export class Otp implements OnInit, OnDestroy {
   private timerSubscription?: Subscription;
 
   ngOnInit() {
-    this.totalSeconds = 300; // 5 minutes
-    this.displayMinutes = '05';
-    this.displaySeconds = '00';
+    this.totalSeconds = 10; // 5 minutes
+    this.displayMinutes = '00';
+    this.displaySeconds = '10';
     this.startTimer();
   }
 
@@ -129,7 +128,10 @@ export class Otp implements OnInit, OnDestroy {
     });
   }
   startTimer() {
-    this.isTime = false;
+    this.isTime = false; // เริ่มต้นยังไม่สามารถขอ OTP ใหม่
+    this.totalSeconds = 10; // 5 นาที
+    this.displayMinutes = '00';
+    this.displaySeconds = '10';
     this.timerSubscription?.unsubscribe();
 
     this.timerSubscription = interval(1000).subscribe(() => {
@@ -139,8 +141,9 @@ export class Otp implements OnInit, OnDestroy {
         const seconds = this.totalSeconds % 60;
         this.displayMinutes = minutes < 10 ? '0' + minutes : '' + minutes;
         this.displaySeconds = seconds < 10 ? '0' + seconds : '' + seconds;
-        this.cdr.markForCheck(); // แนะนำใช้ markForCheck แทน detectChanges
+        this.cdr.markForCheck();
       } else {
+        // ครบเวลาแล้วสามารถขอ OTP อีกครั้ง
         this.isTime = true;
         this.timerSubscription?.unsubscribe();
         this.cdr.markForCheck();
@@ -148,12 +151,11 @@ export class Otp implements OnInit, OnDestroy {
     });
   }
   requestOtpAgain() {
-    this.totalSeconds = 300; // 5 minutes
-    this.displayMinutes = '05';
-    this.displaySeconds = '00';
-    this.otp.sendAgain(this.user).subscribe({
+    this.totalSeconds = 10; // 5 minutes
+    this.displayMinutes = '00';
+    this.displaySeconds = '10';
+    this.otp.getOtp({ email: this.email }).subscribe({
       next: (res) => {
-        console.log('🚀 ~ Otp ~ requestOtpAgain ~ res:', res);
         if (res.check == true) {
           this.isTime = false;
         } else {

@@ -15,43 +15,43 @@ import { ChangeDetectorRef } from '@angular/core';
   styleUrl: './board.css',
 })
 export class Board {
+  userData: any = null;
+  myName: string = '';
   constructor(
     private router: Router,
     private location: Location,
     private authTokenService: AuthTokenService,
+    private auth: AuthTokenService,
     private board: BoardService,
     private zone: NgZone,
     private cdr: ChangeDetectorRef
   ) {
     this.location.replaceState('');
+    this.userData = this.authTokenService.decodeToken();
+    this.myName = this.userData.username || '';
   }
   @ViewChildren('myUserEl') userElements!: QueryList<ElementRef>;
   topUsers: any[] = [];
   filteredSortedUsers: any[] = [];
-  myName = 'Apichat';
+  myScore = 0;
+  myRank = 0;
   currentPage = 1;
   itemsPerPage = 20;
   currentDate: Date = new Date();
-  minDate = new Date(2025, 7, 2);
+  minDate = new Date(2025, 7, 20); // มกราเริ่มจาก 0
   maxDate = new Date();
   scoreDate = new Date();
-  firstUsername: string = '';
-  secondUsername: string = '';
-  thirdUsername: string = '';
-  firstPoint: number = 0;
-  secondPoint: number = 0;
-  thirdPoint: number = 0;
   totalPages = 10;
   isLoading = false;
 
   async ngOnInit() {
-    this.scoreDate.setHours(20, 0, 0, 0);
+    this.scoreDate.setHours(20, 30, 0, 0);
     if (this.currentDate >= this.scoreDate) {
       await this.getAllBoard(this.currentDate);
       this.updateUsersByDate();
     }
   }
-  getAllBoard(date: Date): Promise<void> {
+  async getAllBoard(date: Date): Promise<void> {
     return new Promise((resolve, reject) => {
       const now = new Date().getDate();
       const currentDay = this.currentDate.getDate();
@@ -65,6 +65,7 @@ export class Board {
         next: (res) => {
           this.zone.run(() => {
             this.topUsers = res || [];
+
             this.updateUsersByDate();
           });
           resolve();
@@ -81,15 +82,19 @@ export class Board {
       // .filter((user) => this.isSameDate(user.date, this.currentDate))
       .sort((a, b) => b.score - a.score);
 
-    if (new Date() >= this.scoreDate) {
-      this.firstUsername = this.filteredSortedUsers[0]?.username || '';
-      this.secondUsername = this.filteredSortedUsers[1]?.username || '';
-      this.thirdUsername = this.filteredSortedUsers[2]?.username || '';
-      this.firstPoint = this.filteredSortedUsers[0]?.score || 0;
-      this.secondPoint = this.filteredSortedUsers[1]?.score || 0;
-      this.thirdPoint = this.filteredSortedUsers[2]?.score || 0;
-      this.cdr.detectChanges();
+    // if (new Date() > this.scoreDate) {
+    const myData = this.filteredSortedUsers.find(
+      (user) => user.username === this.myName
+    );
+    if (myData) {
+      this.myScore = myData.score;
+      this.myRank =
+        this.filteredSortedUsers.findIndex(
+          (user) => user.username === this.myName
+        ) + 1;
     }
+    this.cdr.detectChanges();
+    // }
   }
   ngAfterViewInit(): void {
     setTimeout(() => {
@@ -125,7 +130,7 @@ export class Board {
     this.isLoading = true;
     const next = new Date(this.currentDate);
     next.setDate(this.currentDate.getDate() + 1);
-    // this.scoreDate = new Date(next.setHours(20, 0, 0, 0));
+    // this.scoreDate = new Date(next.setUTCHours(20, 0, 0, 0));
     this.currentDate = next;
     await this.getAllBoard(next);
     this.isLoading = false;
@@ -158,12 +163,18 @@ export class Board {
       return false;
     }
   }
+  get isLeftDisabled() {
+    return this.currentDate <= this.minDate || this.isLoading;
+  }
 
+  get isRightDisabled() {
+    return this.currentDate >= this.maxDate || this.isLoading;
+  }
   async prevDate() {
     this.isLoading = true;
     const prev = new Date(this.currentDate);
     prev.setDate(this.currentDate.getDate() - 1);
-    // this.scoreDate = new Date(prev.setHours(20, 0, 0, 0));
+    // this.scoreDate = new Date(prev.setUTCHours(20, 0, 0, 0));
     this.currentDate = prev;
     await this.getAllBoard(prev);
     this.isLoading = false;
@@ -172,5 +183,11 @@ export class Board {
 
   cancel(path: string) {
     this.router.navigate([path]);
+  }
+  gotoLazada() {
+    window.open(
+      'https://pages.lazada.co.th/wow/gcp/route/lazada/th/upr_1000345_lazada/channel/th/upr-router/th?hybrid=1&data_prefetch=true&prefetch_replace=1&at_iframe=1&wh_pid=/lazada/megascenario/th/99megabrandssale/lazjury',
+      '_blank'
+    );
   }
 }
