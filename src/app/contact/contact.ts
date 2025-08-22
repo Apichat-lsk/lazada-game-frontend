@@ -62,7 +62,24 @@ export class Contact {
     if (this.contactForm.valid) {
       this.contact.create(this.contactForm.value).subscribe({
         next: (res) => {
-          if (!res) {
+          if (res.status === true) {
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: res.message,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            this.contactForm.reset();
+          } else {
+            console.error('❌ Contact error:', res.message);
+            Swal.fire({
+              position: 'top-end',
+              icon: 'error',
+              title: res.message,
+              showConfirmButton: false,
+              timer: 1500,
+            });
           }
         },
         error: (err) => {
