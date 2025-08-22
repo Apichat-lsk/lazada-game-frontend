@@ -1,55 +1,53 @@
-<div class="w-full h-screen bg-gray-900 flex justify-center items-center">
-    <div class="w-full max-w-sm h-[100vh] 
-                bg-[url('/assets/images/forgot/BG.png')] bg-center bg-contain p-4 bg-no-repeat flex flex-col justify-start items-center relative">
-        <img src="/assets/images/login/Logo.png" class="w-64 object-contain object-center" alt="Logo">
-        <div class="w-full rounded-[8vh] p-2 
+<div class="w-full bg-[url('/assets/images/login/BG.png')]  bg-[length:100%_100%] sm:bg-contain bg-no-repeat bg-center flex justify-center items-center">
+    <div class="w-full max-w-sm h-[100dvh]
+                 p-6 sm:p-4 bg-no-repeat flex flex-col justify-start mt-auto items-center">
+        <img src="/assets/images/login/Logo.png" class="w-64 max-w-sm object-contain object-center">
+        <div class="w-full rounded-[8vh] p-1 
             bg-gradient-to-b from-[#fa0eda] via-[#ed0e84] to-[#eb0e6c] border-t-2 border-white relative">
-            <div class="w-full h-full rounded-[8vh] p-2 
+            <div class="w-full  rounded-[8vh] p-1 
             bg-gradient-to-b from-[#d91367] via-[#e13593] to-[#d30d62] border-b-2 border-white">
-                <div class="w-full h-full rounded-[8vh] p-3 
+                <div class="w-full  rounded-[8vh] p-2 
             bg-gradient-to-b from-[#f11472] via-[#fa3ca5] to-[#eb0e6d]">
-                    <div class="w-full h-full rounded-[8vh] p-3
+                    <div class="w-full  rounded-[8vh] p-5 sm:p2
             bg-gradient-to-b from-[#8b1d4b] via-[#913c6f] to-[#831444]">
                         <div class="flex flex-col justify-center items-center">
-                            <button type="button" (click)="goBack()" class="absolute top-0 -translate-y-10 left-5 w-10">
-                                <img src="/assets/images/login/BTN-Back.png" class="w-8 md:w-12 object-cover cursor-pointer" alt="Back">
+                            <button type="button" (click)="goBack()" class="absolute top-0 -translate-y-15 left-5 w-10">
+                                <img src="/assets/images/login/BTN-Back.png" class="w-12 max-w-sm object-cover cursor-pointer">
                             </button>
-                            <p class="text-3xl sm:text-4xl font-bold text-white">เข้าสู่ระบบ</p>
-                            <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="w-full sm:p-6 rounded-lg space-y-2" novalidate>
+                            <p class="text-2xl sm:text-4xl font-bold text-white">เข้าสู่ระบบ</p>
+                            <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="w-full rounded-xl space-y-2 sm:space-y-3 sm:p-3" novalidate>
                                 <div>
-                                    <label for="username" class="block mb-1  text-white text-xl sm:text-2xl">ชื่อผู้ใช้ หรือ อีเมล</label>
+                                    <label for="username" class="b-1 text-white text-xl sm:text-2xl">ชื่อผู้ใช้ หรือ อีเมล</label>
                                     <input id="username" type="text" formControlName="username" placeholder="กรอกชื่อผู้ใช้งาน"
-                                        class="w-full p-2 border rounded focus:outline-none focus:ring-2 text-base sm:text-xl focus:ring-pink-400 bg-white"
+                                        class="w-full p-2 border rounded focus:outline-none focus:ring-2 text-gray-500 text-base sm:text-xl focus:ring-pink-400 bg-white"
                                         [class.border-red-500]="signupForm.get('username')?.invalid && signupForm.get('username')?.touched" />
-                                    <p *ngIf="signupForm.get('username')?.errors?.['required'] && signupForm.get('username')?.touched" class="text-red-600 text-sm mt-1">
+                                    <p *ngIf="signupForm.get('username')?.errors?.['required'] && signupForm.get('username')?.touched" class="text-red-600 text-xl sm:text-2xl">
                                         กรุณากรอกชื่อผู้ใช้งาน
                                     </p>
-                                    <p *ngIf="signupForm.get('username')?.errors?.['pattern'] && signupForm.get('username')?.touched" class="text-red-600 text-sm mt-1">
+                                    <p *ngIf="signupForm.get('username')?.errors?.['pattern'] && signupForm.get('username')?.touched" class="text-red-600 text-xl sm:text-2xl">
                                         กรุณากรอกชื่อผู้ใช้งานให้ถูกต้อง
                                     </p>
                                 </div>
                                 <div class="relative">
-                                    <label for="password" class="block  text-white text-xl sm:text-2xl">รหัสผ่าน</label>
+                                    <label for="password" class="text-white text-xl sm:text-2xl">รหัสผ่าน</label>
                                     <input id="password" [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="กรอกรหัสผ่าน"
-                                        class="w-full p-2 border rounded focus:outline-none focus:ring-2 text-base sm:text-xl focus:ring-pink-400 bg-white pr-12"
+                                        class="w-full p-2 border rounded focus:outline-none focus:ring-2 text-gray-500 text-base sm:text-xl focus:ring-pink-400 bg-white pr-12"
                                         [class.border-red-500]="signupForm.get('password')?.invalid && signupForm.get('password')?.touched" />
-                                    <button type="button" (click)="togglePassword()"
-                                        class="absolute right-3 top-1/2 translate-y-1/5 text-gray-500 hover:text-gray-700 focus:outline-none">
+                                    <button type="button" (click)="togglePassword()" class="absolute right-3 top-10 text-gray-500 hover:text-gray-700 focus:outline-none">
                                         <span *ngIf="!showPassword" class="w-4 h-4 inline-block bg-[url('/assets/images/login/Eye.png')] bg-no-repeat bg-contain bg-center"></span>
                                         <span *ngIf="showPassword" class="text-lg sm:text-xl cursor-pointer">🙈</span>
                                     </button>
-                                    <p *ngIf="signupForm.get('password')?.errors?.['required'] && signupForm.get('password')?.touched" class="text-red-600 text-sm mt-1">
+                                    <p *ngIf="signupForm.get('password')?.errors?.['required'] && signupForm.get('password')?.touched" class="text-red-600 text-xl sm:text-2xl">
                                         กรุณากรอกรหัสผ่าน</p>
-                                    <p *ngIf="signupForm.get('password')?.errors?.['pattern'] && signupForm.get('password')?.touched" class="text-red-600 text-sm mt-1">
+                                    <p *ngIf="signupForm.get('password')?.errors?.['pattern'] && signupForm.get('password')?.touched" class="text-red-600 text-xl sm:text-2xl">
                                         กรุณากรอกรหัสผ่านให้ถูกต้องอย่างน้อย 6 ตัว
                                     </p>
                                 </div>
-                                <div class="text-center text-white text-base sm:text-xl underline mt-4">
+                                <div class="text-center text-white text-xl sm:text-2xl underline">
                                     <a href="/forgot-password">ลืมรหัสผ่าน</a>
                                 </div>
                                 <div class="flex justify-center items-center">
-                                    <img src="/assets/images/login/BTN.png" (click)="onSubmit()" class="w-40 sm:w-48 object-cover object-center cursor-pointer mt-4"
-                                        alt="Login Button">
+                                    <img src="/assets/images/login/BTN.png" (click)="onSubmit()" class="w-40 sm:w-48 object-cover object-center cursor-pointer">
                                 </div>
                             </form>
                         </div>

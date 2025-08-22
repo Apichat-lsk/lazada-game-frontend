@@ -34,7 +34,7 @@ export const routes: Routes = [
       import('./game-start/game-start').then((m) => m.GameStart),
   },
   { path: 'board', component: Board, canActivate: [AuthGuard] },
-  { path: 'thankyou', component: Thankyou, canActivate: [AuthGuard] },
+  { path: 'thankyou', component: Thankyou },
   {
     path: '',
     redirectTo: '/index',

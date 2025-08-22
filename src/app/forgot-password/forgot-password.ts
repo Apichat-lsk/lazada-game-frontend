@@ -29,10 +29,7 @@ export class ForgotPassword {
   ) {
     this.location.replaceState('');
     this.forgotPasswordForm = new FormGroup({
-      email: new FormControl('oxford.apichat@gmail.com', [
-        Validators.required,
-        Validators.email,
-      ]),
+      email: new FormControl('', [Validators.required, Validators.email]),
     });
   }
 
