@@ -1,128 +1,121 @@
-<div class="w-full min-h-screen bg-gray-900 flex justify-center items-center">
-    <div class="w-full max-w-sm h-[100vh] 
-                bg-[url('/assets/images/game/BG-1.png')] bg-center bg-contain bg-no-repeat flex flex-col justify-center items-center relative">
-        <div class="w-full max-w-sm h-[100vh] 
-                bg-[url('/assets/images/game/BG-2.png')] bg-center bg-contain p-6 bg-no-repeat flex flex-col justify-center items-center relative">
-            <div class="mb-4" *ngIf="countdown > 0">
-                <img [src]="countdownImg[5 - countdown]" alt="Countdown" class="w-84 h-84 mx-auto" />
-            </div>
-            <div *ngIf="isGameStarted && currentQuestion && timeLeft > 0" class="w-full flex flex-col justify-center items-center gap-6 relative">
-                <!-- <div class="w-full h-4 bg-gray-300 rounded-lg overflow-hidden">
-                    <div class="h-full bg-[rgba(255,70,70,1)] transition-all duration-1000" [style.width.%]="(timeLeft / questionTime) * 100"></div>
-                </div> -->
-                <div class="w-full h-[7vh] bg-[url('/assets/images/game/Time.png')] bg-center bg-contain bg-no-repeat flex justify-center items-center">
-                    <p class="text-3xl text-white [text-stroke:1px_#381ccc] translate-x-5">เหลือเวลา {{ timeLeft }} วินาที</p>
-                </div>
-                <!-- <div class="w-full h-32 rounded-[3vh] p-1
-             bg-[#67a8d8] relative">
-                    <div class="w-full h-full rounded-[3vh] p-1 
-             bg-[#381ccc] border-r-1 border-l-1 border-[#ffffff]">
-                        <div class="w-full h-full rounded-[3vh] p-1 
-             bg-[#3b1de0]">
-                            <div class="w-full h-full rounded-[3vh] p-2" style="background: radial-gradient(circle at center, #372d83 0%, #372d83 50%, #372d83 100%);"> -->
-                <div class="w-full h-full flex  flex-col justify-center items-center   relative">
+<div class="w-full bg-[url('/assets/images/board/BG-01.png')]  bg-[length:100%_100%] sm:bg-contain bg-no-repeat bg-center flex justify-center items-center">
+    <div class="w-full max-w-sm h-[100dvh]
+                p-6 sm:p-4 bg-no-repeat flex flex-col justify-center mt-auto items-center overflow-auto relative">
 
-                    <div class="absolute top-0 translate-y-4">
+        <div class="mb-4" *ngIf="countdown > 0">
+            <img [src]="countdownImg[5 - countdown]" alt="Countdown" class="w-84 h-84 mx-auto" />
+        </div>
+
+        <div *ngIf="isGameStarted && currentQuestion && timeLeft > 0" class="w-full flex flex-col justify-center items-center gap-6 relative">
+            <div class="w-full h-[7vh] bg-[url('/assets/images/game/Time.png')] bg-center bg-contain bg-no-repeat flex justify-center items-center">
+                <p class="text-3xl sm:text-5xl text-white">เหลือเวลา {{ timeLeft }} วินาที</p>
+            </div>
+            <div class="grid grid-cols-1 gap-1 w-full">
+                <div class="w-full h-full flex  flex-col justify-center items-center relative">
+                    <div class="absolute top-0">
                         <div class="w-full flex justify-between items-center" *ngIf="isGameStarted && currentQuestion">
                             <div class="relative w-18 h-10 rounded-full text-white text-3xl font-semibold flex items-center justify-center 
-            bg-[#ab4aaf] shadow-[0_4px_6px_rgba(0,0,0,0.3)] border-t-2 border-white overflow-hidden">
+                             bg-[#ab4aaf] shadow-[0_4px_6px_rgba(0,0,0,0.3)] border-t-2 border-white overflow-hidden">
                                 {{ questionIndex + 1 }}/{{ totalQuestions }}
                                 <div class="absolute top-0 left-0 w-full h-1/2 rounded-full bg-gradient-to-b from-white/40 to-transparent"></div>
                             </div>
                         </div>
                     </div>
-                    <p class="text-3xl text-center font-semibold text-white bg-[url('/assets/images/game/Hue_Saturation2.png')] bg-center bg-contain p-16 bg-no-repeat">
-                        {{ currentQuestion.question }}
-                    </p>
-                </div>
-                <!-- </div>
-                        </div>
+                    <div>
+                        <p
+                            class="text-2xl sm:text-4xl text-center font-semibold text-white bg-[url('/assets/images/game/Hue_Saturation2.png')] bg-center bg-contain p-16 bg-no-repeat">
+                            {{ currentQuestion.question }}
+                        </p>
                     </div>
-                </div> -->
-                <div class="grid grid-cols-1 gap-1 w-full">
-                    <div *ngFor="let choice of currentQuestion.choices; let i = index" (click)="selectAnswer(choice,i)"
-                        class="w-full flex justify-between items-center cursor-pointer rounded-lg text-center text-3xl transition duration-300 relative">
+                </div>
+                <div *ngFor="let choice of currentQuestion.choices; let i = index" (click)="selectAnswer(choice,i)"
+                    class="w-full flex justify-between items-center cursor-pointer rounded-lg text-center text-2xl sm:text-4xl transition duration-300 relative">
 
-                        <div class="w-full h-full text-white bg-[url('/assets/images/game/Choice.png')] bg-center bg-contain p-6 bg-no-repeat" [ngClass]="{
+                    <div class="w-full h-full text-white bg-[url('/assets/images/game/Choice.png')] bg-center bg-contain p-6 bg-no-repeat" [ngClass]="{
                     'bg-[url(/assets/images/game/BTN-Mistake.png)]': isAnswerConfirmed && selectedAnswer === choice && choice !== answerCorrect
                     }">
-                            {{ getChoiceLabel(i) }}. {{ choice }}
-                        </div>
-
-                        <ng-container *ngIf="isAnswerConfirmed">
-                            <img *ngIf="choice === answerCorrect" src="/assets/images/game/Correct.png" class="w-10 h-10 ml-2 absolute right-5" />
-                            <img *ngIf="selectedAnswer === choice && choice !== answerCorrect" src="/assets/images/game/Incorrect.png" class="w-10 h-10 ml-2 absolute right-5" />
-                        </ng-container>
+                        {{ getChoiceLabel(i) }}. {{ choice }}
                     </div>
-                </div>
-                <img src="/assets/images/game/BTN-OK.png" (click)="checkAnswer()" *ngIf="!showNextButton" class="w-[200px] object-contain object-center cursor-pointer">
-                <div *ngIf="selectedAnswer && showNextButton && timeLeft > 0 && questionIndex + 1 != totalQuestions" class="w-full flex justify-center mt-4">
-                    <img src="/assets/images/game/BTN-NEXT.png" (click)="nextQuestion()" *ngIf="selectedAnswer && showNextButton && timeLeft > 0"
-                        class="w-[200px] object-contain object-center cursor-pointer">
-                </div>
-                <div *ngIf="selectedAnswer && showNextButton && timeLeft > 0 && questionIndex + 1 >= totalQuestions" class="w-full flex justify-center mt-4">
-                    <img src="/assets/images/game/BTN-RESULT.png" (click)="nextQuestion()" *ngIf="selectedAnswer && showNextButton && timeLeft > 0"
-                        class="w-[200px] object-contain object-center cursor-pointer">
+
+                    <ng-container *ngIf="isAnswerConfirmed">
+                        <img *ngIf="choice === answerCorrect" src="/assets/images/game/Correct.png" class="w-10 h-10 ml-2 absolute right-5" />
+                        <img *ngIf="selectedAnswer === choice && choice !== answerCorrect" src="/assets/images/game/Incorrect.png" class="w-10 h-10 ml-2 absolute right-5" />
+                    </ng-container>
                 </div>
             </div>
-            <!-- หมดเวลา -->
-            <div *ngIf="timeLeft <= 0" class="w-full rounded-[8vh] p-1 bg-[#112589] relative">
-                <div class="w-full h-full rounded-[8vh] p-1 bg-[#ffffff]">
-                    <div class="w-full h-full rounded-[8vh] p-4 bg-gradient-to-b from-[#ffcbeb] to-[#ffb7f8]">
-                        <div class="w-full flex flex-col items-center justify-center gap-4">
-                            <p class="text-2xl sm:text-4xl font-semibold text-[#12268a]">หมดเวลา</p>
-                            <img src="/assets/images/game/Icon.png" class="w-16 object-cover">
-                        </div>
-                        <div class="w-full flex justify-center mt-4">
-                            <img src="/assets/images/game/BTN-NEXT.png" (click)="nextQuestion()" class="w-[200px] object-contain object-center cursor-pointer">
-                        </div>
-                    </div>
-                </div>
+            <img src="/assets/images/game/BTN-OK.png" (click)="checkAnswer()" *ngIf="!showNextButton" class="w-48 object-cover object-center cursor-pointer">
+            <div *ngIf="selectedAnswer && showNextButton && timeLeft > 0 && questionIndex + 1 != totalQuestions" class="w-full flex justify-center">
+                <button *ngIf="selectedAnswer && showNextButton && timeLeft > 0"
+                    class="bg-gradient-to-r from-[#1d4ac2]  to-[#e92790] p-2 rounded-full border-3 border-white text-white  text-xl w-full"
+                    (click)="nextQuestion()">ข้อต่อไป</button>
             </div>
-
-            <div *ngIf="!isGameStarted && countdown === 0 && !currentQuestion && correctAnswers <= totalQuestions-2" class="text-white text-center text-2xl mt-6">
-                <div class="w-full rounded-[8vh] p-1
-            bg-[#112589] relative">
-                    <div class="w-full h-full rounded-[8vh] p-1 
-          bg-[#ffffff]">
-                        <div class="w-full h-full rounded-[8vh] p-2
-            bg-gradient-to-b from-[#ffcbeb] to-[#ffb7f8]">
-                            <div class="w-full flex flex-col items-center justify-center gap-4 p-4">
-                                <img src="/assets/images/cert/Icon.png" class="w-48 object-contain">
-                                <p class="text-3xl text-[#112589] text-center">น่าเสียดาย! คุณสอบไม่ผ่าน กลับมาสอบใหม่พรุ่งนี้นะ! </p>
-                                <img src="/assets/images/cert/Rectangle5.png" class="w-full object-contain">
-                                <p class="text-4xl text-[#112589] font-bold text-center">คะแนนของคุณ</p>
-                                <!-- <p class="text-5xl text-[#df2893] text-center">{{ score }} / {{ totalQuestions * maxScorePerQuestion }} คะแนน</p> -->
-                                <p class="text-5xl text-[#df2893] text-center bg-white p-1 w-full rounded-full">{{ score }} คะแนน</p>
-                                <img src="/assets/images/cert/BTN-BOARD.png" class="w-[200px] object-contain object-center cursor-pointer">
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
+            <div *ngIf="selectedAnswer && showNextButton && timeLeft > 0 && questionIndex + 1 >= totalQuestions" class="w-full flex justify-center">
+                <button *ngIf="selectedAnswer && showNextButton && timeLeft > 0"
+                    class="bg-gradient-to-r from-[#1d4ac2]  to-[#e92790] p-2 rounded-full border-3 border-white text-white  text-xl w-full"
+                    (click)="nextQuestion()">ดูผลสอบ</button>
             </div>
-            <div>
-                <div #captureArea class="w-full flex flex-col justify-center items-center gap-4 relative">
-                    <img src="/assets/images/cert/Congrate.png" class="w-72 object-contain" />
-                    <div class="w-full -translate-y-8">
-                        <p class="text-3xl text-white text-center">คะแนนของคุณ</p>
-                        <p class="text-5xl text-white text-center">{{ score }} คะแนน</p>
-                    </div>
-                    <div class="relative select-none flex justify-center items-center -translate-y-10" (mousedown)="startPress()" (touchstart)="startPress()" (mouseup)="endPress()"
-                        (touchend)="endPress()" (mouseleave)="endPress()">
-                        <img src="/assets/images/cert/Cer04.png" class="w-64 object-contain object-center" style="image-rendering: crisp-edges;" />
-                        <p class="absolute top-1/3 right-15 -translate-y-2 flex items-center justify-center text-4xl pattaya-regular">
-                            {{fullName}}
+        </div>
+        <div *ngIf="!isGameStarted && countdown === 0 && !currentQuestion && correctAnswers >= totalQuestions-1" class="w-full flex flex-col justify-center items-center gap-4">
+            <div class="w-full flex flex-col justify-between items-center gap-4">
+                <img src="/assets/images/cert/Congrate.png" class="w-84 sm:w-96 object-cover object-center" />
+                <div class="w-full -translate-y-8">
+                    <p class="text-3xl sm:text-4xl font-bold text-white text-center">คะแนนของคุณ</p>
+                    <p class="text-5xl sm:text-6xl font-bold text-white text-center">{{ score }} คะแนน</p>
+                </div>
+                <div #captureArea class="w-full relative select-none flex justify-center items-center -translate-y-10" (mousedown)="startPress()" (touchstart)="startPress()"
+                    (mouseup)="endPress()" (touchend)="endPress()" (mouseleave)="endPress()">
+                    <div class="relative bg-[url('/assets/images/cert/Cer04.png')] 
+              w-64 h-64 sm:w-72 sm:h-72 bg-contain bg-center bg-no-repeat" style="image-rendering: crisp-edges;">
+                        <p class="absolute top-[35%] left-1/2 -translate-x-1/2 
+               text-2xl sm:text-3xl pattaya-regular  text-center">
+                            {{ fullName }}
                         </p>
-                        <p class="text-white text-sm absolute top-1/2 left-0 translate-y-10 translate-x-23">{{result.time}}</p>
-                        <p class="text-white text-sm absolute top-1/2 right-0 translate-y-10 -translate-x-12">{{result.date}}</p>
+                        <div class="absolute bottom-[30%] left-1/2 -translate-x-1/3 
+                bg-[#0d3161] w-32 sm:w-44 flex justify-between items-center px-2 py-1 rounded">
+                            <p class="text-white text-xs sm:text-sm">{{ result.time }}</p>
+                            <p class="text-white text-xs sm:text-sm">{{ result.date }}</p>
+                        </div>
                     </div>
+                </div>
+            </div>
+            <button class="bg-gradient-to-r from-[#f2218f]  to-[#f2218f] p-2 rounded-full border-3 border-white text-white  text-xl w-48"
+                (click)="captureAndShare()">บันทึกภาพ</button>
+            <button class="bg-gradient-to-r from-[#1d4ac2]  to-[#e92790] p-2 rounded-full border-3 border-white text-white  text-xl w-48"
+                (click)="Direct('/board')">LeaderBoard</button>
+        </div>
+        <div *ngIf="!isGameStarted && countdown === 0 && !currentQuestion && correctAnswers <= totalQuestions-2" class="text-white text-center">
+            <div class="w-full rounded-[8vh] p-1
+            bg-[#112589] relative">
+                <div class="w-full  rounded-[8vh] p-1 
+          bg-[#ffffff]">
+                    <div class="w-full  rounded-[8vh] p-2
+            bg-gradient-to-b from-[#ffcbeb] to-[#ffb7f8]">
+                        <div class="w-full flex flex-col items-center justify-center gap-4">
+                            <img src="/assets/images/cert/Icon.png" class="w-48 sm:w-64 object-contain">
+                            <p class="text-2xl sm:text-3xl text-[#112589] font-bold text-center">น่าเสียดาย! คุณสอบไม่ผ่าน กลับมาสอบใหม่พรุ่งนี้นะ! </p>
+                            <img src="/assets/images/cert/Rectangle5.png" class="w-full object-contain">
+                            <p class="text-3xl sm:text-4xl text-[#112589] font-bold text-center">คะแนนของคุณ</p>
+                            <p class="text-4xl sm:text-5xl text-[#df2893] text-center bg-white font-bold p-1 w-full rounded-full">{{ score }} คะแนน</p>
+                            <button class="bg-gradient-to-r from-[#1d4ac2]  to-[#e92790] p-2 rounded-full border-3 border-white text-white  text-xl w-full"
+                                (click)="Direct('board')">LeaderBoard</button>
+                        </div>
 
-                    <img src="/assets/images/cert/BTN-IMG.png" class="w-[200px] object-contain object-center cursor-pointer" (click)="captureAndShare()">
-                    <img src="/assets/images/cert/BTN-BOARD.png" class="w-[200px] object-contain object-center cursor-pointer" (click)="Direct('board')">
+                    </div>
                 </div>
             </div>
         </div>
-
+        <div *ngIf="timeLeft <= 0" class="w-full rounded-[8vh] p-1 bg-[#112589] relative">
+            <div class="w-full rounded-[8vh] p-1 bg-[#ffffff]">
+                <div class="w-full rounded-[8vh] p-4 bg-gradient-to-b from-[#ffcbeb] to-[#ffb7f8]">
+                    <div class="w-full flex flex-col items-center justify-center gap-4">
+                        <p class="text-4xl sm:text-5xl font-bold text-[#12268a]">หมดเวลา</p>
+                        <img src="/assets/images/game/Icon.png" class="w-16 sm:w-24 object-cover">
+                    </div>
+                    <div class="w-full flex justify-center mt-4">
+                        <button class="bg-gradient-to-r from-[#1d4ac2]  to-[#e92790] p-2 rounded-full border-3 border-white text-white  text-xl w-full"
+                            (click)="nextQuestion()">ข้อต่อไป</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>

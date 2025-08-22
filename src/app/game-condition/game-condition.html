@@ -15,8 +15,8 @@
                     <div class="w-full rounded-[8vh] p-3
             bg-gradient-to-b from-[#8b1d4b] via-[#913c6f] to-[#831444]">
                         <div class="flex flex-col justify-center items-center p-4">
-                            <p class="text-4xl sm:text-6xl font-bold text-white text-center">ข้อกำหนดและเงื่อนไข สำหรับกิจกรรม</p>
-                            <p class="text-2xl sm:text-4xl font-bold text-yellow-300 text-center"> "แบบทดสอบลาซลูกขุน" และ "ออดิชันลาซลูกขุน"</p>
+                            <p class="text-3xl sm:text-4xl font-bold text-white text-center">ข้อกำหนดและเงื่อนไข สำหรับกิจกรรม</p>
+                            <p class="text-2xl sm:text-3xl font-bold text-yellow-300 text-center"> "แบบทดสอบลาซลูกขุน" และ "ออดิชันลาซลูกขุน"</p>
                             <img src="/assets/images/t&c/Liner.png" class="w-full m-2" alt="">
                             <div class="w-full flex flex-col items-center">
                                 <div class="w-full max-w-full h-72 text-2xl text-white flex flex-col gap-4 overflow-y-scroll scroll-smooth scroll-hide " (scroll)="onScroll($event)"
@@ -149,12 +149,22 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div *ngIf="!scrolledToBottom" class="flex justify-center items-center cursor-pointer mt-4" (click)="scrollToBottom()">
-                                    <img src="/assets/images/t&c/Scroll.png" class="w-48 object-cover object-center cursor-pointer" alt="Scroll">
+                                <div *ngIf="!scrolledToBottom" class="flex justify-center items-center cursor-pointer mt-4">
+                                    <button class="bg-gradient-to-r from-[#717171] to-[#858585] p-2 font-bold rounded-full border-3 border-white text-white text-2xl w-48
+         flex items-center justify-center gap-2" (click)="scrollToBottom()">
+                                        <!-- ไอคอนสามเหลี่ยมซ้อนกัน -->
+                                        <span class="relative w-4 h-5">
+                                            <span class="absolute left-1/2 -translate-x-1/2 top-0 leading-none">▼</span>
+                                            <span class="absolute left-1/2 -translate-x-1/2 top-2 -mt-1 leading-none">▼</span>
+                                        </span>
+                                        เลื่อนล่างสุด
+
+                                    </button>
                                 </div>
                                 <div *ngIf="scrolledToBottom" class="flex justify-center items-center cursor-pointer mt-4" [class.opacity-50]="!isChecked"
                                     [class.pointer-events-none]="!isChecked" (click)="isChecked && Direct('otp')">
-                                    <img src="/assets/images/t&c/Submit.png" class="w-48 object-cover object-center cursor-pointer" alt="Submit">
+                                    <button class="bg-gradient-to-r from-[#1d4ac2]  to-[#e92790] p-2 rounded-full border-3 border-white text-white  text-2xl w-48"
+                                        (click)="onSubmit()">รับทราบเเละยอมรับ</button>
                                 </div>
                             </div>
                         </div>

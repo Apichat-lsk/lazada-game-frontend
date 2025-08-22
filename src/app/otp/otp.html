@@ -57,8 +57,9 @@
                             <div *ngIf="isTime" class="text-[#12268a] cursor-pointer" (click)="requestOtpAgain()">
                                 ขอ OTP อีกครั้ง
                             </div>
-                            <div class="flex justify-center items-center">
-                                <img src="/assets/images/otp/BTN.png" (click)="onSubmit()" class="w-40 sm:w-48 object-cover object-center cursor-pointer">
+                            <div class="w-full flex justify-center items-center p-6">
+                                <button class="bg-gradient-to-r from-[#1d4ac2]  to-[#e92790] p-2 rounded-full border-3 border-white text-white  text-xl w-full"
+                                    (click)="onSubmit()">ยืนยัน</button>
                             </div>
                         </div>
                     </div>
