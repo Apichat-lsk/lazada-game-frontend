@@ -46,12 +46,12 @@ export class Home implements OnInit {
             .millisecond(0); // ตั้งมิลลิวินาทีเป็น 0
           if (new Date() < nextDateQuestion.toDate()) {
             this.zone.run(() => {
-              this.checkGameToday = false;
+              this.checkGameToday = true;
               this.cd.detectChanges();
             });
           } else {
             this.zone.run(() => {
-              this.checkGameToday = true;
+              this.checkGameToday = false;
               this.cd.detectChanges();
             });
           }
@@ -67,12 +67,12 @@ export class Home implements OnInit {
           console.log(new Date(nextDateQuestion.format()));
           if (new Date() < nextDateQuestion.toDate()) {
             this.zone.run(() => {
-              this.checkGameToday = false;
+              this.checkGameToday = true;
               this.cd.detectChanges();
             });
           } else {
             this.zone.run(() => {
-              this.checkGameToday = true;
+              this.checkGameToday = false;
               this.cd.detectChanges();
             });
           }
