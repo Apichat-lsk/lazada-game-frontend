@@ -10,8 +10,8 @@ import { AuthTokenService } from '../component/auth-token.service';
 export class QuestionsService {
   constructor(private http: HttpClient, private auth: AuthTokenService) {}
 
-  findAllQuestions(): Observable<any> {
-    return this.http.get(API.QUESTIONS, this.auth.setAuthorization());
+  findAllQuestions(data: any): Observable<any> {
+    return this.http.post(API.QUESTIONS, data, this.auth.setAuthorization());
   }
   answer(data: any): Observable<any> {
     return this.http.post(API.ANSWER, data, this.auth.setAuthorization());

@@ -43,15 +43,16 @@
                     </ng-container>
                 </div>
             </div>
-            <img src="/assets/images/game/BTN-OK.png" (click)="checkAnswer()" *ngIf="!showNextButton" class="w-48 object-cover object-center cursor-pointer">
+            <button *ngIf="!showNextButton" class="bg-gradient-to-r from-[#1d4ac2]  to-[#e92790] p-2 rounded-full  cursor-pointer border-3 border-white text-white  text-xl w-48"
+                (click)="checkAnswer()">ยืนยัน</button>
             <div *ngIf="selectedAnswer && showNextButton && timeLeft > 0 && questionIndex + 1 != totalQuestions" class="w-full flex justify-center">
                 <button *ngIf="selectedAnswer && showNextButton && timeLeft > 0"
-                    class="bg-gradient-to-r from-[#1d4ac2]  to-[#e92790] p-2 rounded-full border-3 border-white text-white  text-xl w-full"
+                    class="bg-gradient-to-r from-[#1d4ac2]  to-[#e92790] p-2 rounded-full border-3 border-white cursor-pointer  text-white  text-xl w-48"
                     (click)="nextQuestion()">ข้อต่อไป</button>
             </div>
             <div *ngIf="selectedAnswer && showNextButton && timeLeft > 0 && questionIndex + 1 >= totalQuestions" class="w-full flex justify-center">
                 <button *ngIf="selectedAnswer && showNextButton && timeLeft > 0"
-                    class="bg-gradient-to-r from-[#1d4ac2]  to-[#e92790] p-2 rounded-full border-3 border-white text-white  text-xl w-full"
+                    class="bg-gradient-to-r from-[#1d4ac2]  to-[#e92790] p-2 rounded-full border-3 border-white text-white cursor-pointer   text-xl w-48"
                     (click)="nextQuestion()">ดูผลสอบ</button>
             </div>
         </div>
@@ -78,9 +79,9 @@
                     </div>
                 </div>
             </div>
-            <button class="bg-gradient-to-r from-[#f2218f]  to-[#f2218f] p-2 rounded-full border-3 border-white text-white  text-xl w-48"
+            <button class="bg-gradient-to-r from-[#f2218f]  to-[#f2218f] p-2 rounded-full border-3 border-white text-white  cursor-pointer  text-xl w-48"
                 (click)="captureAndShare()">บันทึกภาพ</button>
-            <button class="bg-gradient-to-r from-[#1d4ac2]  to-[#e92790] p-2 rounded-full border-3 border-white text-white  text-xl w-48"
+            <button class="bg-gradient-to-r from-[#1d4ac2]  to-[#e92790] p-2 rounded-full border-3 border-white text-white  cursor-pointer  text-xl w-48"
                 (click)="Direct('/board')">LeaderBoard</button>
         </div>
         <div *ngIf="!isGameStarted && countdown === 0 && !currentQuestion && correctAnswers <= totalQuestions-2" class="text-white text-center">
@@ -96,7 +97,7 @@
                             <img src="/assets/images/cert/Rectangle5.png" class="w-full object-contain">
                             <p class="text-3xl sm:text-4xl text-[#112589] font-bold text-center">คะแนนของคุณ</p>
                             <p class="text-4xl sm:text-5xl text-[#df2893] text-center bg-white font-bold p-1 w-full rounded-full">{{ score }} คะแนน</p>
-                            <button class="bg-gradient-to-r from-[#1d4ac2]  to-[#e92790] p-2 rounded-full border-3 border-white text-white  text-xl w-full"
+                            <button class="bg-gradient-to-r from-[#1d4ac2]  to-[#e92790] p-2 rounded-full border-3 border-white cursor-pointer  text-white  text-xl w-64"
                                 (click)="Direct('board')">LeaderBoard</button>
                         </div>
 
@@ -111,8 +112,8 @@
                         <p class="text-4xl sm:text-5xl font-bold text-[#12268a]">หมดเวลา</p>
                         <img src="/assets/images/game/Icon.png" class="w-16 sm:w-24 object-cover">
                     </div>
-                    <div class="w-full flex justify-center mt-4">
-                        <button class="bg-gradient-to-r from-[#1d4ac2]  to-[#e92790] p-2 rounded-full border-3 border-white text-white  text-xl w-full"
+                    <div class="w-full flex justify-center p-6">
+                        <button class="bg-gradient-to-r from-[#1d4ac2]  to-[#e92790] p-2 rounded-full border-3 border-white text-white  cursor-pointer  text-xl w-full"
                             (click)="nextQuestion()">ข้อต่อไป</button>
                     </div>
                 </div>

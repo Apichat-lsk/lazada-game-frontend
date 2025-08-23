@@ -15,6 +15,13 @@ import { QuestionsService } from '../../services/questions-service';
 import { AuthService } from '../../services/auth-service';
 import { AuthTokenService } from '../../component/auth-token.service';
 import Swal from 'sweetalert2';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+import { GameService } from '../../services/game-service';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 @Component({
   selector: 'app-game-start',
@@ -32,7 +39,8 @@ export class GameStart implements OnInit {
     private zone: NgZone,
     private cd: ChangeDetectorRef,
     private service: QuestionsService,
-    private authTokenService: AuthTokenService
+    private authTokenService: AuthTokenService,
+    private gameService: GameService
   ) {
     this.location.replaceState('');
   }
@@ -48,8 +56,8 @@ export class GameStart implements OnInit {
     '/assets/images/game/Num1.png',
   ];
   isGameStarted = false;
-  currentDate = new Date();
-  certDate = new Date();
+  currentDate: Date = dayjs().tz('Asia/Bangkok').toDate();
+  certDate: Date = dayjs().tz('Asia/Bangkok').toDate();
   questionIndex = 0;
   currentQuestion: any = null;
   questionTime = 10;
@@ -81,12 +89,44 @@ export class GameStart implements OnInit {
     this.userData = this.authTokenService.decodeToken();
     this.fullName = this.userData.full_name;
     this.email = this.userData.email;
-    await this.getAllQuestions();
+    await this.getLastGameDate();
     this.startCountdown();
   }
-  getAllQuestions(): Promise<void> {
+  getLastGameDate(): Promise<void> {
     return new Promise((resolve, reject) => {
-      this.service.findAllQuestions().subscribe({
+      this.gameService.checkLastGameDate().subscribe({
+        next: async (res) => {
+          if (res.game_date == null) {
+            const date = dayjs().tz('Asia/Bangkok').toDate();
+            await this.getAllQuestions(date);
+          } else {
+            const nextDateQuestion = dayjs(res.game_date)
+              .tz('Asia/Bangkok') // เวลาไทย
+              // .add(1, 'day') // +1 วัน
+              .hour(20) // ตั้งชั่วโมงเป็น 20
+              .minute(0) // ตั้งนาทีเป็น 0
+              .second(0) // ตั้งวินาทีเป็น 0
+              .millisecond(0); // ตั้งมิลลิวินาทีเป็น 0
+            if (new Date() > nextDateQuestion.toDate()) {
+              const date = dayjs(res.game_date)
+                .tz('Asia/Bangkok')
+                .add(1, 'day')
+                .startOf('day')
+                .format('YYYY-MM-DDTHH:mm:ss');
+              await this.getAllQuestions(date);
+            }
+          }
+          resolve();
+        },
+        error: (err) => {
+          console.error('❌ Game Start error:', err);
+        },
+      });
+    });
+  }
+  getAllQuestions(date: any): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.service.findAllQuestions({ date: date }).subscribe({
         next: (res) => {
           if (res.data.length) {
             this.questions = res.data;
@@ -132,6 +172,8 @@ export class GameStart implements OnInit {
     //   console.warn('Unable to play sound:', err);
     // });
     const intervalId = setInterval(() => {
+      console.log('CD');
+
       this.zone.run(() => {
         this.countdown--;
         this.cd.detectChanges();
@@ -206,6 +248,7 @@ export class GameStart implements OnInit {
       user_id: this.userData.uid,
       questionsNumber: questionNumber,
       questions: this.currentQuestion.question,
+      questionsDate: this.currentQuestion.createAt,
       titleChoice: titleChoice,
       inputAnswer: choice,
       // score: Math.round(gainedScore),
@@ -241,6 +284,7 @@ export class GameStart implements OnInit {
               user_id: this.userData.uid,
               questionsNumber: questionNumber,
               questions: this.currentQuestion.question,
+              questionsDate: this.currentQuestion.createAt,
               titleChoice: '', // ไม่มีการเลือก
               inputAnswer: '', // ไม่มีการเลือก
               score: 0, // ได้ 0 คะแนน
@@ -251,6 +295,7 @@ export class GameStart implements OnInit {
               user_id: this.userData.uid,
               questionsNumber: questionNumber,
               questions: this.currentQuestion.question,
+              questionsDate: this.currentQuestion.createAt,
               titleChoice: '', // ไม่มีการเลือก
               inputAnswer: '', // ไม่มีการเลือก
               score: 0, // ได้ 0 คะแนน

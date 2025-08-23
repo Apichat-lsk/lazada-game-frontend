@@ -17,4 +17,10 @@ export class GameService {
       this.auth.setAuthorization()
     );
   }
+  checkLastGameDate(): Observable<any> {
+    return this.http.get(
+      API.CHECK_LAST_GAME_DATE,
+      this.auth.setAuthorization()
+    );
+  }
 }

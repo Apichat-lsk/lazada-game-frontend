@@ -12,10 +12,11 @@ export const API = {
   GET_OTP: `${URL}/api/otp/get`,
   FORGOT_PASSWORD_VERIFY_OTP: `${URL}/api/otp/verify-otp-forgot-password`,
   RECAPTCHA: `${URL}/api/recaptcha/verify-recaptcha`,
-  QUESTIONS: `${URL}/api/question`,
+  QUESTIONS: `${URL}/api/question/get-questions`,
   ANSWER: `${URL}/api/question`,
   CHECK_ANSWER: `${URL}/api/question/check-answer-by-id`,
   BOARD: `${URL}/api/board`,
   CHECK_GAME_DATE: `${URL}/api/game/check-game-date`,
+  CHECK_LAST_GAME_DATE: `${URL}/api/game/check-play-game`,
   CONTACT: `${URL}/api/contact`,
 };
