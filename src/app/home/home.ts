@@ -47,24 +47,24 @@ export class Home implements OnInit {
     this.gameService.checkLastGameDate().subscribe({
       next: (res) => {
         if (res.game_date == null) {
-          const nextAvailableTime = dayjs()
-            .tz('Asia/Bangkok')
-            // .add(1, 'day')
-            .hour(this.hour)
-            .minute(this.minute)
-            .second(0)
-            .millisecond(0);
-          if (dayjs().isBefore(nextAvailableTime)) {
-            this.zone.run(() => {
-              this.checkGameToday = false;
-              this.cd.detectChanges();
-            });
-          } else {
-            this.zone.run(() => {
-              this.checkGameToday = true;
-              this.cd.detectChanges();
-            });
-          }
+          // const nextAvailableTime = dayjs()
+          //   .tz('Asia/Bangkok')
+          //   .hour(this.hour)
+          //   .minute(this.minute)
+          //   .second(0)
+          //   .millisecond(0);
+
+          // if (dayjs().isBefore(nextAvailableTime)) {
+          //   this.zone.run(() => {
+          this.checkGameToday = false;
+          this.cd.detectChanges();
+          //   });
+          // } else {
+          //   this.zone.run(() => {
+          //     this.checkGameToday = true;
+          //     this.cd.detectChanges();
+          //   });
+          // }
         } else {
           const nextAvailableTime = dayjs(res.game_date)
             .tz('Asia/Bangkok')

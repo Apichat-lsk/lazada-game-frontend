@@ -149,9 +149,9 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div *ngIf="!scrolledToBottom" class="flex justify-center items-center cursor-pointer mt-4">
+                                <div *ngIf="!scrolledToBottom" class="flex justify-center items-center mt-4">
                                     <button class="bg-gradient-to-r from-[#717171] to-[#858585] p-2 font-bold rounded-full border-3 border-white text-white text-2xl w-48
-         flex items-center justify-center gap-2" (click)="scrollToBottom()">
+         flex items-center justify-center gap-2 cursor-pointer" (click)="scrollToBottom()">
                                         <!-- ไอคอนสามเหลี่ยมซ้อนกัน -->
                                         <span class="relative w-4 h-5">
                                             <span class="absolute left-1/2 -translate-x-1/2 top-0 leading-none">▼</span>
@@ -161,9 +161,9 @@
 
                                     </button>
                                 </div>
-                                <div *ngIf="scrolledToBottom" class="flex justify-center items-center cursor-pointer mt-4" [class.opacity-50]="!isChecked"
-                                    [class.pointer-events-none]="!isChecked" (click)="isChecked && Direct('otp')">
-                                    <button class="bg-gradient-to-r from-[#1d4ac2]  to-[#e92790] p-2 rounded-full border-3 border-white text-white  text-2xl w-48"
+                                <div *ngIf="scrolledToBottom" class="flex justify-center items-center mt-4" [class.opacity-50]="!isChecked" [class.pointer-events-none]="!isChecked"
+                                    (click)="isChecked && Direct('otp')">
+                                    <button class="bg-gradient-to-r from-[#1d4ac2]  to-[#e92790] p-2 rounded-full border-3 border-white text-white cursor-pointer text-2xl w-48"
                                         (click)="onSubmit()">รับทราบเเละยอมรับ</button>
                                 </div>
                             </div>

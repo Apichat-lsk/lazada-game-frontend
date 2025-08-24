@@ -114,9 +114,27 @@ export class GameStart implements OnInit {
         next: async (res) => {
           try {
             if (!res.game_date) {
-              // ยังไม่เคยเล่นเกม -> เล่นได้ทันที
-              const date = dayjs().tz('Asia/Bangkok').toDate();
-              await this.getAllQuestions(date);
+              const date = dayjs().tz('Asia/Bangkok');
+              const lastGameTime = dayjs().tz('Asia/Bangkok');
+
+              const nextAvailableTime = lastGameTime
+                .hour(this.hour)
+                .minute(this.minute)
+                .second(0)
+                .millisecond(0);
+
+              if (date.isBefore(nextAvailableTime)) {
+                await this.getAllQuestions(date.toDate());
+              } else {
+                const nextDate = lastGameTime
+                  .add(1, 'day')
+                  .hour(this.hour)
+                  .minute(this.minute)
+                  .second(0)
+                  .millisecond(0)
+                  .toDate();
+                await this.getAllQuestions(nextDate);
+              }
             } else {
               // เล่นแล้ว -> เวลา 20:00 ของวันล่าสุด
               const lastGameTime = dayjs(res.game_date).tz('Asia/Bangkok');

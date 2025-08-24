@@ -82,7 +82,7 @@
 
                                 <div class="">
                                     <label for="tel" class="text-white text-xl sm:text-2xl">เบอร์โทร</label>
-                                    <input id="tel" type="tel" formControlName="tel" placeholder="0812345678 หรือ +66812345678"
+                                    <input id="tel" type="tel" maxlength="10" formControlName="tel" placeholder="0812345678 หรือ +66812345678"
                                         class="w-full p-2 border rounded focus:outline-none focus:ring-2 bg-white text-gray-500 text-base sm:text-xl focus:ring-pink-400"
                                         [class.border-red-500]="signupForm.get('tel')?.invalid && signupForm.get('tel')?.touched" />
                                     <p class="text-white text-xl sm:text-2xl">*กรุณากรอกเบอร์ที่ติดต่อได้ เพื่อรับของรางวัล</p>
@@ -92,7 +92,7 @@
                                         กรุณากรอกเบอร์โทรให้ถูกต้อง</p>
                                 </div>
                                 <div class="flex justify-center items-center mt-5">
-                                    <button class="bg-gradient-to-r from-[#1d4ac2]  to-[#e92790] p-2 rounded-full border-3 border-white text-white  text-xl w-full"
+                                    <button class="bg-gradient-to-r from-[#1d4ac2]  to-[#e92790] cursor-pointer p-2 rounded-full border-3 border-white text-white  text-xl w-full"
                                         (click)="onConfirm()">ยืนยัน</button>
                                 </div>
                             </form>
@@ -116,11 +116,11 @@
                                 ก่อนกดปุ่ม <span class="text-[#f4268f] text-xl sm:text-2xl font-bold">“ตกลง”</span></p>
 
                             <div class="flex justify-center items-center">
-                                <button class="bg-gradient-to-r from-[#1d4ac2]  to-[#e92790] p-2 rounded-full border-3 border-white text-white w-48 text-xl"
+                                <button class="bg-gradient-to-r from-[#1d4ac2]  to-[#e92790] p-2 rounded-full cursor-pointer border-3 border-white text-white w-48 text-xl"
                                     (click)="onSubmit()">ตกลง</button>
                             </div>
                             <div class="flex justify-center items-center">
-                                <button class="bg-gradient-to-r from-[#717171]  to-[#858585] p-2 rounded-full border-3 border-white text-white w-48 text-xl"
+                                <button class="bg-gradient-to-r from-[#717171]  to-[#858585] p-2 rounded-full cursor-pointer border-3 border-white text-white w-48 text-xl"
                                     (click)="onCancel()">ยกเลิก</button>
                             </div>
                         </div>

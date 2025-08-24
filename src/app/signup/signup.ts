@@ -47,7 +47,7 @@ export class Signup {
       ]),
       address: new FormControl('', [
         Validators.required,
-        Validators.pattern(/^[ก-๏A-Za-z\s]+$/),
+        // Validators.pattern(/^[ก-๏A-Za-z\s]+$/),
       ]),
       password: new FormControl('', [
         Validators.required,
@@ -90,7 +90,7 @@ export class Signup {
   onSubmit() {
     if (this.signupForm.valid) {
       Swal.fire({
-        title: 'กำลังสมัครสมาชิก...',
+        title: 'กำลังตรวจสอบข้อมูล...',
         allowOutsideClick: false,
         didOpen: () => {
           Swal.showLoading();
