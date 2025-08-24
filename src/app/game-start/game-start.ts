@@ -103,6 +103,13 @@ export class GameStart implements OnInit {
   }
   getLastGameDate(): Promise<void> {
     return new Promise((resolve, reject) => {
+      Swal.fire({
+        title: 'กำลังตรวจสอบข้อมูล...',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
       this.gameService.checkLastGameDate().subscribe({
         next: async (res) => {
           try {
@@ -134,14 +141,17 @@ export class GameStart implements OnInit {
                 console.log('⏳ ยังไม่ถึงเวลาเล่นเกมใหม่');
               }
             }
+            Swal.close();
             resolve();
           } catch (err) {
             console.error('❌ Game Start error:', err);
+            Swal.close();
             resolve();
           }
         },
         error: (err) => {
           console.error('❌ Game Start error:', err);
+          Swal.close();
           resolve();
         },
       });
@@ -149,6 +159,13 @@ export class GameStart implements OnInit {
   }
   getAllQuestions(date: any): Promise<void> {
     return new Promise((resolve, reject) => {
+      Swal.fire({
+        title: 'กำลังตรวจสอบข้อมูล...',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
       this.service.findAllQuestions({ date }).subscribe({
         next: (res) => {
           if (res.data && res.data.length > 0) {
@@ -156,10 +173,12 @@ export class GameStart implements OnInit {
           } else {
             console.warn('⚠️ ไม่มีคำถามสำหรับวันที่นี้');
           }
+          Swal.close();
           resolve(); // resolve ในทุกกรณีเพื่อไม่ให้ promise ค้าง
         },
         error: (err) => {
           console.error('❌ Game Start error:', err);
+          Swal.close();
           resolve(); // resolve แทน reject เพื่อให้ ngOnInit ไม่ค้าง
         },
       });
@@ -381,6 +400,13 @@ export class GameStart implements OnInit {
     if (this.gameTimer) clearInterval(this.gameTimer);
 
     return new Promise((resolve, reject) => {
+      Swal.fire({
+        title: 'กำลังตรวจสอบข้อมูล...',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
       this.service.checkAnswer(this.checkAnswerByQuestions).subscribe({
         next: (res) => {
           this.answerCorrect = res.answer;
@@ -391,10 +417,12 @@ export class GameStart implements OnInit {
           this.resultQuestions[this.questionIndex].score =
             Math.round(gainedScore);
           this.cd.detectChanges();
+          Swal.close();
           resolve(true);
         },
         error: (err) => {
           console.error('❌ Game Start error:', err);
+          Swal.close();
           reject(err);
         },
       });
@@ -424,6 +452,13 @@ export class GameStart implements OnInit {
       this.zone.run(() => {
         this.currentQuestion = null;
         this.isGameStarted = false;
+        Swal.fire({
+          title: 'กำลังตรวจสอบข้อมูล...',
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
         this.service.answer({ input: this.resultQuestions }).subscribe({
           next: (res) => {
             this.resultAnswers = [...res.answerList]; // เปลี่ยน reference array
@@ -431,10 +466,12 @@ export class GameStart implements OnInit {
             this.correctAnswers = res.correct;
 
             this.cd.detectChanges();
+            Swal.close();
             resolve(true);
           },
           error: (err) => {
             console.error('❌ Game Start error:', err);
+            Swal.close();
             reject(err);
           },
         });

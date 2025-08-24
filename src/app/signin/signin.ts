@@ -33,16 +33,10 @@ export class Signin {
     this.location.replaceState('');
 
     this.signupForm = this.fb.group({
-      username: [
-        '',
-        [
-          Validators.required,
-          // Validators.pattern(/^[a-zA-Z0-9]+$/) || Validators.email,
-        ],
-      ],
+      username: ['', [Validators.required, Validators.pattern(/^[^\s]+$/)]],
       password: new FormControl('', [
         Validators.required,
-        Validators.pattern(/^[ก-๏A-Za-z0-9\s!@#$%^&*]{6,}$/),
+        Validators.pattern(/^[ก-๏A-Za-z0-9!@#$%^&*]{6,}$/),
       ]),
     });
   }
@@ -62,21 +56,24 @@ export class Signin {
   }
   onSubmit() {
     if (this.signupForm.valid) {
+      Swal.fire({
+        title: 'กำลังตรวจสอบข้อมูล...',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+
       this.auth.login(this.signupForm.value).subscribe({
         next: (res) => {
           if (res.status == true) {
             this.authTokenService.setToken(res.token);
-            Swal.fire({
-              position: 'top-end',
-              icon: 'success',
-              title: res.message,
-              showConfirmButton: false,
-              timer: 1500,
-            });
+            Swal.close();
             this.router.navigate(['/home']);
             this.signupForm.reset();
           } else {
             console.error('❌ Login error:', res.message);
+            Swal.close();
             Swal.fire({
               position: 'top-end',
               icon: 'error',
@@ -88,6 +85,7 @@ export class Signin {
         },
         error: (err) => {
           console.error('❌ Login error:', err);
+          Swal.close();
           Swal.fire({
             position: 'top-end',
             icon: 'error',

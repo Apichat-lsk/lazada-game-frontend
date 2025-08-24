@@ -60,9 +60,17 @@ export class Contact {
 
   onSubmit() {
     if (this.contactForm.valid) {
+      Swal.fire({
+        title: 'กำลังตรวจสอบข้อมูล...',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
       this.contact.create(this.contactForm.value).subscribe({
         next: (res) => {
           if (res.status === true) {
+            Swal.close();
             Swal.fire({
               position: 'top-end',
               icon: 'success',
@@ -73,6 +81,7 @@ export class Contact {
             this.contactForm.reset();
           } else {
             console.error('❌ Contact error:', res.message);
+            Swal.close();
             Swal.fire({
               position: 'top-end',
               icon: 'error',
@@ -84,6 +93,7 @@ export class Contact {
         },
         error: (err) => {
           console.error('❌ Game Start error:', err);
+          Swal.close();
         },
       });
     } else {

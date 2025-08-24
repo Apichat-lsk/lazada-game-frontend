@@ -98,10 +98,17 @@ export class Recapcha implements AfterViewInit, OnDestroy {
       });
       return;
     }
-
+    Swal.fire({
+      title: 'กำลังตรวจสอบข้อมูล...',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
     this.captcha.recaptcha({ token }).subscribe({
       next: (res) => {
         if (res.status == true) {
+          Swal.close();
           Swal.fire({
             position: 'top-end',
             icon: 'success',
@@ -112,6 +119,7 @@ export class Recapcha implements AfterViewInit, OnDestroy {
           this.router.navigate(['/game-start']);
         } else {
           console.error('❌ OTP error:', res.message);
+          Swal.close();
           Swal.fire({
             position: 'top-end',
             icon: 'error',

@@ -8,6 +8,7 @@ import { NgZone } from '@angular/core';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
+import Swal from 'sweetalert2';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -36,6 +37,13 @@ export class Home implements OnInit {
   minute = 0;
 
   ngOnInit(): void {
+    Swal.fire({
+      title: 'กำลังตรวจสอบข้อมูล...',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
     this.gameService.checkLastGameDate().subscribe({
       next: (res) => {
         if (res.game_date == null) {
@@ -78,9 +86,11 @@ export class Home implements OnInit {
             });
           }
         }
+        Swal.close();
       },
       error: (err) => {
         console.error('❌ Game Start error:', err);
+        Swal.close();
       },
     });
   }

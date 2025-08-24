@@ -90,9 +90,17 @@ export class ChangePassword implements OnInit {
         email: this.email,
         password: this.changePasswordForm.value.newPassword,
       };
+      Swal.fire({
+        title: 'กำลังตรวจสอบข้อมูล...',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
       this.auth.changePassword(request).subscribe({
         next: (res) => {
           if (res.status == true) {
+            Swal.close();
             Swal.fire({
               position: 'top-end',
               icon: 'success',
@@ -104,6 +112,7 @@ export class ChangePassword implements OnInit {
             this.changePasswordForm.reset();
           } else {
             console.error('❌ Login error:', res.message);
+            Swal.close();
             Swal.fire({
               position: 'top-end',
               icon: 'error',
@@ -115,6 +124,7 @@ export class ChangePassword implements OnInit {
         },
         error: (err) => {
           console.error('❌ Login error:', err);
+          Swal.close();
           Swal.fire({
             position: 'top-end',
             icon: 'error',

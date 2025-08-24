@@ -154,6 +154,13 @@ export class Otp implements OnInit, OnDestroy {
     this.totalSeconds = 10; // 5 minutes
     this.displayMinutes = '00';
     this.displaySeconds = '10';
+    Swal.fire({
+      title: 'กำลังตรวจสอบข้อมูล...',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
     this.otp.getOtp({ email: this.email }).subscribe({
       next: (res) => {
         if (res.check == true) {
@@ -161,9 +168,11 @@ export class Otp implements OnInit, OnDestroy {
         } else {
           console.error('❌ Game Conditon error:', res.message);
         }
+        Swal.close();
       },
       error: (err) => {
         console.error('❌ Game Conditon error:', err);
+        Swal.close();
       },
     });
     this.startTimer();
@@ -222,9 +231,17 @@ export class Otp implements OnInit, OnDestroy {
         otp: otpCode,
       };
       if (this.type == 'register') {
+        Swal.fire({
+          title: 'กำลังตรวจสอบข้อมูล...',
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
         this.otp.verify(request).subscribe({
           next: (res) => {
             if (res.status == true) {
+              Swal.close();
               Swal.fire({
                 position: 'top-end',
                 icon: 'success',
@@ -235,6 +252,7 @@ export class Otp implements OnInit, OnDestroy {
               this.router.navigate(['/signin']);
             } else {
               console.error('❌ OTP error:', res.message);
+              Swal.close();
               Swal.fire({
                 position: 'top-end',
                 icon: 'error',
@@ -246,6 +264,7 @@ export class Otp implements OnInit, OnDestroy {
           },
           error: (err) => {
             console.error('❌ OTP error:', err);
+            Swal.close();
             Swal.fire({
               position: 'top-end',
               icon: 'error',
@@ -256,9 +275,17 @@ export class Otp implements OnInit, OnDestroy {
           },
         });
       } else {
+        Swal.fire({
+          title: 'กำลังตรวจสอบข้อมูล...',
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
         this.otp.forgotPasswordVerifyOtp(request).subscribe({
           next: (res) => {
             if (res.status == true) {
+              Swal.close();
               Swal.fire({
                 position: 'top-end',
                 icon: 'success',
@@ -271,6 +298,7 @@ export class Otp implements OnInit, OnDestroy {
               });
             } else {
               console.error('❌ OTP error:', res.message);
+              Swal.close();
               Swal.fire({
                 position: 'top-end',
                 icon: 'error',
@@ -282,6 +310,7 @@ export class Otp implements OnInit, OnDestroy {
           },
           error: (err) => {
             console.error('❌ OTP error:', err);
+            Swal.close();
             Swal.fire({
               position: 'top-end',
               icon: 'error',

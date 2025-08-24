@@ -41,9 +41,17 @@ export class ForgotPassword {
 
   onSubmit() {
     if (this.forgotPasswordForm.valid) {
+      Swal.fire({
+        title: 'กำลังตรวจสอบข้อมูล...',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
       this.otp.getOtp(this.forgotPasswordForm.value).subscribe({
         next: (res) => {
           if (res.status == true) {
+            Swal.close();
             Swal.fire({
               position: 'top-end',
               icon: 'success',
@@ -60,6 +68,7 @@ export class ForgotPassword {
             this.forgotPasswordForm.reset();
           } else {
             console.error('❌ Login error:', res.message);
+            Swal.close();
             Swal.fire({
               position: 'top-end',
               icon: 'error',
@@ -71,6 +80,7 @@ export class ForgotPassword {
         },
         error: (err) => {
           console.error('❌ Login error:', err);
+          Swal.close();
           Swal.fire({
             position: 'top-end',
             icon: 'error',

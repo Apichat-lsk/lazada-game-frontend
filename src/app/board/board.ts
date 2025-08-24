@@ -6,6 +6,7 @@ import { AuthTokenService } from '../../component/auth-token.service';
 import { BoardService } from '../../services/board-service';
 import { NgZone } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-board',
@@ -61,6 +62,13 @@ export class Board {
           return;
         }
       }
+      Swal.fire({
+        title: 'กำลังตรวจสอบข้อมูล...',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
       this.board.board({ date }).subscribe({
         next: (res) => {
           this.zone.run(() => {
@@ -68,10 +76,12 @@ export class Board {
 
             this.updateUsersByDate();
           });
+          Swal.close();
           resolve();
         },
         error: (err) => {
           console.error('❌ Game Start error:', err);
+          Swal.close();
           reject();
         },
       });

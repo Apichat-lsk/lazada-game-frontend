@@ -56,9 +56,17 @@ export class GameCondition {
     }
   }
   Direct(path: string) {
+    Swal.fire({
+      title: 'กำลังตรวจสอบข้อมูล...',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
     this.otp.send(this.user).subscribe({
       next: (res) => {
         if (res.check == true) {
+          Swal.close();
           Swal.fire({
             position: 'top-end',
             icon: 'success',
@@ -71,6 +79,7 @@ export class GameCondition {
           });
         } else {
           console.error('❌ Game Conditon error:', res.message);
+          Swal.close();
           Swal.fire({
             position: 'top-end',
             icon: 'error',
@@ -82,6 +91,7 @@ export class GameCondition {
       },
       error: (err) => {
         console.error('❌ Game Conditon error:', err);
+        Swal.close();
         Swal.fire({
           position: 'top-end',
           icon: 'error',
