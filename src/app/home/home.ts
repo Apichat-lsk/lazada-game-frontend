@@ -94,7 +94,11 @@ export class Home implements OnInit {
       },
     });
   }
-
+  logout() {
+    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
+    this.router.navigate(['/login']);
+  }
   Direct(path: string) {
     this.router.navigate([path]);
   }
