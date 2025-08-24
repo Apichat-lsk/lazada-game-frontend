@@ -33,7 +33,8 @@
                                     <input id="password" [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="กรอกรหัสผ่าน"
                                         class="w-full p-2 border rounded focus:outline-none focus:ring-2 text-gray-500 text-base sm:text-xl focus:ring-pink-400 bg-white pr-12"
                                         [class.border-red-500]="signupForm.get('password')?.invalid && signupForm.get('password')?.touched" />
-                                    <button type="button" (click)="togglePassword()" class="absolute right-3 top-10 text-gray-500 hover:text-gray-700 focus:outline-none">
+                                    <button type="button" (click)="togglePassword()"
+                                        class="absolute cursor-pointer right-3 top-10 text-gray-500 hover:text-gray-700 focus:outline-none">
                                         <span *ngIf="!showPassword" class="w-4 h-4 inline-block bg-[url('/assets/images/login/Eye.png')] bg-no-repeat bg-contain bg-center"></span>
                                         <span *ngIf="showPassword" class="text-lg sm:text-xl cursor-pointer">🙈</span>
                                     </button>

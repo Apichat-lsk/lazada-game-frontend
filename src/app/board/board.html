@@ -28,17 +28,18 @@
                                 <thead class="sticky top-10 z-10">
                                     <tr>
                                         <th class="translate-x-5">
-                                            <img src="/assets/images/board/point.png" class="w-12 object-center object-contain" alt="">
-                                        </th>
-                                        <th class="translate-x-10">
-                                            <img src="/assets/images/board/user.png" class="w-12 object-center object-contain" alt="">
-                                        </th>
-                                        <th class="translate-x-6">
                                             <img src="/assets/images/board/number.png" class="w-12 object-center object-contain" alt="">
                                         </th>
+                                        <th class="translate-x-10">
+                                            <img src="/assets/images/board/point.png" class="w-12 object-center object-contain" alt="">
+                                        </th>
+                                        <th class="translate-x-5">
+                                            <img src="/assets/images/board/user.png" class="w-12 object-center object-contain" alt="">
+                                        </th>
+
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="relative">
                                     <ng-container *ngIf="canShowScore()">
                                         <tr *ngFor="let user of filteredSortedUsers; let i = index" class="h-[60vh] text-2xl sm:text-3xl text-white"
                                             [ngClass]="{ 'bg-gradient-to-b from-[#f73ea1] to-[#f73ea1]': i > 2 }">
@@ -56,6 +57,11 @@
                                             <td>{{ user.score }}</td>
                                         </tr>
                                     </ng-container>
+                                    <tr *ngIf="filteredSortedUsers.length <=0" class="bg-gradient-to-b from-[#f73ea1] to-[#f73ea1] h-[60vh]">
+                                        <td colspan="3" class="text-center text-white w-full">
+                                            <p class="text-3xl sm:text-4xl font-bold">ไม่มีข้อมูล</p>
+                                        </td>
+                                    </tr>
                                     <tr *ngIf="canShowTime()" class="bg-gradient-to-b from-[#f73ea1] to-[#f73ea1] h-[60vh]">
                                         <td colspan="3" class="text-center text-white w-full">
                                             <p class="text-3xl sm:text-4xl font-bold"> ประกาศอันดับหลัง</p>
@@ -88,7 +94,8 @@
             <div *ngIf="isLoading" class="flex justify-center items-center">
                 <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-pink-500"></div>
             </div>
-            <button class="bg-gradient-to-r from-[#1d4ac2]  to-[#e92790] p-2 rounded-full border-3 border-white text-white  text-2xl w-48" (click)="gotoLazada()">ช้อปต่อที่
+            <button class="bg-gradient-to-r from-[#1d4ac2]  to-[#e92790] p-2 cursor-pointer rounded-full border-3 border-white text-white  text-2xl w-48"
+                (click)="gotoLazada()">ช้อปต่อที่
                 Lazada</button>
         </div>
     </div>

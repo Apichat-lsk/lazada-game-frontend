@@ -13,12 +13,9 @@
                     <div class="flex justify-center items-center w-full">
                         <div id="recaptcha-container" class="mb-6 w-full min-h-[100px]"></div>
                     </div>
-                    <button type="submit" [disabled]="!isMatched" [ngClass]="isMatched ? 'bg-pink-600' : 'bg-gray-400'" class="w-full h-[50px] text-white font-bold text-lg rounded-full
-         shadow-[0_4px_0_0_rgba(0,0,0,0.4),_inset_0_-4px_0_0_rgba(0,0,0,0.4)]
-         active:shadow-[0_0px_0_0_rgba(0,0,0,0.4),_inset_0_4px_0_0_rgba(0,0,0,0.4)]
-         transition duration-150 hover:brightness-110 cursor-pointer">
-                        ยืนยัน
-                    </button>
+                    <button [disabled]="!isMatched"
+                        class="bg-gradient-to-r from-[#1d4ac2]  to-[#e92790] p-2 rounded-full border-3 cursor-pointer border-white text-white  text-xl w-full"
+                        (click)="onSubmit()">ยืนยัน</button>
                 </form>
             </div>
         </div>
