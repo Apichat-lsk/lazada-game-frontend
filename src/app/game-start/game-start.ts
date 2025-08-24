@@ -48,6 +48,7 @@ export class GameStart implements OnInit {
   email = '';
   fullName = '';
   countdown = 5;
+  countdownTimer: any;
   countdownImg: any[] = [
     '/assets/images/game/Num5.png',
     '/assets/images/game/Num4.png',
@@ -80,62 +81,86 @@ export class GameStart implements OnInit {
   checkAnswerByQuestions = {};
   answerCorrect: string = '';
   result = this.genDateTime();
+  hour = 20;
+  minute = 0;
 
   get totalQuestions(): number {
     return this.questions.length;
   }
 
   async ngOnInit() {
+    this.resetGame();
     this.userData = this.authTokenService.decodeToken();
     this.fullName = this.userData.full_name;
     this.email = this.userData.email;
     await this.getLastGameDate();
-    this.startCountdown();
+    this.zone.run(() => {
+      this.startCountdown();
+    });
+  }
+  ngOnDestroy() {
+    if (this.countdownTimer) clearInterval(this.countdownTimer);
   }
   getLastGameDate(): Promise<void> {
     return new Promise((resolve, reject) => {
       this.gameService.checkLastGameDate().subscribe({
         next: async (res) => {
-          if (res.game_date == null) {
-            const date = dayjs().tz('Asia/Bangkok').toDate();
-            await this.getAllQuestions(date);
-          } else {
-            const nextDateQuestion = dayjs(res.game_date)
-              .tz('Asia/Bangkok') // เวลาไทย
-              // .add(1, 'day') // +1 วัน
-              .hour(20) // ตั้งชั่วโมงเป็น 20
-              .minute(0) // ตั้งนาทีเป็น 0
-              .second(0) // ตั้งวินาทีเป็น 0
-              .millisecond(0); // ตั้งมิลลิวินาทีเป็น 0
-            if (new Date() > nextDateQuestion.toDate()) {
-              const date = dayjs(res.game_date)
-                .tz('Asia/Bangkok')
-                .add(1, 'day')
-                .startOf('day')
-                .format('YYYY-MM-DDTHH:mm:ss');
+          try {
+            if (!res.game_date) {
+              // ยังไม่เคยเล่นเกม -> เล่นได้ทันที
+              const date = dayjs().tz('Asia/Bangkok').toDate();
               await this.getAllQuestions(date);
+            } else {
+              // เล่นแล้ว -> เวลา 20:00 ของวันล่าสุด
+              const lastGameTime = dayjs(res.game_date).tz('Asia/Bangkok');
+              const nextAvailableTime = lastGameTime
+                .hour(this.hour)
+                .minute(this.minute)
+                .second(0)
+                .millisecond(0);
+
+              if (dayjs().isAfter(nextAvailableTime)) {
+                // เวลาเกิน 20:00 ของวันล่าสุด -> โหลดคำถามวันถัดไป 20:00
+                const nextDate = lastGameTime
+                  .add(1, 'day')
+                  .hour(this.hour)
+                  .minute(this.minute)
+                  .second(0)
+                  .millisecond(0)
+                  .toDate();
+                await this.getAllQuestions(nextDate);
+              } else {
+                // ยังไม่ถึง 20:00 -> ยังไม่สามารถเล่น
+                console.log('⏳ ยังไม่ถึงเวลาเล่นเกมใหม่');
+              }
             }
+            resolve();
+          } catch (err) {
+            console.error('❌ Game Start error:', err);
+            resolve();
           }
-          resolve();
         },
         error: (err) => {
           console.error('❌ Game Start error:', err);
+          resolve();
         },
       });
     });
   }
   getAllQuestions(date: any): Promise<void> {
     return new Promise((resolve, reject) => {
-      this.service.findAllQuestions({ date: date }).subscribe({
+      this.service.findAllQuestions({ date }).subscribe({
         next: (res) => {
-          if (res.data.length) {
+          if (res.data && res.data.length > 0) {
             this.questions = res.data;
-            resolve();
+          } else {
+            console.warn('⚠️ ไม่มีคำถามสำหรับวันที่นี้');
           }
+          resolve(); // resolve ในทุกกรณีเพื่อไม่ให้ promise ค้าง
         },
         error: (err) => {
           console.error('❌ Game Start error:', err);
-          reject();
+          resolve(); // resolve แทน reject เพื่อให้ ngOnInit ไม่ค้าง
         },
       });
     });
@@ -164,30 +189,29 @@ export class GameStart implements OnInit {
       .map(({ value }) => value);
   }
   startCountdown() {
+    if (this.countdownTimer) clearInterval(this.countdownTimer);
     this.countdown = 5;
-    // const audio = new Audio();
-    // audio.src = 'assets/sounds/count-down.mp3';
-    // audio.load();
-    // audio.play().catch((err) => {
-    //   console.warn('Unable to play sound:', err);
-    // });
-    const intervalId = setInterval(() => {
-      console.log('CD');
-
+    const audio = new Audio();
+    audio.src = 'assets/sounds/count-down5.mp3';
+    audio.load();
+    audio.play().catch((err) => {
+      console.warn('Unable to play sound:', err);
+    });
+    this.countdownTimer = setInterval(() => {
       this.zone.run(() => {
         this.countdown--;
         this.cd.detectChanges();
         if (this.countdown <= 0) {
-          // audio.pause();
-          clearInterval(intervalId);
+          audio.pause();
+          clearInterval(this.countdownTimer);
           this.startGame();
         }
       });
-    }, 1200);
+    }, 1000);
   }
 
   startGame() {
-    // this.playSoundGame('assets/sounds/game-play.mp3');
+    this.playSoundGame('assets/sounds/game-play.mp3');
     this.isGameStarted = true;
     this.questionIndex = 0;
     this.questions = this.questions.map((q) => ({
@@ -198,6 +222,20 @@ export class GameStart implements OnInit {
     this.timeLeft = this.questionTime;
     this.cd.detectChanges();
     this.startTimer();
+  }
+  resetGame() {
+    this.countdown = 5;
+    this.isGameStarted = false;
+    this.selectedAnswer = null;
+    this.isAnswerConfirmed = false;
+    this.questionIndex = 0;
+    this.questions = [];
+    this.currentQuestion = null;
+    this.resultQuestions = [];
+    this.showNextButton = false;
+
+    if (this.countdownTimer) clearInterval(this.countdownTimer);
+    if (this.gameTimer) clearInterval(this.gameTimer);
   }
   playSoundGame(src: string) {
     this.audio.src = src;
@@ -267,13 +305,19 @@ export class GameStart implements OnInit {
 
   startTimer() {
     if (this.gameTimer) clearInterval(this.gameTimer);
-
+    // const audio = new Audio();
+    // audio.src = 'assets/sounds/timer-ticks-314055.mp3';
+    // audio.load();
+    // audio.play().catch((err) => {
+    //   console.warn('Unable to play sound:', err);
+    // });
     this.gameTimer = setInterval(() => {
       this.zone.run(() => {
         this.timeLeft--;
         this.cd.detectChanges();
 
         if (this.timeLeft <= 0) {
+          // audio.pause();
           clearInterval(this.gameTimer);
 
           // ถ้าไม่เลือกคำตอบ

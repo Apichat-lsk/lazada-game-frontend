@@ -32,40 +32,41 @@ export class Home implements OnInit {
   }
 
   checkGameToday = true;
+  hour = 20;
+  minute = 0;
 
   ngOnInit(): void {
     this.gameService.checkLastGameDate().subscribe({
       next: (res) => {
         if (res.game_date == null) {
-          const nextDateQuestion = dayjs()
-            .tz('Asia/Bangkok') // เวลาไทย
-            // .add(1, 'day') // +1 วัน
-            .hour(20) // ตั้งชั่วโมงเป็น 20
-            .minute(0) // ตั้งนาทีเป็น 0
-            .second(0) // ตั้งวินาทีเป็น 0
-            .millisecond(0); // ตั้งมิลลิวินาทีเป็น 0
-          if (new Date() < nextDateQuestion.toDate()) {
-            this.zone.run(() => {
-              this.checkGameToday = true;
-              this.cd.detectChanges();
-            });
-          } else {
+          const nextAvailableTime = dayjs()
+            .tz('Asia/Bangkok')
+            // .add(1, 'day')
+            .hour(this.hour)
+            .minute(this.minute)
+            .second(0)
+            .millisecond(0);
+          if (dayjs().isBefore(nextAvailableTime)) {
             this.zone.run(() => {
               this.checkGameToday = false;
               this.cd.detectChanges();
             });
+          } else {
+            this.zone.run(() => {
+              this.checkGameToday = true;
+              this.cd.detectChanges();
+            });
           }
         } else {
-          const nextDateQuestion = dayjs(res.game_date)
-            .tz('Asia/Bangkok') // เวลาไทย
-            // .add(1, 'day') // +1 วัน
-            .hour(20) // ตั้งชั่วโมงเป็น 20
-            .minute(0) // ตั้งนาทีเป็น 0
-            .second(0) // ตั้งวินาทีเป็น 0
-            .millisecond(0); // ตั้งมิลลิวินาทีเป็น 0
+          const nextAvailableTime = dayjs(res.game_date)
+            .tz('Asia/Bangkok')
+            // .add(1, 'day')
+            .hour(this.hour)
+            .minute(this.minute)
+            .second(0)
+            .millisecond(0);
 
-          console.log(new Date(nextDateQuestion.format()));
-          if (new Date() < nextDateQuestion.toDate()) {
+          if (dayjs().isBefore(nextAvailableTime)) {
             this.zone.run(() => {
               this.checkGameToday = true;
               this.cd.detectChanges();

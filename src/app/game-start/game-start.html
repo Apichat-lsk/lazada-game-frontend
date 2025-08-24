@@ -7,8 +7,10 @@
         </div>
 
         <div *ngIf="isGameStarted && currentQuestion && timeLeft > 0" class="w-full flex flex-col justify-center items-center gap-6 relative">
-            <div class="w-full h-[7vh] bg-[url('/assets/images/game/Time.png')] bg-center bg-contain bg-no-repeat flex justify-center items-center">
-                <p class="text-3xl sm:text-5xl text-white">เหลือเวลา {{ timeLeft }} วินาที</p>
+            <div class="w-full h-6 relative">
+                <p class="text-3xl sm:text-4xl text-white absolute top-[-2vh] left-20">เหลือเวลา {{ timeLeft }} วินาที</p>
+                <img src="/assets/images/game/Icon.png" class="absolute top-[-5vh] left-3 w-12 sm:w-14 object-contain">
+                <div class="w-full h-full bg-gradient-to-t from-[#422bd6]  to-[#a349b2]  transition-all duration-1000" [style.width.%]="(timeLeft / questionTime) * 100"></div>
             </div>
             <div class="grid grid-cols-1 gap-1 w-full">
                 <div class="w-full h-full flex  flex-col justify-center items-center relative">
@@ -32,8 +34,12 @@
                     class="w-full flex justify-between items-center cursor-pointer rounded-lg text-center text-2xl sm:text-4xl transition duration-300 relative">
 
                     <div class="w-full h-full text-white bg-[url('/assets/images/game/Choice.png')] bg-center bg-contain p-6 bg-no-repeat" [ngClass]="{
-                    'bg-[url(/assets/images/game/BTN-Mistake.png)]': isAnswerConfirmed && selectedAnswer === choice && choice !== answerCorrect
-                    }">
+        'bg-[url(/assets/images/game/Choice-2.png)]': selectedAnswer === choice && !isAnswerConfirmed,
+
+        'bg-[url(/assets/images/game/BTN-Mistake.png)]': isAnswerConfirmed && selectedAnswer === choice && choice !== answerCorrect,
+
+        'bg-[url(/assets/images/game/Choice-Correct.png)]': isAnswerConfirmed && choice === answerCorrect
+     }" (click)="!isAnswerConfirmed && (selectedAnswer = choice)">
                         {{ getChoiceLabel(i) }}. {{ choice }}
                     </div>
 
