@@ -36,7 +36,8 @@
                                     <button type="button" (click)="togglePassword()"
                                         class="absolute cursor-pointer right-3 top-10 text-gray-500 hover:text-gray-700 focus:outline-none">
                                         <span *ngIf="!showPassword" class="w-4 h-4 inline-block bg-[url('/assets/images/login/Eye.png')] bg-no-repeat bg-contain bg-center"></span>
-                                        <span *ngIf="showPassword" class="text-lg sm:text-xl cursor-pointer">🙈</span>
+                                        <span *ngIf="showPassword"
+                                            class="w-4 h-4 inline-block bg-[url('/assets/images/login/Eye-a.png')] cursor-pointer bg-no-repeat bg-contain bg-center"></span>
                                     </button>
                                     <p *ngIf="signupForm.get('password')?.errors?.['required'] && signupForm.get('password')?.touched" class="text-red-600 text-xl sm:text-2xl">
                                         กรุณากรอกรหัสผ่าน</p>
