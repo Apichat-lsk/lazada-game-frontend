@@ -41,27 +41,36 @@
                                 </thead>
                                 <tbody class="relative">
                                     <ng-container *ngIf="canShowScore()">
-                                        <tr *ngFor="let user of filteredSortedUsers; let i = index" class="h-[60vh] text-2xl sm:text-3xl text-white"
-                                            [ngClass]="{ 'bg-gradient-to-b from-[#f73ea1] to-[#f73ea1]': i > 2 }">
-                                            <td *ngIf="i==0">
-                                                <img src="/assets/images/board/win1.png" class="w-10 translate-x-7 object-center object-contain" alt="">
-                                            </td>
-                                            <td *ngIf="i==1">
-                                                <img src="/assets/images/board/win2.png" class="w-10 translate-x-7 object-center object-contain" alt="">
-                                            </td>
-                                            <td *ngIf="i==2">
-                                                <img src="/assets/images/board/win3.png" class="w-10 translate-x-7 object-center object-contain" alt="">
-                                            </td>
-                                            <td *ngIf="i > 2">{{ i + 1 }}</td>
-                                            <td>{{ user.username }}</td>
-                                            <td>{{ user.score }}</td>
-                                        </tr>
+                                        <!-- ถ้ามีข้อมูล -->
+                                        <ng-container *ngIf="filteredSortedUsers.length > 0; else noData">
+                                            <tr *ngFor="let user of filteredSortedUsers; let i = index" class="h-[60vh] text-2xl sm:text-3xl text-white"
+                                                [ngClass]="{ 'bg-gradient-to-b from-[#f73ea1] to-[#f73ea1]': i > 2 }">
+
+                                                <td *ngIf="i==0">
+                                                    <img src="/assets/images/board/win1.png" class="w-10 translate-x-7 object-center object-contain" alt="">
+                                                </td>
+                                                <td *ngIf="i==1">
+                                                    <img src="/assets/images/board/win2.png" class="w-10 translate-x-7 object-center object-contain" alt="">
+                                                </td>
+                                                <td *ngIf="i==2">
+                                                    <img src="/assets/images/board/win3.png" class="w-10 translate-x-7 object-center object-contain" alt="">
+                                                </td>
+                                                <td *ngIf="i > 2">{{ i + 1 }}</td>
+                                                <td>{{ user.username }}</td>
+                                                <td>{{ user.score }}</td>
+                                            </tr>
+                                        </ng-container>
+
+                                        <!-- ถ้าไม่มีข้อมูล -->
+                                        <ng-template #noData>
+                                            <tr class="bg-gradient-to-b from-[#f73ea1] to-[#f73ea1] h-[60vh]">
+                                                <td colspan="3" class="text-center text-white w-full">
+                                                    <p class="text-3xl sm:text-4xl font-bold">ไม่มีข้อมูล</p>
+                                                </td>
+                                            </tr>
+                                        </ng-template>
                                     </ng-container>
-                                    <tr *ngIf="filteredSortedUsers.length <=0" class="bg-gradient-to-b from-[#f73ea1] to-[#f73ea1] h-[60vh]">
-                                        <td colspan="3" class="text-center text-white w-full">
-                                            <p class="text-3xl sm:text-4xl font-bold">ไม่มีข้อมูล</p>
-                                        </td>
-                                    </tr>
+
                                     <tr *ngIf="canShowTime()" class="bg-gradient-to-b from-[#f73ea1] to-[#f73ea1] h-[60vh]">
                                         <td colspan="3" class="text-center text-white w-full">
                                             <p class="text-3xl sm:text-4xl font-bold"> ประกาศอันดับหลัง</p>
@@ -82,14 +91,27 @@
         </div>
         <div class="w-full  flex flex-col justify-center items-center gap-6">
             <div class="flex justify-center items-center gap-4">
-                <img [src]="isLeftDisabled ? '/assets/images/rules/BTN-Left-Disabled.png' : '/assets/images/rules/BTN-Left.png'" [class.pointer-events-none]="isLeftDisabled"
-                    class="w-8 object-contain cursor-pointer" (click)="prevDate()" />
+
+                <button [class.pointer-events-none]="isLeftDisabled" (click)="prevDate()" class="object-center object-contain w-12 h-12" [ngStyle]="{
+          'background-image': isLeftDisabled 
+            ? 'url(/assets/images/rules/BTN-Left-Disabled.png)'
+            : 'url(/assets/images/rules/BTN-Left.png)',
+          'background-size': 'cover',
+          'background-position': 'center'
+        }">
+                </button>
                 <span class="text-2xl font-medium text-white">
                     {{ currentDate | date:'dd/MM/yyyy' }}
                 </span>
 
-                <img [src]="isRightDisabled ? '/assets/images/rules/BTN-Right-Disabled.png' : '/assets/images/rules/BTN-Right.png'" [class.pointer-events-none]="isRightDisabled"
-                    class="w-8 object-contain cursor-pointer" (click)="nextDate()" />
+                <button [class.pointer-events-none]="isRightDisabled" (click)="nextDate()" class="object-center object-contain w-12 h-12" [ngStyle]="{
+          'background-image': isRightDisabled 
+            ? 'url(/assets/images/rules/BTN-Right-Disabled.png)'
+            : 'url(/assets/images/rules/BTN-Right.png)',
+          'background-size': 'cover',
+          'background-position': 'center'
+        }">
+                </button>
             </div>
             <div *ngIf="isLoading" class="flex justify-center items-center">
                 <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-pink-500"></div>
