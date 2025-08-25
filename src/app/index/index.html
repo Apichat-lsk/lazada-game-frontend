@@ -1,13 +1,21 @@
-<div class="w-full bg-[url('/assets/images/index/BG.png')]  bg-[length:100%_100%] sm:bg-contain bg-no-repeat bg-center flex justify-center items-center">
-    <div class="w-full max-w-sm h-[100dvh]
-                p-8 sm:p-4 bg-no-repeat flex flex-col justify-between mt-auto items-center overflow-auto relative">
+<div class="relative w-full h-[100dvh] flex justify-center items-center overflow-hidden">
+    <!-- วิดีโอพื้นหลัง -->
+    <video autoplay loop muted playsinline class="absolute top-1/2 left-1/2 min-w-full min-h-full object-cover -translate-x-1/2 -translate-y-1/2 z-0">
+        <source src="/assets/images/index/Lazzie-BG.mp4" type="video/mp4">
+    </video>
+
+    <!-- เนื้อหา -->
+    <div class="relative z-10 w-full max-w-sm h-full
+              p-8 sm:p-4 flex flex-col justify-between items-center overflow-auto">
+
         <div class="w-full flex flex-col justify-center items-center">
             <img src="/assets/images/login/Logo.png" class="w-64 max-w-sm object-contain object-center">
             <img src="/assets/images/index/Date.png" class="w-32 max-w-sm object-contain" alt="">
         </div>
+
         <div class="w-full flex flex-col justify-center items-center">
-            <img src="/assets/images/index/Login.png" class="w-64 max-w-sm object-contain object-center cursor-pointer" alt="" (click)="Direct('/signin')">
-            <img src="/assets/images/index/Register.png" class="w-64 max-w-sm object-contain object-center cursor-pointer" alt="" (click)="Direct('/signup')">
+            <button class="w-64 h-24 bg-[url('/assets/images/index/Login.png')] bg-center bg-contain bg-no-repeat cursor-pointer" (click)="Direct('/signin')"></button>
+            <button class="w-64 h-24 bg-[url('/assets/images/index/Register.png')] bg-center bg-contain bg-no-repeat cursor-pointer" (click)="Direct('/signup')"></button>
             <p class="text-white text-xl sm:text-2xl font-light underline cursor-pointer" (click)="Direct('/contact')">ติดต่อสอบถาม</p>
         </div>
     </div>

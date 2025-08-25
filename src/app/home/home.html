@@ -1,12 +1,16 @@
-<div class="w-full bg-[url('/assets/images/index/BG.png')] bg-[length:100%_100%] sm:bg-contain bg-no-repeat bg-center flex justify-center items-center">
-    <div class="w-full max-w-sm h-[100dvh]
-              p-8 sm:p-4 bg-no-repeat flex flex-col justify-between mt-auto items-center overflow-auto relative">
+<div class="relative w-full h-[100dvh] flex justify-center items-center overflow-hidden">
+    <video autoplay loop muted playsinline class="absolute top-0 left-0 w-full h-full object-cover z-0">
+        <source src="/assets/images/home/Lazzie-BG.mp4" type="video/mp4">
+    </video>
+    <div class="relative z-10 w-full max-w-sm h-full
+              p-8 sm:p-4 flex flex-col justify-between mt-auto items-center overflow-auto">
+
         <div class="w-full flex flex-col justify-center items-center">
             <img src="/assets/images/login/Logo.png" class="w-64 max-w-sm object-contain object-center">
             <img src="/assets/images/index/Date.png" class="w-32 max-w-sm object-contain" alt="">
         </div>
 
-        <div class="w-full flex flex-col justify-center items-center p-10">
+        <div class="w-full flex flex-col justify-center items-center px-10">
             <button [disabled]="checkGameToday" [class.opacity-50]="checkGameToday" [class.pointer-events-none]="checkGameToday"
                 class="w-64 h-24 bg-[url('/assets/images/home/BTN01.png')] bg-center bg-contain bg-no-repeat cursor-pointer" (click)="Direct('/rules')">
             </button>
