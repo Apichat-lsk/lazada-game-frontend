@@ -92,7 +92,7 @@
         <div class="w-full  flex flex-col justify-center items-center gap-6">
             <div class="flex justify-center items-center gap-4">
 
-                <button [class.pointer-events-none]="isLeftDisabled" (click)="prevDate()" class="object-center object-contain w-12 h-12" [ngStyle]="{
+                <button [class.pointer-events-none]="isLeftDisabled" (click)="prevDate()" class="object-center object-contain w-12 h-13" [ngStyle]="{
           'background-image': isLeftDisabled 
             ? 'url(/assets/images/rules/BTN-Left-Disabled.png)'
             : 'url(/assets/images/rules/BTN-Left.png)',
@@ -104,7 +104,7 @@
                     {{ currentDate | date:'dd/MM/yyyy' }}
                 </span>
 
-                <button [class.pointer-events-none]="isRightDisabled" (click)="nextDate()" class="object-center object-contain w-12 h-12" [ngStyle]="{
+                <button [class.pointer-events-none]="isRightDisabled" (click)="nextDate()" class="object-center object-contain w-12 h-13" [ngStyle]="{
           'background-image': isRightDisabled 
             ? 'url(/assets/images/rules/BTN-Right-Disabled.png)'
             : 'url(/assets/images/rules/BTN-Right.png)',
