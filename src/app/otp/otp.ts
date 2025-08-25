@@ -39,9 +39,9 @@ export class Otp implements OnInit, OnDestroy {
   private type: string = '';
   private pathUrl: string = '';
   user: any;
-  totalSeconds = 10;
-  displayMinutes = '00';
-  displaySeconds = '10';
+  totalSeconds = 300;
+  displayMinutes = '50';
+  displaySeconds = '00';
 
   constructor(
     private otp: OtpService,
@@ -94,9 +94,9 @@ export class Otp implements OnInit, OnDestroy {
   private timerSubscription?: Subscription;
 
   ngOnInit() {
-    this.totalSeconds = 10; // 5 minutes
-    this.displayMinutes = '00';
-    this.displaySeconds = '10';
+    this.totalSeconds = 300; // 5 minutes
+    this.displayMinutes = '50';
+    this.displaySeconds = '00';
     this.startTimer();
   }
 
@@ -129,9 +129,9 @@ export class Otp implements OnInit, OnDestroy {
   }
   startTimer() {
     this.isTime = false; // เริ่มต้นยังไม่สามารถขอ OTP ใหม่
-    this.totalSeconds = 10; // 5 นาที
-    this.displayMinutes = '00';
-    this.displaySeconds = '10';
+    this.totalSeconds = 300; // 5 นาที
+    this.displayMinutes = '50';
+    this.displaySeconds = '00';
     this.timerSubscription?.unsubscribe();
 
     this.timerSubscription = interval(1000).subscribe(() => {
@@ -151,9 +151,9 @@ export class Otp implements OnInit, OnDestroy {
     });
   }
   requestOtpAgain() {
-    this.totalSeconds = 10; // 5 minutes
-    this.displayMinutes = '00';
-    this.displaySeconds = '10';
+    this.totalSeconds = 300; // 5 minutes
+    this.displayMinutes = '50';
+    this.displaySeconds = '00';
     Swal.fire({
       title: 'กำลังตรวจสอบข้อมูล...',
       allowOutsideClick: false,

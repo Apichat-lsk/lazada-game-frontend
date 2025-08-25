@@ -1,5 +1,5 @@
 // const URL = 'http://localhost:8080';
-const URL = 'https://630964cd2a41.ngrok-free.app';
+const URL = 'https://53c2e34ed86f.ngrok-free.app';
 // const URL = 'http://206.189.147.75:8080';
 export const API = {
   REGISTER: `${URL}/api/auth/register`,
